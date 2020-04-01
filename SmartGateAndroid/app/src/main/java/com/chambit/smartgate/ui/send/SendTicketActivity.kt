@@ -1,13 +1,13 @@
-package com.programers.smartgate.ui.login
+package com.chambit.smartgate.ui.send
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.programers.smartgate.R
+import com.chambit.smartgate.R
 
-class LoginActivity : AppCompatActivity() {
+class SendTicketActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_send_ticket)
     }
 }
