@@ -1,4 +1,4 @@
-package com.programers.smartgate.ui.booking
+package com.programers.smartgate.ui.main.booking
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
