@@ -1,8 +1,8 @@
-package com.programers.smartgate.ui.main.booking
+package com.chambit.smartgate.ui.main.booking
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.programers.smartgate.R
+import com.chambit.smartgate.R
 
 class BookingActivity : AppCompatActivity() {
 
