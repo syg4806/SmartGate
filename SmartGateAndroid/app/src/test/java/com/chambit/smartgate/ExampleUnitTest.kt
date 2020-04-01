@@ -1,4 +1,4 @@
-package com.programers.smartgate
+package com.chambit.smartgate
 
 import org.junit.Test
 
