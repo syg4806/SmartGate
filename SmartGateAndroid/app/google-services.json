@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "3884170863",
+    "firebase_url": "https://smartgate-60162.firebaseio.com",
+    "project_id": "smartgate-60162",
+    "storage_bucket": "smartgate-60162.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3884170863:android:99248a88ff53f87326d79a",
+        "android_client_info": {
+          "package_name": "com.chambit.smartgate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3884170863-5qbdha5420k3lqmnbncp9kn0jac18gjb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chambit.smartgate",
+            "certificate_hash": "9fbc7107ed67b6b597f010c9e6aeaadecfa8dfe9"
+          }
+        },
+        {
+          "client_id": "3884170863-vkh4i42bfptumn8ddqhih2kc89mmam25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVCLvtZ-cjRGBYTijep9tOEuMyUYFdIxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3884170863-vkh4i42bfptumn8ddqhih2kc89mmam25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
