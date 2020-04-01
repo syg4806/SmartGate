@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.programers.smartgate">
+    package="com.chambit.smartgate">
 
     <application
         android:allowBackup="true"
@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.programers.smartgate.ui.main.myticket.MyTicketActivity"></activity>
-        <activity android:name="com.programers.smartgate.ui.main.booking.BookingActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name="com.programers.smartgate.ui.main.mypage.MyPageActivity" />
-        <activity android:name="com.programers.smartgate.ui.send.SendTicketActivity" />
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name="com.chambit.smartgate.ui.main.myticket.MyTicketActivity"></activity>
+        <activity android:name="com.chambit.smartgate.ui.main.booking.BookingActivity" />
+        <activity android:name="com.chambit.smartgate.ui.login.LoginActivity" />
+        <activity android:name="com.chambit.smartgate.ui.main.mypage.MyPageActivity" />
+        <activity android:name="com.chambit.smartgate.ui.send.SendTicketActivity" />
+        <activity android:name="com.chambit.smartgate.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

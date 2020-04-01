@@ -1,8 +1,8 @@
-package com.programers.smartgate.ui.login
+package com.chambit.smartgate.ui.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.programers.smartgate.R
+import com.chambit.smartgate.R
 
 class LoginActivity : AppCompatActivity() {
 

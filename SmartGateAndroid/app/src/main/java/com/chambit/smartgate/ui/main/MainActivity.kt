@@ -1,13 +1,13 @@
-package com.programers.smartgate.ui.main
+package com.chambit.smartgate.ui.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.programers.smartgate.R
-import com.programers.smartgate.ui.main.booking.BookingActivity
-import com.programers.smartgate.ui.main.mypage.MyPageActivity
-import com.programers.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.R
+import com.chambit.smartgate.ui.main.booking.BookingActivity
+import com.chambit.smartgate.ui.main.mypage.MyPageActivity
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 
 class MainActivity : AppCompatActivity() {
 

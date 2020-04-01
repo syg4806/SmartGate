@@ -1,8 +1,8 @@
-package com.programers.smartgate.ui.send
+package com.chambit.smartgate.ui.send
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.programers.smartgate.R
+import com.chambit.smartgate.R
 
 class SendTicketActivity : AppCompatActivity() {
 
