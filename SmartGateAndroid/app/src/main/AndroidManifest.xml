@@ -17,19 +17,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.testui.TestBLEActivity">
+        <activity android:name="com.chambit.smartgate.ui.testui.TestBLEActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.myticket.MyTicketActivity" />
-        <activity android:name=".ui.main.booking.BookingActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.main.mypage.MyPageActivity" />
-        <activity android:name=".ui.send.SendTicketActivity" />
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name="com.chambit.smartgate.ui.main.myticket.MyTicketActivity" />
+        <activity android:name="com.chambit.smartgate.ui.main.booking.BookingActivity" />
+        <activity android:name="com.chambit.smartgate.ui.login.LoginActivity" />
+        <activity android:name="com.chambit.smartgate.ui.main.mypage.MyPageActivity" />
+        <activity android:name="com.chambit.smartgate.ui.send.SendTicketActivity" />
+        <activity android:name="com.chambit.smartgate.ui.main.MainActivity">
         </activity>
     </application>
 

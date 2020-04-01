@@ -36,7 +36,6 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         // 비콘 탐지를 시작한다. 실제로는 서비스를 시작하는것.
         beaconManager.bind(this);
-        testBTN.setOnClickListener(View.OnClickListener { })
     }
 
     override fun onDestroy() {
@@ -45,7 +44,7 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
     }
 
     override fun onBeaconServiceConnect() {
-        beaconManager.removeAllMonitorNotifiers();
+       /* beaconManager.removeAllMonitorNotifiers();
         beaconManager.addMonitorNotifier(object : MonitorNotifier {
             override fun didEnterRegion(p0: Region?) {
                 Log.i("MonitorNotifier", "I just saw an beacon for the first time!"); }
@@ -58,24 +57,29 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
 
             override fun didExitRegion(p0: Region?) {
                 Log.i("MonitorNotifier", "I no longer see an beacon"); }
-        })
+        })*/
         beaconManager.addRangeNotifier { beacons, region ->
             if (beacons.isNotEmpty()) {
+                beaconList.clear()
+                beacons.forEach{
+                    beaconList.addAll(beacons)
+                }
                 Log.i(
                     "RangeNotifier",
                     "The first beacon I see is about " + beacons.iterator().next().distance + " meters away."
                 )
+
             }
         }
         try {
-            beaconManager.startMonitoringBeaconsInRegion(
+            beaconManager.startRangingBeaconsInRegion(
                 Region(
                     "myMonitoringUniqueId",
                     null,
                     null,
                     null
                 )
-            );
+            )
         } catch (ignored: RemoteException) {
             Log.e("onBeaconServiceConnect", ignored.toString())
         }
@@ -87,6 +91,7 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
             R.id.testBTN -> {
                 // 아래에 있는 handleMessage를 부르는 함수. 맨 처음에는 0초간격이지만 한번 호출되고 나면
                 // 1초마다 불러온다.
+                Log.d("onClick","???")
                 handler.sendEmptyMessage(0);
             }
         }
