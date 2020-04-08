@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.chambit.smartgate.R
-import com.chambit.smartgate.ui.main.booking.BookingActivity
+import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 
@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
     fun onClick(view: View) {
         when(view.id){
             R.id.toBooking->{
-                val intent= Intent(this,BookingActivity::class.java)
+                val intent= Intent(this,
+                    PlaceListActivity::class.java)
                 startActivity(intent)
             }
             R.id.toMyTicket->{

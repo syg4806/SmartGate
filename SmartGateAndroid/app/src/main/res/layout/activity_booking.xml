@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.booking.BookingActivity">
 
+    <Button
+        android:id="@+id/paymentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="본인 인증 및 결제"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
