@@ -66,8 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("ssmm11", result!!.id.toString())
                     Log.d("ssmm11", result.kakaoAccount.email)
                     //TODO: 메인 액티비티로 넘어가서 할 일
-                    //val intent = Intent(baseContext, MainActivity::class.java)
-
+                    //val intent = Intent(context, MainActivity::class.java)
                 }
 
             })
