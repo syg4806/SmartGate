@@ -2,6 +2,7 @@ package com.chambit.smartgate.ui.testui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Region
 import android.os.Bundle
 import android.os.Handler
 import android.os.RemoteException
