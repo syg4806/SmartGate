@@ -27,15 +27,15 @@
 
         </activity>
         <activity android:name=".ui.login.LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ui.main.mypage.MyPageActivity" />
         <activity android:name=".ui.send.SendTicketActivity" />
         <activity android:name=".ui.main.MainActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <!-- 카카오 앱 키 사용 -->
