@@ -1,7 +1,8 @@
-package com.programers.smartgate.constant
+package com.chambit.smartgate.constant
 
 class Constants {
     companion object{
+
 
     }
 }

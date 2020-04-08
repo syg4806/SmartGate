@@ -2,12 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+// first firebase connect
+apply plugin: 'com.google.gms.google-services'
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.programers.smartgate"
+        applicationId "com.chambit.smartgate"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
@@ -34,4 +38,25 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    // for firebase - analytics
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+
+    // for firebase - auth
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+
+    // for kakao
+    implementation 'com.kakao.sdk:usermgmt:1.25.0'
+
+    // for kakao sdk
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.25.0'
+
+    /**
+     *  Kotpref - Android SharedPreference delegation for Kotlin.
+     *  https://github.com/chibatching/Kotpref
+     */
+    implementation 'com.chibatching.kotpref:kotpref:2.10.0' // core
+    implementation 'com.chibatching.kotpref:initializer:2.10.0'   // optional, auto initialization module
+
 }
