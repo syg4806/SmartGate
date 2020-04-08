@@ -61,6 +61,7 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager.addRangeNotifier { beacons, region ->
             if (beacons.isNotEmpty()) {
                 beaconList.clear()
+
                 beacons.forEach{
                     beaconList.addAll(beacons)
                 }
@@ -68,8 +69,8 @@ class TestBLEActivity : AppCompatActivity(), BeaconConsumer {
                     "RangeNotifier",
                     "The first beacon I see is about " + beacons.iterator().next().distance + " meters away."
                 )
-
             }
+            Log.d("ah?","ahhahah")
         }
         try {
             beaconManager.startRangingBeaconsInRegion(
