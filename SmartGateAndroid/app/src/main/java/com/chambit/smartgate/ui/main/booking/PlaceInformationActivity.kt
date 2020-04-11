@@ -1,5 +1,6 @@
 package com.chambit.smartgate.ui.main.booking
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,7 +16,8 @@ class PlaceInformationActivity : AppCompatActivity() {
     fun onClick(view: View){
         when(view.id){
             R.id.toReserveButton->{
-
+                val nextIntent = Intent(this, BookingActivity::class.java)
+                startActivity(nextIntent)
             }
         }
     }
