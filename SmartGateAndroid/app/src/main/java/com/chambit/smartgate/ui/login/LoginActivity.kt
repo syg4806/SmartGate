@@ -1,11 +1,16 @@
 package com.chambit.smartgate.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.MainActivity
+import com.chambit.smartgate.util.Logg
+import com.chambit.smartgate.util.SharedPref
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
@@ -17,11 +22,13 @@ import com.kakao.util.exception.KakaoException
 
 class LoginActivity : AppCompatActivity() {
     private var callback: SessionCallback = SessionCallback()
+    lateinit var mContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        mContext = baseContext
         // 세션 콜백 등록
         Session.getCurrentSession().addCallback(callback)
     }
@@ -36,15 +43,15 @@ class LoginActivity : AppCompatActivity() {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             Log.d("ssmm11", "session get current session")
             return
-
         }
+
 
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private class SessionCallback : ISessionCallback {
+    inner class SessionCallback : ISessionCallback {
         override fun onSessionOpenFailed(exception: KakaoException?) {
-            Log.d("ssmm11","Session Call back :: onSessionOpenFailed: ${exception?.message}")
+            Log.d("ssmm11", "Session Call back :: onSessionOpenFailed: ${exception?.message}")
         }
 
         override fun onSessionOpened() {
@@ -56,7 +63,10 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onSessionClosed(errorResult: ErrorResult?) {
-                    Log.d("ssmm11","Session Call back :: onSessionClosed ${errorResult?.errorMessage}")
+                    Log.d(
+                        "ssmm11",
+                        "Session Call back :: onSessionClosed ${errorResult?.errorMessage}"
+                    )
                 }
 
                 override fun onSuccess(result: MeV2Response?) {
@@ -64,9 +74,15 @@ class LoginActivity : AppCompatActivity() {
                     //TODO: DB에 카카오톡 정보 업르드
 
                     Log.d("ssmm11", result!!.id.toString())
+                    SharedPref.autoLoginKey = result.id.toString()
                     Log.d("ssmm11", result.kakaoAccount.email)
+
+
                     //TODO: 메인 액티비티로 넘어가서 할 일
-                    //val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(baseContext, MainActivity::class.java)
+                    startActivity(intent)
+
+
                 }
 
             })
