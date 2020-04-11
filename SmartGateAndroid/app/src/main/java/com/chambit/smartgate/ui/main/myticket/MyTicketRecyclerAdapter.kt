@@ -14,10 +14,11 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBTicketImage
 import com.chambit.smartgate.ui.send.SendTicketActivity
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 
 
-class MyTicketRecyclerAdapter(val mdata: ArrayList<TicketData>) : RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
+class MyTicketRecyclerAdapter(val mdata: ArrayList<TicketData>, val activity: Activity) : RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
     var context: Context? = null
     val GETLIKES = 50
     var ticketDatas = arrayListOf<TicketData>()
@@ -26,7 +27,8 @@ class MyTicketRecyclerAdapter(val mdata: ArrayList<TicketData>) : RecyclerView.A
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
         val singleItem = mdata[position]
 
-        FBTicketImage().getTicketImage(holder.imageView, singleItem.ticketId!!)
+        Logg.d("ssmm11 ${singleItem.ticketId}")
+        FBTicketImage().getTicketImage(holder.imageView, singleItem.ticketId!!, activity)
         holder.place.text = singleItem.ticketPlace
         holder.kinds.text = singleItem.ticketKinds
         holder.count.text = singleItem.ticketCount.toString()
