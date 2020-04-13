@@ -1,5 +1,6 @@
 package com.chambit.smartgate.ui.main.booking.placelist
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.PlaceListData
+import com.chambit.smartgate.network.FBPlaceLogoImage
+import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
-class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>) :
+class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val activity: Activity) :
     RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
     var context: Context? = null // 부모 context
@@ -20,13 +23,14 @@ class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>) :
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
         val singleItem = mdata[position]
 
-        holder.placeLogo.text = singleItem.placeLogo
+        FBPlaceLogoImage().getPlaceLogoImage(holder.placeLogo, singleItem.placeLogoPath!!, activity)
         holder.placeName.text = singleItem.placeName
 
 
         // 클릭하면
         holder.itemView.setOnClickListener {
             val nextIntent = Intent(context, PlaceInformationActivity::class.java)
+            nextIntent.putExtra("placeName", singleItem.placeName)
             context!!.startActivity(nextIntent)
         }
     }
