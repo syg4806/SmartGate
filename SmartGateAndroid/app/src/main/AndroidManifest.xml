@@ -13,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".util.ChoicePopUp"></activity>
-        <activity android:name=".ui.main.booking.BookingActivity" />
+        <activity android:name=".ui.main.booking.BookingActivity"/>
         <activity android:name=".ui.main.mypage.usedticketlookup.UsedTicketActivity" />
         <activity android:name=".ui.main.mypage.paymentmanagement.PaymentManagementActivity" />
         <activity android:name=".ui.main.mypage.cardmanagement.CardManagementActivity" />
@@ -41,11 +40,17 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.login.LoginActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".ui.main.mypage.MyPageActivity" />
         <activity android:name=".ui.send.SendTicketActivity" />
         <activity android:name=".ui.main.MainActivity">
 
         </activity> <!-- 카카오 앱 키 사용 -->
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
