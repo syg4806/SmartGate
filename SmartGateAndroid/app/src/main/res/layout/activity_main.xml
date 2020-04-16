@@ -8,10 +8,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logo"
         android:textSize="40dp"
+        android:onClick="onClick"
         android:gravity="center"
         android:layout_weight="0.5"/>
     <Button

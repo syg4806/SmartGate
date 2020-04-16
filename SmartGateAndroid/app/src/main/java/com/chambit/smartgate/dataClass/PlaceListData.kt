@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  */
 data class PlaceListData(
 
-    var placeLogo: String? = null, // 이미지
+    var placeLogoPath: String? = null, // 이미지
     var placeName: String? = null // String
 
     // 장소 id (key)
