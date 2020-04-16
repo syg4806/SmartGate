@@ -38,7 +38,6 @@ class SetDataActivity : AppCompatActivity() {
         progressbar.dismiss()
       }
     }
- 롯데월드
     /**
      * 티켓 셋팅 버튼 클릭시
      */
