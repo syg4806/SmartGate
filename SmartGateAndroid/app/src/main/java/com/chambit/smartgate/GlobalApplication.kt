@@ -1,12 +1,13 @@
-package com.chambit.smartgate.ui.login
+package com.chambit.smartgate
 
 import android.app.Application
+import com.chambit.smartgate.ui.login.KakaoSDKAdapter
 import com.kakao.auth.KakaoSDK
 
 class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
+       // BeaconManager.init(this)
         instance = this
         KakaoSDK.init(KakaoSDKAdapter())
     }

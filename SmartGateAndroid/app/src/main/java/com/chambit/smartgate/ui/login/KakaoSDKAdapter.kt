@@ -1,5 +1,6 @@
 package com.chambit.smartgate.ui.login
 
+import com.chambit.smartgate.GlobalApplication
 import com.kakao.auth.*
 
 class KakaoSDKAdapter : KakaoAdapter() {
