@@ -8,15 +8,6 @@
     tools:context=".util.SetDataActivity">
 
     <EditText
-        android:id="@+id/setTicketId"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:hint="티켓 id"/>
-
-    <EditText
         android:id="@+id/setTicketPlace"
         android:layout_width="250dp"
         android:layout_height="wrap_content"

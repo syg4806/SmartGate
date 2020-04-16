@@ -38,16 +38,18 @@ class SetDataActivity : AppCompatActivity() {
         progressbar.dismiss()
       }
     }
-
+ 롯데월드
     /**
      * 티켓 셋팅 버튼 클릭시
      */
     ticketDataSettingButton.setOnClickListener {
       progressbar.show()
+      val dt = Date()
+
       val ticketData = TicketData(
-        setTicketId.text.toString(), setTicketPlace.text.toString(),
+        dt.time.toString(), setTicketPlace.text.toString(),
         setTicketKind.text.toString(), setTicketDate.text.toString()
-        , "ticketImage/" + setTicketId.text.toString()
+        , "ticketImage/" + dt.time.toString()
       )
 
       // 셋 티켓 함수 실행
