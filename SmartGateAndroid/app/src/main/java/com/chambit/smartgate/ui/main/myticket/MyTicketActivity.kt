@@ -12,7 +12,9 @@ import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.network.GetTicketListener
 import com.chambit.smartgate.ui.send.SendTicketActivity
+import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.MyProgressBar
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_my_ticket.*
 
 class MyTicketActivity : AppCompatActivity() {
@@ -21,14 +23,17 @@ class MyTicketActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_my_ticket)
-    val progressbar =  MyProgressBar(activity)
+    val progressbar = MyProgressBar(activity)
     progressbar.show()
 
     val getTicketListener = object : GetTicketListener {
       override fun tickets(ticketDatas: ArrayList<TicketData>) {
       }
 
-      override fun myTickets(myTicketDatas: ArrayList<MyTicketData>) {
+      override fun myTickets(
+        myTicketDatas: ArrayList<MyTicketData>,
+        ticketDatas: ArrayList<TicketData>
+      ) {
         if (myTicketDatas.isEmpty()) {
           myTicketEmptyTicketView.visibility = View.VISIBLE
         } else {
@@ -37,10 +42,14 @@ class MyTicketActivity : AppCompatActivity() {
           //adpater 추가
           myTicketActivityRecyclerView.layoutManager =
             LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
+          Logg.d("ssmm11 myti = $myTicketDatas / ti = $ticketDatas")
           myTicketActivityRecyclerView.adapter =
-            MyTicketRecyclerAdapter(myTicketDatas, activity)
+            MyTicketRecyclerAdapter(myTicketDatas, ticketDatas, activity)
         }
         progressbar.dismiss()
+      }
+
+      override fun getTicketReference(reference: DocumentReference) {
       }
     }
     FBTicketRepository().getMyTickets(getTicketListener)

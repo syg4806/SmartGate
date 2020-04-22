@@ -16,4 +16,10 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+
+    <!-- Main -->
+    <string name="booking">예약하기</string>
+    <string name="my_ticket">티켓함</string>
+    <string name="my_page">마이페이지</string>
+
 </resources>

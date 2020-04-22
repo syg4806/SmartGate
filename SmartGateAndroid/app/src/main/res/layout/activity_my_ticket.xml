@@ -1,49 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/orange"
+  android:orientation="vertical"
+  tools:context=".ui.main.myticket.MyTicketActivity">
+
+  <FrameLayout
+    android:id="@+id/logo"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="0.3">
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="fitXY"
+      android:src="@drawable/ic_my_ticket_logo"/>
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:src="@drawable/ic_ticket_text"/>
+  </FrameLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.myticket.MyTicketActivity">
+    android:layout_height="0dp"
+    android:layout_weight="1">
+
+    <ImageView
+      android:id="@+id/gradient"
+      android:layout_width="match_parent"
+      android:layout_height="35dp"
+      android:src="@drawable/ic_my_ticket_gradient"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/myTicketActivityRecyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp" />
+      android:id="@+id/myTicketActivityRecyclerView"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/gradient" />
 
     <LinearLayout
-        android:id="@+id/myTicketEmptyTicketView"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+      android:id="@+id/myTicketEmptyTicketView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="vertical"
+      android:visibility="visible"
+      app:layout_constraintBottom_toBottomOf="@+id/myTicketActivityRecyclerView"
+      app:layout_constraintTop_toTopOf="@+id/gradient"
+      app:layout_constraintVertical_bias="0.296"
+      tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="구매한 티켓이 없습니다."
-            android:textSize="24dp" />
+      <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_no_ticket_text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="티켓을 구매하시겠습니까?"
-            android:textSize="24dp" />
-
-        <Button
-            android:id="@+id/myTicketEmptyTicketToSendTicket"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="예약하기"
-            android:textSize="20sp"
-            android:background="@drawable/button_empty_background"/>
+      <Button
+        android:id="@+id/myTicketEmptyTicketToSendTicket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bookin_select_button" />
     </LinearLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</RelativeLayout>
+
+</LinearLayout>
