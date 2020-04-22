@@ -1,19 +1,13 @@
 package com.chambit.smartgate.util
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.PlaceInfoData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
-import com.chambit.smartgate.network.GetTicketListener
 import com.chambit.smartgate.network.SetDataListener
-import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
-import kotlinx.android.synthetic.main.activity_my_ticket.*
 import kotlinx.android.synthetic.main.activity_set_data.*
 import java.util.*
 
@@ -38,16 +32,17 @@ class SetDataActivity : AppCompatActivity() {
         progressbar.dismiss()
       }
     }
-
     /**
      * 티켓 셋팅 버튼 클릭시
      */
     ticketDataSettingButton.setOnClickListener {
       progressbar.show()
+      val dt = Date()
+
       val ticketData = TicketData(
-        setTicketId.text.toString(), setTicketPlace.text.toString(),
+        dt.time.toString(), setTicketPlace.text.toString(),
         setTicketKind.text.toString(), setTicketDate.text.toString()
-        , "ticketImage/" + setTicketId.text.toString()
+        , "ticketImage/" + dt.time.toString()
       )
 
       // 셋 티켓 함수 실행

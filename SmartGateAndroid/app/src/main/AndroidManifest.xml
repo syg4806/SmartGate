@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".util.SetDataActivity"></activity>
+        <activity android:name=".ui.FriendActivity"></activity>
+        <activity android:name=".util.ChoicePopUp" />
+        <activity android:name=".util.SetDataActivity" />
         <activity android:name=".ui.main.booking.BookingActivity" />
         <activity android:name=".ui.main.mypage.usedticketlookup.UsedTicketActivity" />
         <activity android:name=".ui.main.mypage.paymentmanagement.PaymentManagementActivity" />
@@ -21,13 +23,7 @@
         <activity android:name=".ui.main.mypage.preuseticket.PreUseTicketActivity" />
         <activity
             android:name=".ui.main.booking.PlaceInformationActivity"
-            android:label="@string/title_activity_place_information">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_activity_place_information" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -48,7 +44,9 @@
         </activity>
         <activity android:name=".ui.main.mypage.MyPageActivity" />
         <activity android:name=".ui.send.SendTicketActivity" />
-        <activity android:name=".ui.main.MainActivity"></activity> <!-- 카카오 앱 키 사용 -->
+        <activity android:name=".ui.main.MainActivity"/>
+
+        <!-- 카카오 앱 키 사용 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />

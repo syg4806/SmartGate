@@ -25,9 +25,9 @@ class FBTicketRepository {
    * 장소를 넘겨주면 장소에 있는
    * 모든 티켓들을 가져온다.
    */
-  fun getTickets(place: String) {
+  fun getTickets(placeName: String, getTicketListener: GetTicketListener) {
     val ticketDatas = arrayListOf<TicketData>()
-    db.collection("place").whereEqualTo("placeName", place)
+    db.collection("place").whereEqualTo("placeName", placeName)
       .get()
       .addOnSuccessListener {
         it.documents.last().reference.collection("tickets")
@@ -37,6 +37,7 @@ class FBTicketRepository {
               val ticketData = document.toObject(TicketData::class.java)
               ticketDatas.add(ticketData)
             }
+            getTicketListener.tickets(ticketDatas)
           }
       }
   }
