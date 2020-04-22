@@ -44,7 +44,7 @@
         </activity>
         <activity android:name=".ui.main.mypage.MyPageActivity" />
         <activity android:name=".ui.send.SendTicketActivity" />
-        <activity android:name=".ui.main.MainActivity"></activity>
+        <activity android:name=".ui.main.MainActivity"/>
 
         <!-- 카카오 앱 키 사용 -->
         <meta-data

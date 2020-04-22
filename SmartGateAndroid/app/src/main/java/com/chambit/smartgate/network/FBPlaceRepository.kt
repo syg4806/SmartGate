@@ -33,4 +33,13 @@ class FBPlaceRepository {
         listener.getPlaceList(placeListDatas)
       }
   }
+
+  fun getPlaceInfo(placeName: String, listener: GetPlaceListener) {
+    db.collection("place").whereEqualTo("placeName", placeName)
+      .get()
+      .addOnSuccessListener {
+        val placeInfoData =  it.documents.last().toObject(PlaceInfoData::class.java)
+        listener.getPlaceInfo(placeInfoData!!)
+      }
+  }
 }

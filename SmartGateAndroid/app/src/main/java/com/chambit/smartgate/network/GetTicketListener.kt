@@ -11,10 +11,10 @@ interface GetTicketListener {
   /**
    * 받아온 티켓들
    */
-  fun tickets(ticketData: ArrayList<TicketData>)
+  fun tickets(ticketDatas: ArrayList<TicketData>)
 
   /**
    * 받아온 내 티켓들
    */
-  fun myTickets(myTicketData: ArrayList<MyTicketData>)
+  fun myTickets(myTicketDatas: ArrayList<MyTicketData>)
 }

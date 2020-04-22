@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.PlaceListData
-import com.chambit.smartgate.network.FBPlaceLogoImage
-import com.chambit.smartgate.network.FBPlaceRepository
+import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
@@ -23,7 +22,7 @@ class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val acti
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
         val singleItem = mdata[position]
 
-        FBPlaceLogoImage().getPlaceLogoImage(holder.placeLogo, singleItem.placeLogoPath!!, activity)
+        FBPlaceImageRepository().getPlaceLogoImage(holder.placeLogo, singleItem.placeLogoPath!!, activity)
         holder.placeName.text = singleItem.placeName
 
 
