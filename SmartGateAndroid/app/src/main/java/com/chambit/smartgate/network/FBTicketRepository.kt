@@ -2,7 +2,10 @@ package com.chambit.smartgate.network
 
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
+import com.google.firebase.auth.UserInfo
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FBTicketRepository {
@@ -42,20 +45,56 @@ class FBTicketRepository {
       }
   }
 
+  fun setMyTicket(myTicketData: MyTicketData, setTicketListener: SetTicketListener) {
+    db.collection("userinfo").whereEqualTo("uid", SharedPref.autoLoginKey)
+      .get()
+      .addOnSuccessListener {
+        it.documents.last().reference.collection("tickets")
+          .add(myTicketData)
+        setTicketListener.setMyTicket()
+      }
+
+  }
+
+  fun getTicket(placeName: String, ticketId: String, getTicketListener: GetTicketListener) {
+    db.collection("place").whereEqualTo("placeName", placeName)
+      .get()
+      .addOnSuccessListener {
+        it.documents.last().reference.collection("tickets")
+          .whereEqualTo("ticketId", ticketId)
+          .get()
+          .addOnSuccessListener {
+            getTicketListener.getTicketReference(it.documents.last().reference)
+          }
+      }
+
+  }
+
   /**
    *
    */
   fun getMyTickets(listener: GetTicketListener) {
+    val myTicketDatas = arrayListOf<MyTicketData>()
+    val ticketDatas = arrayListOf<TicketData>()
+    var count = 0
     db.collection("userinfo").document(SharedPref.autoLoginKey)
       .collection("tickets")
       .get()
       .addOnSuccessListener { result ->
-        val myTicketDatas = arrayListOf<MyTicketData>()
         for (document in result) {
           val myTicketData = document.toObject(MyTicketData::class.java)
           myTicketDatas.add(myTicketData)
+
+          myTicketData.ticketData!!.get()
+            .addOnSuccessListener {
+              val ticketData = it.toObject(TicketData::class.java)
+              ticketDatas.add(ticketData!!)
+              count++
+              if (count == result.size()) {
+                listener.myTickets(myTicketDatas, ticketDatas)
+              }
+            }
         }
-        listener.myTickets(myTicketDatas)
       }
   }
 }

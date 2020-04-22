@@ -4,32 +4,37 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceInfoData
-import com.chambit.smartgate.dataClass.PlaceListData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBTicketRepository
-import com.chambit.smartgate.network.GetPlaceListener
 import com.chambit.smartgate.network.GetTicketListener
-import com.chambit.smartgate.ui.main.booking.placelist.PlaceListRecyclerViewAdapter
+import com.chambit.smartgate.network.SetTicketListener
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_booking.view.*
-import kotlinx.android.synthetic.main.activity_place_list.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
   var placeInfoData = PlaceInfoData()
+  lateinit var tickets: ArrayList<TicketData>
   val activity = this
+  var setMyTicketCount = 0
+  lateinit var nextIntent: Intent
+
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_booking)
 
+    nextIntent = Intent(this, MyTicketActivity::class.java)
     placeInfoData = intent.getParcelableExtra("PlaceInfoData")!!
     FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.placeImagePath!!, this)
     bookingPlaceName.text = placeInfoData.placeName
@@ -45,24 +50,39 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
   override fun onClick(view: View?) {
     when (view!!.id) {
       R.id.paymentButton -> {
-        noticePopup = ChoicePopUp(this, "티켓구매",
-          "티켓을 구매했습니다. \n\n[장소,종류,날짜,장 수]",
-          "확인", "선물하기",
-          View.OnClickListener {
-            val nextIntent = Intent(this, MyTicketActivity::class.java)
-            startActivity(nextIntent)
-            finish()
-          },
-          View.OnClickListener {
-            noticePopup.dismiss()
-          })
-        noticePopup.show()
+
+        if (bookingCheckBox.isChecked) {
+          val temp = ticketCountSpinner.selectedItem as String
+          val selectedTicketCount = temp.toInt()
+          setMyTicketCount = selectedTicketCount
+          val ticketId = tickets[ticketKindSpinner.selectedItemPosition].ticketId
+          noticePopup = ChoicePopUp(this, "티켓구매",
+            "티켓을 구매했습니다. \n\n[${placeInfoData.placeName},${ticketKindSpinner.selectedItem},${ticketDateSpinner.selectedItem} 까지, ${ticketCountSpinner.selectedItem} 개]",
+            "확인", "선물하기",
+            View.OnClickListener {
+              for (i in 1..selectedTicketCount) {
+                FBTicketRepository().getTicket(
+                  placeInfoData.placeName!!,
+                  ticketId!!,
+                  getTicketListener
+                )
+              }
+
+            },
+            View.OnClickListener {
+              noticePopup.dismiss()
+            })
+          noticePopup.show()
+        } else {
+          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+        }
       }
     }
   }
 
   val getTicketListener = object : GetTicketListener {
     override fun tickets(ticketDatas: ArrayList<TicketData>) {
+      tickets = ticketDatas
       val ticketKinds = arrayListOf<String>()
       val ticketDates = arrayListOf<String>()
       val ticketCounts = arrayListOf<String>()
@@ -88,9 +108,26 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    override fun myTickets(myTicketData: ArrayList<MyTicketData>) {
+    override fun myTickets(
+      myTicketDatas: ArrayList<MyTicketData>,
+      ticketDatas: ArrayList<TicketData>
+    ) {
+    }
 
+    override fun getTicketReference(reference: DocumentReference) {
+      val dt = Date()
+      val myticket = MyTicketData(dt.time.toString(), reference, "0", false)
+      FBTicketRepository().setMyTicket(myticket, setTicketListener)
     }
   }
 
+  val setTicketListener = object : SetTicketListener {
+    override fun setMyTicket() {
+      setMyTicketCount--
+      if (setMyTicketCount == 0) {
+        startActivity(nextIntent)
+        finish()
+      }
+    }
+  }
 }

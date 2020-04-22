@@ -10,7 +10,7 @@ class FBTicketImage {
 
   // TODO: 보안규칙 이슈가 있는듯 firebase 서버 정상화 되면 작업
   fun getTicketImage(imageView: ImageView, ticketId: String, activity: Activity) {
-    val mapImageRef = storage.reference.child("tickets").child("$ticketId.jpg")
+    val mapImageRef = storage.reference.child("ticketImage").child("$ticketId.jpg")
     mapImageRef.downloadUrl.addOnCompleteListener { task ->
       if (task.isSuccessful) {
         // Glide 이용하여 이미지뷰에 로딩
