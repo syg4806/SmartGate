@@ -1,53 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".ui.main.MainActivity">
+
+  <ImageView
+    android:id="@+id/logo"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    android:orientation="vertical">
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="@color/indiePink"
+    android:scaleType="fitXY"
+    android:gravity="bottom"
+    android:onClick="onClick"
+    android:src="@drawable/ic_main_logo" />
 
-    <TextView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logo"
-        android:textSize="40dp"
-        android:onClick="onClick"
-        android:gravity="center"
-        android:layout_weight="0.5"/>
-    <Button
-        android:id="@+id/toBooking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Booking"
-        android:textSize="40dp"
-        android:onClick="onClick"
-        android:layout_weight="1"/>
-    <Button
-        android:id="@+id/toMyTicket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Ticket"
-        android:textSize="40dp"
-        android:onClick="onClick"
-        android:layout_weight="1"/>
+  <ImageView
+    android:id="@+id/toBooking"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.8"
+    android:background="@color/violet"
+    android:onClick="onClick"
+    android:src="@drawable/ic_main_booking" />
 
-    <Button
-        android:id="@+id/toMyPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Page"
-        android:textSize="40dp"
-        android:onClick="onClick"
-        android:layout_weight="1"/>
-    <Button
-        android:id="@+id/toFriend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="친구목록 테스트"
-        android:textSize="40dp"
-        android:onClick="onClick"
-        android:layout_weight="1"/>
+  <ImageView
+    android:id="@+id/toMyTicket"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.8"
+    android:background="@color/orange"
+    android:onClick="onClick"
+    android:src="@drawable/ic_main_my_ticket"/>
+
+  <ImageView
+    android:id="@+id/toMyPage"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.8"
+    android:background="@color/pink"
+    android:onClick="onClick"
+    android:src="@drawable/ic_main_my_page"/>
+
 
 </LinearLayout>
