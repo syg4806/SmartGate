@@ -19,23 +19,24 @@ import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 
 
-class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val activity: Activity) :
+class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val ticketDatas: ArrayList<TicketData>, val activity: Activity) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
   val GETLIKES = 50
-  var ticketDatas = arrayListOf<TicketData>()
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val singleItem = mdata[position]
+    val ticketItem = ticketDatas[position]
 
     Logg.d("ssmm11 ${singleItem.ticketId}")
-    FBTicketImage().getTicketImage(holder.imageView, singleItem.ticketId!!, activity)
-    /*holder.place.text = singleItem.ticketPlace
-    holder.kinds.text = singleItem.ticketKinds
-    //holder.count.text = singleItem.ticketCount.toString()
-    holder.date.text = singleItem.ticketDate
-*/
+    FBTicketImage().getTicketImage(holder.imageView, ticketItem.ticketId!!, activity)
+    holder.place.text = ticketItem.ticketPlace
+    holder.kinds.text = ticketItem.ticketKinds
+    holder.count.text = singleItem.ticketCount.toString()
+    holder.date.text = ticketItem.ticketDate
+    holder.count.text = singleItem.ticketCount
+
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
       val nextIntent = Intent(context, SendTicketActivity::class.java)
