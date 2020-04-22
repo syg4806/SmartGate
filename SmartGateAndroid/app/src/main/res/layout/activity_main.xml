@@ -42,6 +42,15 @@
         android:onClick="onClick"
         android:layout_weight="1"/>
     <Button
+        android:id="@+id/toFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="친구목록 테스트"
+        android:textSize="40dp"
+        android:onClick="onClick"
+        android:layout_weight="1"/>
+
+    <Button
         android:id="@+id/toBLE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

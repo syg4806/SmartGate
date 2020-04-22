@@ -77,6 +77,13 @@ dependencies {
 
     // for kakao
     implementation 'com.kakao.sdk:usermgmt:1.25.0'
+
+    // 카카오 로그인
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.27.0'
+
+    // 카카오톡
+    implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.27.0'
+
     /**
      *  Kotpref - Android SharedPreference delegation for Kotlin.
      *  https://github.com/chibatching/Kotpref

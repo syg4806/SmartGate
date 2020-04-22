@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.FriendActivity"></activity>
         <service
             android:name=".BeaconSerivce"
             android:enabled="true"
@@ -33,7 +34,7 @@
         <activity android:name=".ui.main.mypage.preuseticket.PreUseTicketActivity" />
         <activity
             android:name=".ui.main.booking.PlaceInformationActivity"
-            android:label="@string/title_activity_place_information"/>
+            android:label="@string/title_activity_place_information" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -43,9 +44,7 @@
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize" />
-
         <activity android:name=".ui.login.LoginActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,12 +53,8 @@
         </activity>
         <activity android:name=".ui.main.mypage.MyPageActivity" />
         <activity android:name=".ui.send.SendTicketActivity" />
-        <activity android:name=".ui.main.MainActivity">
-        </activity>
-        <activity android:name=".ui.testui.TestBLEActivity">
-        </activity>
-
-
+        <activity android:name=".ui.testui.TestBLEActivity"/>
+        <activity android:name=".ui.main.MainActivity"/>
 
         <!-- 카카오 앱 키 사용 -->
         <meta-data

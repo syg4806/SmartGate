@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
+import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.FirebaseFirestore
 import org.altbeacon.beacon.*
@@ -14,7 +15,7 @@ class BeaconSerivce : Service(), BeaconConsumer {
 
     // 감지된 비콘들을 임시로 담을 리스트
     var beaconList = ArrayList<Beacon>();
-
+    var BSearching = true
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -48,16 +49,23 @@ class BeaconSerivce : Service(), BeaconConsumer {
 
     override fun onBeaconServiceConnect() {
         beaconManager.addRangeNotifier { beacons, region ->
-            if (beacons.isNotEmpty()) {
-                beaconList.clear()
-
-                beaconList.addAll(beacons)
-                Log.i(
-                    "RangeNotifier",
-                    "The first beacon I see is about " + beacons.iterator()
-                        .next().distance + " meters away."
-                )
-                printBeacon()
+            if (BSearching) {
+                if (beacons.isNotEmpty()) {
+                    BSearching = false
+                    beaconList.clear()
+                    beacons.forEach {
+                        Logg.d(
+                            "ID : " + it.id2 + " / " + "Distance : " + String.format(
+                                "%.3f",
+                                it.distance
+                            )
+                        )
+                        if (it.distance < 1) {
+                            beaconList.add(it)
+                        }
+                    }
+                    checkPlace()
+                }
             }
             Log.d("ah?", "ahhahah")
         }
@@ -75,33 +83,27 @@ class BeaconSerivce : Service(), BeaconConsumer {
         }
     }
 
-    private fun printBeacon() {
-        // testTV.text=""
-        // 비콘의 아이디와 거리를 측정하여 textView에 넣는다.
-        Log.d("printBeacon", "HI")
-        beaconList.forEach {
-            Logg.d("ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f", it.distance))
-
-            val db = FirebaseFirestore.getInstance()
-
-            db.collection("place").whereArrayContains("UID", it.id2.toString())
-                .get()
-                .addOnSuccessListener { result2 ->
-
-                    Logg.d("ssmm11 onscuc = ${result2.documents.size}")
-                    result2.documents.forEach {
-                        it.reference.collection("tickets")
-                            .get()
-                            .addOnSuccessListener {result ->
-                                for (document in result) {
-                                    val ticketId = document.getString("ticketId")
-                                    Logg.d("ssmm11 ticketId = $ticketId")
-
-                                }
-
-                            }
+    private fun checkPlace() {
+        val db = FirebaseFirestore.getInstance()
+        Logg.d("send beacon ID : ${beaconList.first().id2}")
+        db.collection("place").whereArrayContains("gate", beaconList.first().id2.toString())
+            .get()
+            .addOnSuccessListener { placeDoc ->
+                val place = placeDoc.documents.first()
+                place.reference.collection("tickets")
+                    .get()
+                    .addOnSuccessListener { tickets ->
+                        val ticketIdList = tickets.documents.map { it.getString("ticketId") }
+                        Logg.d(ticketIdList.joinToString())
+                        getMyTickets()
+                        BSearching = true
                     }
-                }
-        }
+            }
+
     }
+
+    private fun getMyTickets() {
+        FBTicketRepository().getMyTickets()
+    }
+
 }
