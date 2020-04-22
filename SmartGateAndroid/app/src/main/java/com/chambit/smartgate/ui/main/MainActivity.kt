@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
-import com.chambit.smartgate.ui.FriendActivity
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
@@ -39,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
       }
-      R.id.toFriend->{
-        val intent = Intent(this, FriendActivity::class.java)
-        startActivity(intent)
-      }
+//      R.id.toFriend->{
+//        val intent = Intent(this, FriendActivity::class.java)
+//        startActivity(intent)
+//      }
     }
   }
 }
