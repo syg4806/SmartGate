@@ -7,7 +7,7 @@ class KakaoSDKAdapter : KakaoAdapter() {
     override fun getSessionConfig(): ISessionConfig {
         return object : ISessionConfig {
             override fun getAuthTypes(): Array<AuthType> {
-                return arrayOf(AuthType.KAKAO_ACCOUNT)
+                return arrayOf(AuthType.KAKAO_TALK)
             }
 
             override fun isUsingWebviewTimer(): Boolean {

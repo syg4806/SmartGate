@@ -1,24 +1,17 @@
 package com.chambit.smartgate
 
-import android.Manifest
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Handler
 import android.os.IBinder
-import android.os.Message
 import android.os.RemoteException
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.chambit.smartgate.util.Logg
-import kotlinx.android.synthetic.main.activity_test_b_l_e.*
+import com.google.firebase.firestore.FirebaseFirestore
 import org.altbeacon.beacon.*
-import java.lang.UnsupportedOperationException
 
 class BeaconSerivce : Service(), BeaconConsumer {
     lateinit var beaconManager: BeaconManager
+
     // 감지된 비콘들을 임시로 담을 리스트
     var beaconList = ArrayList<Beacon>();
 
@@ -44,7 +37,7 @@ class BeaconSerivce : Service(), BeaconConsumer {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-          //startForeground(1, Notification());
+        //startForeground(1, Notification());
 
         return START_STICKY
     }
@@ -52,6 +45,7 @@ class BeaconSerivce : Service(), BeaconConsumer {
     override fun onDestroy() {
         beaconManager.unbind(this);
     }
+
     override fun onBeaconServiceConnect() {
         beaconManager.addRangeNotifier { beacons, region ->
             if (beacons.isNotEmpty()) {
@@ -80,12 +74,34 @@ class BeaconSerivce : Service(), BeaconConsumer {
             Log.e("onBeaconServiceConnect", ignored.toString())
         }
     }
+
     private fun printBeacon() {
         // testTV.text=""
         // 비콘의 아이디와 거리를 측정하여 textView에 넣는다.
         Log.d("printBeacon", "HI")
         beaconList.forEach {
             Logg.d("ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f", it.distance))
+
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("place").whereArrayContains("UID", it.id2.toString())
+                .get()
+                .addOnSuccessListener { result2 ->
+
+                    Logg.d("ssmm11 onscuc = ${result2.documents.size}")
+                    result2.documents.forEach {
+                        it.reference.collection("tickets")
+                            .get()
+                            .addOnSuccessListener {result ->
+                                for (document in result) {
+                                    val ticketId = document.getString("ticketId")
+                                    Logg.d("ssmm11 ticketId = $ticketId")
+
+                                }
+
+                            }
+                    }
+                }
         }
     }
 }

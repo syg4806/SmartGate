@@ -3,24 +3,30 @@ package com.chambit.smartgate.ui.testui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.RemoteException
+import android.util.Base64
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.chambit.smartgate.BeaconSerivce
 import com.chambit.smartgate.R
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.activity_test_b_l_e.*
 import org.altbeacon.beacon.*
+import java.security.MessageDigest
 
 
 class TestBLEActivity : AppCompatActivity() {
     private val multiplePermissionsCode = 100          //권한
     private val requiredPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_b_l_e);
@@ -28,6 +34,7 @@ class TestBLEActivity : AppCompatActivity() {
         val intent= Intent(this,BeaconSerivce::class.java)
         startService(intent)
     }
+
 
     private fun checkPermissions() {
         val rejectedPermissionList = ArrayList<String>()
