@@ -81,7 +81,11 @@ class FBTicketRepository {
       .collection("tickets")
       .get()
       .addOnSuccessListener { result ->
+        if (result.isEmpty) {
+          listener.myTickets(myTicketDatas, ticketDatas)
+        }
         for (document in result) {
+
           val myTicketData = document.toObject(MyTicketData::class.java)
           myTicketDatas.add(myTicketData)
 

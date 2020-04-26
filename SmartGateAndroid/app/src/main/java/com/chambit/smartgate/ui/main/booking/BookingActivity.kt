@@ -17,7 +17,6 @@ import com.chambit.smartgate.network.SetTicketListener
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_booking.*
 import java.util.*
 import kotlin.collections.ArrayList

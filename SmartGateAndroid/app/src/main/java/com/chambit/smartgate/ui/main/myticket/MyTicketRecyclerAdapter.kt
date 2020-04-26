@@ -29,7 +29,6 @@ class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val ticketData
     val singleItem = mdata[position]
     val ticketItem = ticketDatas[position]
 
-    Logg.d("ssmm11 ${singleItem.ticketId}")
     FBTicketImage().getTicketImage(holder.imageView, ticketItem.ticketId!!, activity)
     holder.place.text = ticketItem.ticketPlace
     holder.kinds.text = ticketItem.ticketKinds
