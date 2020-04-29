@@ -1,14 +1,14 @@
 package com.chambit.smartgate.ui.main.mypage
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.mypage.cardmanagement.CardManagementActivity
 import com.chambit.smartgate.ui.main.mypage.paymentmanagement.PaymentManagementActivity
-import com.chambit.smartgate.ui.main.mypage.preuseticket.PreUseTicketActivity
 import com.chambit.smartgate.ui.main.mypage.usedticketlookup.UsedTicketActivity
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 
 class MyPageActivity : AppCompatActivity() {
 
@@ -19,7 +19,7 @@ class MyPageActivity : AppCompatActivity() {
     fun onClick(view : View){
         when(view.id){
             R.id.preUseTicketButton->{ // 사용 전 티켓
-                val nextIntent = Intent(this, PreUseTicketActivity::class.java)
+                val nextIntent = Intent(this, MyTicketActivity::class.java)
                 startActivity(nextIntent)
             }
             R.id.usedTicketLookupButton->{  // 사용한 티켓 조회
