@@ -10,6 +10,7 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceInfoData
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.dataClass.TicketState
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.network.GetTicketListener
@@ -35,10 +36,10 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
     nextIntent = Intent(this, MyTicketActivity::class.java)
     placeInfoData = intent.getParcelableExtra("PlaceInfoData")!!
-    FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.placeImagePath!!, this)
-    bookingPlaceName.text = placeInfoData.placeName
+    FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
+    bookingname.text = placeInfoData.name
 
-    FBTicketRepository().getTickets(placeInfoData.placeName!!, getTicketListener)
+    FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
 
     paymentButton.setOnClickListener(this)
   }
@@ -54,15 +55,15 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
           val temp = ticketCountSpinner.selectedItem as String
           val selectedTicketCount = temp.toInt()
           setMyTicketCount = selectedTicketCount
-          val ticketId = tickets[ticketKindSpinner.selectedItemPosition].ticketId
+          val id = tickets[ticketKindSpinner.selectedItemPosition].id
           noticePopup = ChoicePopUp(this, "티켓구매",
-            "티켓을 구매했습니다. \n\n[${placeInfoData.placeName},${ticketKindSpinner.selectedItem},${ticketDateSpinner.selectedItem} 까지, ${ticketCountSpinner.selectedItem} 개]",
+            "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem},${ticketDateSpinner.selectedItem} 까지, ${ticketCountSpinner.selectedItem} 개]",
             "확인", "선물하기",
             View.OnClickListener {
               for (i in 1..selectedTicketCount) {
                 FBTicketRepository().getTicket(
-                  placeInfoData.placeName!!,
-                  ticketId!!,
+                  placeInfoData.name!!,
+                  id!!,
                   getTicketListener
                 )
               }
@@ -83,23 +84,17 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
     override fun tickets(ticketDatas: ArrayList<TicketData>) {
       tickets = ticketDatas
       val ticketKinds = arrayListOf<String>()
-      val ticketDates = arrayListOf<String>()
       val ticketCounts = arrayListOf<String>()
       ticketDatas.forEach {
-        ticketKinds.add(it.ticketKinds!!)
-        ticketDates.add(it.ticketDate!!)
+        ticketKinds.add(it.kinds!!)
       }
       for (i in 1..5) {
         ticketCounts.add(i.toString())
       }
       var arrayAdapter =
         ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
-
       ticketKindSpinner.adapter = arrayAdapter
 
-      arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketDates)
-      ticketDateSpinner.adapter = arrayAdapter
 
       arrayAdapter =
         ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
@@ -115,7 +110,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun getTicketReference(reference: DocumentReference) {
       val dt = Date()
-      val myticket = MyTicketData(dt.time.toString(), reference, "0", false)
+      val myticket = MyTicketData(dt.time.toString(), reference, 0L, TicketState.UNUSED)
       FBTicketRepository().setMyTicket(myticket, setTicketListener)
     }
   }

@@ -53,7 +53,7 @@ class MyTicketActivity : AppCompatActivity() {
           myTicketActivityRecyclerView.layoutManager =
             LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
           myTicketActivityRecyclerView.adapter =
-            MyTicketRecyclerAdapter(myTicketDatas, ticketDatas, activity)
+            MyTicketRecyclerAdapter(myTicketDatas, activity)
 
         }
         progressbar.dismiss()

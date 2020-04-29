@@ -22,14 +22,14 @@ class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val acti
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
         val singleItem = mdata[position]
 
-        FBPlaceImageRepository().getPlaceLogoImage(holder.placeLogo, singleItem.placeLogoPath!!, activity)
-        holder.placeName.text = singleItem.placeName
+        FBPlaceImageRepository().getPlaceLogoImage(holder.placeLogo, singleItem.logoPath!!, activity)
+        holder.name.text = singleItem.name
 
 
         // 클릭하면
         holder.itemView.setOnClickListener {
             val nextIntent = Intent(context, PlaceInformationActivity::class.java)
-            nextIntent.putExtra("placeName", singleItem.placeName)
+            nextIntent.putExtra("name", singleItem.name)
             context!!.startActivity(nextIntent)
         }
     }
@@ -50,7 +50,7 @@ class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val acti
     //여기서 item을 textView에 옮겨줌
     inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var placeLogo =view.placeLogo
-        var placeName = view.placeName
+        var name = view.name
     }
 
 }

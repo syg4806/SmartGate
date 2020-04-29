@@ -79,31 +79,13 @@
             android:layout_marginEnd="22dp"
             android:background="#000000" />
 
-        <TextView
-            android:id="@+id/myTicketItemCountTextView"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/myTicketItemDateTextView"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="20dp"
-            android:text="티켓 장 수 :"
-            android:textSize="20sp" />
 
-        <View
-            android:layout_width="250dp"
-            android:layout_height="1dp"
-            android:layout_below="@id/myTicketItemCountTextView"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="22dp"
-            android:background="#000000" />
 
         <Button
             android:id="@+id/myTicketActivityItemGiftButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myTicketItemCountTextView"
+            android:layout_below="@id/myTicketItemDateTextView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="35dp"
             android:text="선물하기"
