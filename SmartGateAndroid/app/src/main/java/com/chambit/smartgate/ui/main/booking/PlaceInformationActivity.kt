@@ -25,8 +25,8 @@ class PlaceInformationActivity : AppCompatActivity() {
 
     val intent = intent
     //전달 받은 값으로 Title 설정
-    val placeName = intent.extras?.getString("placeName").toString()
-    FBPlaceRepository().getPlaceInfo(placeName, getPlaceListener)
+    val name = intent.extras?.getString("name").toString()
+    FBPlaceRepository().getPlaceInfo(name, getPlaceListener)
 
   }
 
@@ -47,15 +47,15 @@ class PlaceInformationActivity : AppCompatActivity() {
     override fun getPlaceInfo(placeInfoData: PlaceInfoData) {
       FBPlaceImageRepository().getPlaceImage(
         placeInfoMapImage,
-        placeInfoData.placeImagePath!!,
+        placeInfoData.imagePath!!,
         activity
       )
       FBPlaceImageRepository().getPlaceLogoImage(
         placeInfoLogo,
-        placeInfoData.placeLogoPath!!,
+        placeInfoData.logoPath!!,
         activity
       )
-      placeInfoMapDescription.text = placeInfoData.discription
+      placeInfoMapDescription.text = placeInfoData.desc
       activityPlaceInfoData = placeInfoData
     }
   }
