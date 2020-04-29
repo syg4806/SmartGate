@@ -16,5 +16,15 @@
   <color name="orange">#FFC06C</color>
   <color name="pink">#F97964</color>
 
+  <!--my page-->
+  <color name="pink1">#F6E3E9</color>
+  <color name="pink2">#F7C9C8</color>
+  <color name="pink3">#F8AEA7</color>
+  <color name="pink4">#F89385</color>
+
+  <!-- usedTicketPage -->
+  <color name="powderPink">#FDF4F4 </color>
+  <color name="lightPint">#FBEAEA</color>
+
 
 </resources>
