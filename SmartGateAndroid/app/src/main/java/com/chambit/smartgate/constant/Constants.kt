@@ -1,8 +1,6 @@
 package com.chambit.smartgate.constant
 
-class Constants {
-    companion object{
+object Constants {
 
-
-    }
+  const val PLACE_ID = "PLACE_ID"
 }

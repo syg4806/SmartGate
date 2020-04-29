@@ -8,28 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
-import com.chambit.smartgate.dataClass.PlaceListData
+import com.chambit.smartgate.constant.Constants
+import com.chambit.smartgate.dataClass.PlaceInfoData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
-class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val activity: Activity) :
+class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceInfoData>, val activity: Activity) :
     RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
     var context: Context? = null // 부모 context
 
     //생성된 뷰 홀더에 데이터를 바인딩 해줌.
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
-        val singleItem = mdata[position]
+        val place = placeList[position]
 
-        FBPlaceImageRepository().getPlaceLogoImage(holder.placeLogo, singleItem.logoPath!!, activity)
-        holder.name.text = singleItem.name
+        FBPlaceImageRepository().getPlaceLogoImage(holder.placeLogo, place.logoPath!!, activity)
+        holder.name.text = place.name
 
 
         // 클릭하면
         holder.itemView.setOnClickListener {
             val nextIntent = Intent(context, PlaceInformationActivity::class.java)
-            nextIntent.putExtra("name", singleItem.name)
+            nextIntent.putExtra(Constants.PLACE_ID, place.id)
             context!!.startActivity(nextIntent)
         }
     }
@@ -44,7 +45,7 @@ class PlaceListRecyclerViewAdapter(val mdata: ArrayList<PlaceListData>, val acti
 
     //item 사이즈, 데이터의 전체 길이 반ㅎ환
     override fun getItemCount(): Int {
-        return mdata.size
+        return placeList.size
     }
 
     //여기서 item을 textView에 옮겨줌
