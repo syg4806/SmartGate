@@ -41,15 +41,19 @@
       android:layout_height="50dp"
       android:layout_marginTop="40dp"
       android:background="@drawable/ic_booking_search_unpressed"
-      app:layout_constraintTop_toTopOf="@+id/bookingRecyclerView"
-      tools:ignore="MissingConstraints"
-      tools:layout_editor_absoluteX="30dp" />
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.491"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/bookingRecyclerView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_constraintTop_toBottomOf="@+id/search"/>
+      android:layout_marginTop="40dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/search"
+      tools:layout_editor_absoluteX="0dp" />
 
 
   </androidx.constraintlayout.widget.ConstraintLayout>
