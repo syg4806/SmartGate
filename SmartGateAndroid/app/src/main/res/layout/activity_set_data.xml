@@ -40,13 +40,13 @@
         android:layout_marginBottom="30dp"
         android:layout_gravity="center_horizontal"/>
 
-    <!--var placeName: String? = null, // 장소 이름
-    var discription: String? = null, // 장소 설명
-    var placeLogoPath: String? = null, // 장소 로고 이미지 경로
-    var placeImagePath: String? = null // 장소 이미지 경로-->
+    <!--var name: String? = null, // 장소 이름
+    var desc: String? = null, // 장소 설명
+    var logoPath: String? = null, // 장소 로고 이미지 경로
+    var imagePath: String? = null // 장소 이미지 경로-->
 
     <EditText
-        android:id="@+id/setPlaceName"
+        android:id="@+id/setname"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

@@ -27,15 +27,15 @@ class FBPlaceRepository {
     db.collection("place").get()
       .addOnSuccessListener {
         it.documents.forEach { document ->
-          val placeListData = PlaceListData(document.get("placeLogoPath") as String, document.get("placeName") as String)
+          val placeListData = PlaceListData(document.get("logoPath") as String, document.get("name") as String)
           placeListDatas.add(placeListData)
         }
         listener.getPlaceList(placeListDatas)
       }
   }
 
-  fun getPlaceInfo(placeName: String, listener: GetPlaceListener) {
-    db.collection("place").whereEqualTo("placeName", placeName)
+  fun getPlaceInfo(name: String, listener: GetPlaceListener) {
+    db.collection("place").whereEqualTo("name", name)
       .get()
       .addOnSuccessListener {
         val placeInfoData =  it.documents.last().toObject(PlaceInfoData::class.java)

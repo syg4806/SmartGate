@@ -13,8 +13,6 @@ import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.network.GetPlaceListener
-import com.chambit.smartgate.network.GetTicketListener
-import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_my_ticket.*

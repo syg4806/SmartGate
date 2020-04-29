@@ -8,6 +8,7 @@ import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.network.SetDataListener
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_set_data.*
 import java.util.*
 
@@ -39,10 +40,13 @@ class SetDataActivity : AppCompatActivity() {
       progressbar.show()
       val dt = Date()
 
+
+
       val ticketData = TicketData(
-        dt.time.toString(), setTicketPlace.text.toString(),
-        setTicketKind.text.toString(), setTicketDate.text.toString()
-        , "ticketImage/" + dt.time.toString()
+        dt.time.toString(),
+        null,
+        setTicketKind.text.toString(),
+        "ticketImage/" + dt.time.toString()
       )
 
       // 셋 티켓 함수 실행
@@ -54,14 +58,16 @@ class SetDataActivity : AppCompatActivity() {
      * 장소 셋팅 버튼 클릭 시
      */
 
+
     placeDataSettingButton.setOnClickListener {
       val date = Date()
       progressbar.show()
       val placeInfoData = PlaceInfoData(
-        setPlaceName.text.toString(),
+        date.time.toString(),
+        setname.text.toString(),
         setPlaceDisciption.text.toString(),
-        "placeLogo/" + setPlaceName.text.toString() + date.time + ".jpg",
-        "placeImage/" + setPlaceName.text.toString() + date.time + ".jpg"
+        "placeLogo/" + setname.text.toString() + date.time + ".jpg",
+        "placeImage/" + setname.text.toString() + date.time + ".jpg"
       )
 
       FBPlaceRepository().setPlace(placeInfoData, setDataListener)
