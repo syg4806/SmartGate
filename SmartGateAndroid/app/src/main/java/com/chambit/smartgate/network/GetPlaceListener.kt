@@ -1,9 +1,6 @@
 package com.chambit.smartgate.network
 
-import com.chambit.smartgate.dataClass.MyTicketData
-import com.chambit.smartgate.dataClass.PlaceInfoData
-import com.chambit.smartgate.dataClass.PlaceListData
-import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.dataClass.PlaceData
 
 
 /**
@@ -13,10 +10,10 @@ interface GetPlaceListener {
   /**
    * 받아온 장소 리스트들
    */
-  fun getPlaceList(placeListDatas: ArrayList<PlaceListData>)
+  fun getPlaceList(placeList: ArrayList<PlaceData>)
 
   /**
    * 받아온 장소 정보
    */
-  fun getPlaceInfo(placeInfoData: PlaceInfoData)
+  fun getPlaceInfo(placeInfoData: PlaceData)
 }

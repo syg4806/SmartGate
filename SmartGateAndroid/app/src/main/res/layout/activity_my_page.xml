@@ -1,49 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:weightSum="100"
+  tools:context=".ui.main.mypage.MyPageActivity">
+
+  <FrameLayout
+    android:id="@+id/logo"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="18"
+    android:background="@color/pink">
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="fitXY"
+      android:src="@drawable/ic_my_ticket_logo" />
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:src="@drawable/ic_mypage_text" />
+  </FrameLayout>
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.mypage.MyPageActivity"
+    android:layout_height="0dp"
+    android:layout_weight="82"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
+
+    <FrameLayout
+      android:id="@+id/preUseTicketButton"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="@color/pink1"
+      android:layout_weight="1"
+      android:onClick="onClick"
+      tools:ignore="NestedWeights">
+
+      <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="마이페이지"
-        android:textSize="60dp"/>
-    <Button
-        android:id="@+id/preUseTicketButton"
-        android:onClick="onClick"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_preusetickettext"/>
+    </FrameLayout>
+
+    <FrameLayout
+      android:id="@+id/usedTicketLookupButton"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="@color/pink2"
+      android:layout_weight="1"
+      android:onClick="onClick"
+      tools:ignore="NestedWeights">
+
+      <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="사용 전 티켓"
-        android:textSize="30dp"/>
-    <Button
-        android:id="@+id/usedTicketLookupButton"
-        android:onClick="onClick"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_usage_completion_ticket_text"/>
+    </FrameLayout>
+    <FrameLayout
+      android:id="@+id/cardRegistrationAndInquiryButton"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="@color/pink3"
+      android:layout_weight="1"
+      android:onClick="onClick"
+      tools:ignore="NestedWeights">
+
+      <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="사용한 티켓 조회"
-        android:textSize="30dp"/>
-    <Button
-        android:id="@+id/cardRegistrationAndInquiryButton"
-        android:onClick="onClick"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_cardregistrationandinquirytext"/>
+    </FrameLayout>
+    <FrameLayout
+      android:id="@+id/simplePaymentMethodManagementButton"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="@color/pink4"
+      android:layout_weight="1"
+      android:onClick="onClick"
+      tools:ignore="NestedWeights">
+
+      <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="카드등록 및 조회"
-        android:textSize="30dp"/>
-    <Button
-        android:id="@+id/simplePaymentMethodManagementButton"
-        android:onClick="onClick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="간편결제방식 관리"
-        android:textSize="30dp"/>
+        android:layout_gravity="center"
+        android:src="@drawable/ic_simplepaymentmethodmanagementtext"/>
+    </FrameLayout>
+
+  </LinearLayout>
 
 
 </LinearLayout>

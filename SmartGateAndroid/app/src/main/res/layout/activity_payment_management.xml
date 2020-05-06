@@ -1,15 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.mypage.paymentmanagement.PaymentManagementActivity"
-    android:gravity="center">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:orientation="vertical"
+  android:weightSum="100"
+  tools:context=".ui.main.mypage.paymentmanagement.PaymentManagementActivity">
 
-    <TextView
+  <FrameLayout
+    android:id="@+id/logo"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="18"
+    android:background="@color/pink4">
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="fitXY"
+      android:src="@drawable/ic_my_ticket_logo" />
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:src="@drawable/ic_payment_management_text" />
+  </FrameLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="82"
+    android:background="@drawable/ic_card_management_gradient">
+
+    <FrameLayout
+      android:id="@+id/biometric_bar"
+      android:layout_width="354dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="40dp"
+      android:background="@drawable/ic_biometric_authentication_bar"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.315"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="MissingConstraints">
+
+      <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="간편결제방식 관리"/>
+        android:layout_gravity="start"
+        android:src="@drawable/ic_biometric_text" />
+    </FrameLayout>
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_biometric_body"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/biometric_bar" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

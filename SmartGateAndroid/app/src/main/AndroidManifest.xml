@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chambit.smartgate">
+  package="com.chambit.smartgate">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 인터넷 사용 permission -->
 
     <application
-        android:name=".GlobalApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,40 +21,39 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.FriendActivity" />
-        <service
-            android:name=".BeaconSerivce"
-            android:enabled="true"
-            android:exported="true"></service>
-        <activity android:name=".util.ChoicePopUp" />
-        <activity android:name=".util.SetDataActivity" />
-        <activity android:name=".ui.main.mypage.usedticketlookup.UsedTicketActivity" />
-        <activity android:name=".ui.main.mypage.paymentmanagement.PaymentManagementActivity" />
-        <activity android:name=".ui.main.mypage.cardmanagement.CardManagementActivity" />
-        <activity android:name=".ui.main.mypage.preuseticket.PreUseTicketActivity" />
-        <activity
-            android:name=".ui.main.booking.PlaceInformationActivity"
-            android:label="@string/title_activity_place_information" />
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
-        <activity android:name=".ui.main.booking.placelist.PlaceListActivity" /> <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
-        <activity
-            android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.login.LoginActivity"/>
-        <activity android:name=".ui.main.mypage.MyPageActivity" />
-        <activity android:name=".ui.send.SendTicketActivity" />
-        <activity android:name=".ui.testui.TestBLEActivity"/>
-        <activity android:name=".ui.main.MainActivity" /> <!-- 카카오 앱 키 사용 -->
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
-    </application>
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </activity>
+    <activity android:name=".ui.FriendActivity" />
+    <activity android:name=".util.ChoicePopUp" />
+    <activity android:name=".util.SetDataActivity" />
+    <activity
+      android:name=".ui.main.booking.BookingActivity" />
+    <activity android:name=".ui.main.mypage.usedticketlookup.UsedTicketActivity" />
+    <activity android:name=".ui.main.mypage.paymentmanagement.PaymentManagementActivity" />
+    <activity android:name=".ui.main.mypage.cardmanagement.CardManagementActivity" />
+    <activity
+      android:name=".ui.main.booking.PlaceInformationActivity"
+      android:label="@string/title_activity_place_information" />
+    <!--
+           Set to true if your app is Standalone, that is, it does not require the handheld
+           app to run.
+    -->
+    <activity android:name=".ui.main.myticket.MyTicketActivity" />
+    <activity android:name=".ui.main.booking.placelist.PlaceListActivity"
+      android:windowSoftInputMode="adjustPan"/>
+    <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
+    <activity
+      android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+      android:launchMode="singleTop"
+      android:windowSoftInputMode="adjustResize" />
+    <activity android:name=".ui.login.LoginActivity" />
+    <activity android:name=".ui.main.mypage.MyPageActivity" />
+    <activity android:name=".ui.send.SendTicketActivity" />
+    <activity android:name=".ui.main.MainActivity" /> <!-- 카카오 앱 키 사용 -->
+    <meta-data
+      android:name="com.kakao.sdk.AppKey"
+      android:value="@string/kakao_app_key" />
+  </application>
 
 </manifest>

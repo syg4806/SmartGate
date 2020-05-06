@@ -17,9 +17,23 @@
     -->
     <string name="hello_world">Hello Square World!</string>
 
-    <!-- Main -->
-    <string name="booking">예약하기</string>
-    <string name="my_ticket">티켓함</string>
-    <string name="my_page">마이페이지</string>
+  <!-- Main -->
+  <string name="booking">예약하기</string>
+  <string name="my_ticket">티켓함</string>
+  <string name="my_page">마이페이지</string>
 
+  <!-- biometric authentication page -->
+  <string name="biometric_body1">생체인증 사용</string>
+  <string name="biometric_body2">
+    생체인증 기능 안되시나요?\n\n
+    1. 생체 인증 가능 기긱 여부를 먼저 확인해주세요.\n
+    생체인증은 생체인식이 가능한 아이폰, 아이패드에서만\n
+    사용 가능합니다. (예 : 아이폰 5S 이상)\n\n
+    생체인증은 최초 설정 기기에서만 사용 가능하며\n
+    새로운 기기에서 생체인증 설정 시,\n
+    기존 기기의 설정은 해제됩니다.\n\n
+    2. 본인의 휴대폰에 생체정보를 등록해주세요.\n
+    소지한 기기에 생체정보(Touch ID, Face ID)가\n
+    등록되어야 사용 가능합니다.
+  </string>
 </resources>

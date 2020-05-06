@@ -1,6 +1,6 @@
 package com.chambit.smartgate.ui.login
 
-import com.chambit.smartgate.GlobalApplication
+import com.chambit.smartgate.App
 import com.kakao.auth.*
 
 class KakaoSDKAdapter : KakaoAdapter() {
@@ -38,7 +38,7 @@ class KakaoSDKAdapter : KakaoAdapter() {
 
     override fun getApplicationConfig(): IApplicationConfig {
         return IApplicationConfig {
-            GlobalApplication.instance?.getGlobalApplicationContext()
+            App.instance
         }
     }
 }

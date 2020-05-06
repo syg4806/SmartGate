@@ -1,9 +1,7 @@
 package com.chambit.smartgate.network
 
-import android.widget.Toast
-import com.chambit.smartgate.dataClass.PlaceInfoData
-import com.chambit.smartgate.dataClass.PlaceListData
-import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.dataClass.PlaceData
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 /**
@@ -15,31 +13,29 @@ class FBPlaceRepository {
   /**
    * 장소 셋팅하는 함수
    */
-  fun setPlace(placeInfoData: PlaceInfoData, listener: SetDataListener) {
+  fun setPlace(placeInfoData: PlaceData, listener: SetDataListener) {
     db.collection("place").add(placeInfoData)
       .addOnSuccessListener {
         listener.setPlaceData()
       }
   }
 
-  fun getPlaceList(listener: GetPlaceListener) {
-    val placeListDatas = arrayListOf<PlaceListData>()
+  fun listPlaces(listener: (ArrayList<PlaceData>)->Unit) {
     db.collection("place").get()
-      .addOnSuccessListener {
-        it.documents.forEach { document ->
-          val placeListData = PlaceListData(document.get("placeLogoPath") as String, document.get("placeName") as String)
-          placeListDatas.add(placeListData)
-        }
-        listener.getPlaceList(placeListDatas)
+      .addOnSuccessListener {snapshot->
+        listener(ArrayList(snapshot.map{it.toObject(PlaceData::class.java)}))
       }
   }
 
-  fun getPlaceInfo(placeName: String, listener: GetPlaceListener) {
-    db.collection("place").whereEqualTo("placeName", placeName)
+  fun getPlaceInfo(id: String, listener: (PlaceData)->Unit) {
+    db.collection("place").whereEqualTo("id", id)
       .get()
       .addOnSuccessListener {
-        val placeInfoData =  it.documents.last().toObject(PlaceInfoData::class.java)
-        listener.getPlaceInfo(placeInfoData!!)
+        listener( it.documents.last().toObject(PlaceData::class.java)!!)
       }
+  }
+
+  fun getPlace(placeRef: DocumentReference):PlaceData? {
+    return null
   }
 }

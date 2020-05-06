@@ -3,40 +3,54 @@ package com.chambit.smartgate.ui.main.myticket
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.chambit.smartgate.App
 import com.chambit.smartgate.R
-import com.chambit.smartgate.dataClass.MyTicketData
+import com.chambit.smartgate.dataClass.OwnedTicket
+import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.network.FBTicketImage
+import com.chambit.smartgate.network.BaseFB
+import com.chambit.smartgate.network.FBPlaceRepository
+import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.send.SendTicketActivity
-import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val ticketDatas: ArrayList<TicketData>, val activity: Activity) :
+class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
   val GETLIKES = 50
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
-    val singleItem = mdata[position]
-    val ticketItem = ticketDatas[position]
-
-    Logg.d("ssmm11 ${singleItem.ticketId}")
-    FBTicketImage().getTicketImage(holder.imageView, ticketItem.ticketId!!, activity)
-    holder.place.text = ticketItem.ticketPlace
-    holder.kinds.text = ticketItem.ticketKinds
-    holder.count.text = singleItem.ticketCount.toString()
-    holder.date.text = ticketItem.ticketDate
-    holder.count.text = singleItem.ticketCount
-
+    val ownedTicket = ownedTickets[position]
+    MainScope().launch {
+      var ticketData:TicketData?=null
+      var placeData:PlaceData?=null
+      var imgUri: Uri?=null
+      withContext(Dispatchers.IO) {
+        ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
+          placeData= FBPlaceRepository().getPlace(it.placeRef!!)
+          imgUri=BaseFB().getImage(it.imagePath!!)
+        }
+      }
+      Glide.with(App.instance)
+        .load(imgUri)
+        .override(1024, 980)
+        .into(holder.imageView)
+      holder.place.text = placeData?.name
+      holder.kinds.text = ticketData?.kinds
+      holder.date.text = ownedTicket.expirationDate.toString()
+    }
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
       val nextIntent = Intent(context, SendTicketActivity::class.java)
@@ -56,7 +70,7 @@ class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val ticketData
 
   //item 사이즈, 데이터의 전체 길이 반환
   override fun getItemCount(): Int {
-    return mdata.size
+    return ownedTickets.size
   }
 
   inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -64,7 +78,6 @@ class MyTicketRecyclerAdapter(val mdata: ArrayList<MyTicketData>, val ticketData
     var place = view.myTicketItemPlaceTextView
     var kinds = view.myTicketItemKindsTextView
     var date = view.myTicketItemDateTextView
-    var count = view.myTicketItemCountTextView
     var giftButton = view.myTicketActivityItemGiftButton
   }
 
