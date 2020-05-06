@@ -73,7 +73,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
     }
   }
 
-  val getTicketListener = object : GetTicketListener {
+  private val getTicketListener = object : GetTicketListener {
     override fun tickets(ticketDatas: ArrayList<TicketData>) {
       tickets = ticketDatas
 
