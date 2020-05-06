@@ -6,7 +6,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants
@@ -33,11 +32,10 @@ class PlaceListRecyclerViewAdapter(
 
     // 클릭하면
     holder.itemView.setOnClickListener {
-      it.background = AppCompatResources.getDrawable(context!! ,R.drawable.ic_place_item_pressed)
+//      it.background = AppCompatResources.getDrawable(context!! ,R.drawable.ic_place_item_pressed)
       val nextIntent = Intent(context, PlaceInformationActivity::class.java)
       nextIntent.putExtra(Constants.PLACE_ID, place.id)
       context!!.startActivity(nextIntent)
-      it.background = null
     }
   }
 
