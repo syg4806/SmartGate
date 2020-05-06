@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants
-import com.chambit.smartgate.dataClass.PlaceInfoData
+import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
-class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceInfoData>, val activity: Activity) :
+class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceData>, val activity: Activity) :
     RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
     var context: Context? = null // 부모 context

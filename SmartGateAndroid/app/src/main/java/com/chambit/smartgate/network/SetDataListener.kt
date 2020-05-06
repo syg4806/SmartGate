@@ -1,8 +1,5 @@
 package com.chambit.smartgate.network
 
-import com.chambit.smartgate.dataClass.PlaceInfoData
-import com.chambit.smartgate.dataClass.TicketData
-
 
 /**
  * 받아온 티켓 돌려주는 리스너

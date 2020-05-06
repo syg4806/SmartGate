@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants
 import com.chambit.smartgate.constant.Constants.PLACE_ID
-import com.chambit.smartgate.dataClass.PlaceInfoData
+import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBPlaceRepository
 import kotlinx.android.synthetic.main.activity_place_information.*
 
 class PlaceInformationActivity : AppCompatActivity() {
   val activity = this
-  lateinit var placeInfoData: PlaceInfoData
+  lateinit var placeInfoData: PlaceData
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

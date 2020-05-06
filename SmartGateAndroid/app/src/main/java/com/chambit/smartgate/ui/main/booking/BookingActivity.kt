@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
-import com.chambit.smartgate.dataClass.PlaceInfoData
+import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
 import com.chambit.smartgate.network.*
@@ -17,13 +17,11 @@ import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_place_information.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
-  var placeInfoData = PlaceInfoData()
-  lateinit var id:String
+  var placeInfoData = PlaceData()
+  lateinit var id: String
   lateinit var tickets: ArrayList<TicketData>
   val activity = this
   var setMyTicketCount = 0
@@ -36,8 +34,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
     nextIntent = Intent(this, MyTicketActivity::class.java)
     id = intent.getStringExtra(PLACE_ID)!!
-    FBPlaceRepository().getPlaceInfo(id){
-      placeInfoData=it
+    FBPlaceRepository().getPlaceInfo(id) {
+      placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
       FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
       bookingname.text = placeInfoData.name
@@ -51,24 +49,18 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
   override fun onClick(view: View?) {
     when (view!!.id) {
       R.id.paymentButton -> {
-
         if (bookingCheckBox.isChecked) {
-          val temp = ticketCountSpinner.selectedItem as String
-          val selectedTicketCount = temp.toInt()
-          setMyTicketCount = selectedTicketCount
-          val id = tickets[ticketKindSpinner.selectedItemPosition].id
+          setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
+          val ticketNo = ticketKindSpinner.selectedItemPosition
           noticePopup = ChoicePopUp(this, "티켓구매",
             "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem},${ticketDateSpinner.selectedItem} 까지, ${ticketCountSpinner.selectedItem} 개]",
             "확인", "선물하기",
             View.OnClickListener {
-              for (i in 1..selectedTicketCount) {
-                FBTicketRepository().getTicket(
-                  placeInfoData.name!!,
-                  id!!,
-                  getTicketListener
-                )
-              }
-
+              FBTicketRepository().buyTicket(
+                tickets[ticketNo].placeRef!!.collection(
+                  "tickets"
+                ).document(tickets[ticketNo].id!!), 0L,setMyTicketCount
+              )
             },
             View.OnClickListener {
               noticePopup.dismiss()
@@ -84,6 +76,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
   val getTicketListener = object : GetTicketListener {
     override fun tickets(ticketDatas: ArrayList<TicketData>) {
       tickets = ticketDatas
+
       val ticketKinds = arrayListOf<String>()
       val ticketCounts = arrayListOf<String>()
       ticketDatas.forEach {
