@@ -1,8 +1,6 @@
 package com.chambit.smartgate.network
 
 import android.net.Uri
-import com.chambit.smartgate.App
-import com.chambit.smartgate.util.MyProgressBar
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 

@@ -39,12 +39,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
       }
-      R.id.toFriend->{
-        val intent = Intent(this, FriendActivity::class.java)
-        startActivity(intent)
-      }
-      R.id.toBLE->{
-        val intent = Intent(this,TestBLEActivity::class.java)
+      R.id.toBLE -> {
+        val intent = Intent(this, TestBLEActivity::class.java)
         startActivity(intent)
       }
     }

@@ -1,6 +1,5 @@
 package com.chambit.smartgate.ui.main.myticket
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -34,13 +33,13 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
     MainScope().launch {
-      var ticketData:TicketData?=null
-      var placeData:PlaceData?=null
-      var imgUri: Uri?=null
+      var ticketData: TicketData? = null
+      var placeData: PlaceData? = null
+      var imgUri: Uri? = null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
-          placeData= FBPlaceRepository().getPlace(it.placeRef!!)
-          imgUri=BaseFB().getImage(it.imagePath!!)
+          placeData = FBPlaceRepository().getPlace(it.placeRef!!)
+          imgUri = BaseFB().getImage(it.imagePath!!)
         }
       }
       Glide.with(App.instance)

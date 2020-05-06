@@ -59,7 +59,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
               FBTicketRepository().buyTicket(
                 tickets[ticketNo].placeRef!!.collection(
                   "tickets"
-                ).document(tickets[ticketNo].id!!), 0L,setMyTicketCount
+                ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
               )
             },
             View.OnClickListener {

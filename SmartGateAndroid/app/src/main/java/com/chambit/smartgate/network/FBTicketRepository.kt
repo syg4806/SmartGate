@@ -7,7 +7,6 @@ import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 class FBTicketRepository {
@@ -77,7 +76,7 @@ class FBTicketRepository {
   /**
    * user가 보유한 ownedTickets의 리스트를 반환한다.
    */
-  suspend fun listOwnedTickets():MutableList<OwnedTicket>{
+  suspend fun listOwnedTickets(): MutableList<OwnedTicket> {
     Logg.d("ListTickets start")
     val data = db.collection("users").document(SharedPref.autoLoginKey)
       .collection("ownedTickets")
@@ -90,7 +89,13 @@ class FBTicketRepository {
   /**
    * ticketRef에 해당하는 TicketData를 반환한다.
    */
-  suspend fun getTicket(ticketRef: DocumentReference) : TicketData{
-     return ticketRef.get().await().toObject(TicketData::class.java)!!
+  suspend fun getTicket(ticketRef: DocumentReference): TicketData {
+    return ticketRef.get().await().toObject(TicketData::class.java)!!
+  }
+
+  suspend fun deleteTicket(certificateNo: Long) {
+    db.collection("users").document(SharedPref.autoLoginKey).collection("ownedTickets")
+      .whereEqualTo("certificateNo", certificateNo).get()
+      .await().documents.first().reference.delete()
   }
 }

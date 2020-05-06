@@ -40,7 +40,6 @@ class SetDataActivity : AppCompatActivity() {
       val dt = Date()
 
 
-
       val ticketData = TicketData(
         dt.time.toString(),
         null,

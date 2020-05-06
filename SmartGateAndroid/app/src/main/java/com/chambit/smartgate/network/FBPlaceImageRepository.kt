@@ -3,7 +3,6 @@ package com.chambit.smartgate.network
 import android.app.Activity
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.MyProgressBar
 import com.google.firebase.storage.FirebaseStorage
 
