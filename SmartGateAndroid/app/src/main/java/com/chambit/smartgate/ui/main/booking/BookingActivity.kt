@@ -7,23 +7,23 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
+import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceInfoData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
-import com.chambit.smartgate.network.FBPlaceImageRepository
-import com.chambit.smartgate.network.FBTicketRepository
-import com.chambit.smartgate.network.GetTicketListener
-import com.chambit.smartgate.network.SetTicketListener
+import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
+import kotlinx.android.synthetic.main.activity_place_information.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
   var placeInfoData = PlaceInfoData()
+  lateinit var id:String
   lateinit var tickets: ArrayList<TicketData>
   val activity = this
   var setMyTicketCount = 0
@@ -35,12 +35,13 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
     setContentView(R.layout.activity_booking)
 
     nextIntent = Intent(this, MyTicketActivity::class.java)
-    placeInfoData = intent.getParcelableExtra("PlaceInfoData")!!
-    FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-    bookingname.text = placeInfoData.name
-
-    FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
-
+    id = intent.getStringExtra(PLACE_ID)!!
+    FBPlaceRepository().getPlaceInfo(id){
+      placeInfoData=it
+      FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
+      FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
+      bookingname.text = placeInfoData.name
+    }
     paymentButton.setOnClickListener(this)
   }
 

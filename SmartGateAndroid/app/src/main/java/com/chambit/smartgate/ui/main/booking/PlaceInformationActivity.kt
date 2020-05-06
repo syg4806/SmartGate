@@ -1,23 +1,20 @@
 package com.chambit.smartgate.ui.main.booking
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
+import com.chambit.smartgate.constant.Constants
+import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.PlaceInfoData
-import com.chambit.smartgate.dataClass.PlaceListData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBPlaceRepository
-import com.chambit.smartgate.network.GetPlaceListener
-import com.chambit.smartgate.ui.main.booking.placelist.PlaceListRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_place_information.*
-import kotlinx.android.synthetic.main.activity_place_list.*
 
 class PlaceInformationActivity : AppCompatActivity() {
   val activity = this
-  var activityPlaceInfoData = PlaceInfoData()
+  lateinit var placeInfoData: PlaceInfoData
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -25,26 +22,10 @@ class PlaceInformationActivity : AppCompatActivity() {
 
     val intent = intent
     //전달 받은 값으로 Title 설정
-    val name = intent.extras?.getString("name").toString()
-    FBPlaceRepository().getPlaceInfo(name, getPlaceListener)
+    val id = intent.getStringExtra(Constants.PLACE_ID)
 
-  }
-
-  fun onClick(view: View) {
-    when (view.id) {
-      R.id.toReserveButton -> {
-        val nextIntent = Intent(this, BookingActivity::class.java)
-        nextIntent.putExtra("PlaceInfoData", activityPlaceInfoData)
-        startActivity(nextIntent)
-      }
-    }
-  }
-
-  val getPlaceListener = object : GetPlaceListener {
-    override fun getPlaceList(placeListDatas: ArrayList<PlaceListData>) {
-    }
-
-    override fun getPlaceInfo(placeInfoData: PlaceInfoData) {
+    FBPlaceRepository().getPlaceInfo(id) {
+      placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(
         placeInfoMapImage,
         placeInfoData.imagePath!!,
@@ -56,7 +37,17 @@ class PlaceInformationActivity : AppCompatActivity() {
         activity
       )
       placeInfoMapDescription.text = placeInfoData.desc
-      activityPlaceInfoData = placeInfoData
+    }
+
+  }
+
+  fun onClick(view: View) {
+    when (view.id) {
+      R.id.toReserveButton -> {
+        val nextIntent = Intent(this, BookingActivity::class.java)
+        nextIntent.putExtra(PLACE_ID, placeInfoData.id)
+        startActivity(nextIntent)
+      }
     }
   }
 }
