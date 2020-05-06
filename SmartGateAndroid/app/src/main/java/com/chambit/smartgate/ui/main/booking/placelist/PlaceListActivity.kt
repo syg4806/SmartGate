@@ -1,12 +1,12 @@
 package com.chambit.smartgate.ui.main.booking.placelist
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.PlaceInfoData
 import com.chambit.smartgate.network.FBPlaceRepository
-import com.chambit.smartgate.network.GetPlaceListener
 import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_place_list.*
 
@@ -30,5 +30,15 @@ class PlaceListActivity : AppCompatActivity() {
       }
       progressbar.dismiss()
     }
+  }
+
+  fun onClick(view : View)
+  {
+    when(view.id){
+      R.id.searchButton->{
+
+      }
+    }
+
   }
 }

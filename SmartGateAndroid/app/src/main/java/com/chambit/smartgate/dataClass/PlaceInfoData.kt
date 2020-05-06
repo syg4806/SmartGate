@@ -19,6 +19,4 @@ data class PlaceInfoData(
   // 장소 설명
   // 장소 시간 정보 (오픈, 휴일...)
 ) : Parcelable
-/*
 
- */

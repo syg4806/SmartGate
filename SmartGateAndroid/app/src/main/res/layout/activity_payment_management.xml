@@ -35,21 +35,24 @@
     android:layout_weight="82"
     android:background="@drawable/ic_card_management_gradient">
 
-    <TextView
-      android:id="@+id/textView"
-      android:layout_width="340dp"
-      android:layout_height="59dp"
-      android:layout_marginTop="44dp"
+    <FrameLayout
+      android:id="@+id/biometric_bar"
+      android:layout_width="354dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="40dp"
       android:background="@drawable/ic_biometric_authentication_bar"
-      android:gravity="center_vertical"
-      android:paddingStart="20dp"
-      android:text="@string/biometric_body1"
-      android:textSize="26sp"
-      android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.315"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:ignore="RtlSymmetry" />
+      tools:ignore="MissingConstraints">
+
+      <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:src="@drawable/ic_biometric_text" />
+    </FrameLayout>
 
     <ImageView
       android:layout_width="wrap_content"
@@ -58,6 +61,6 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView" />
+      app:layout_constraintTop_toBottomOf="@+id/biometric_bar" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
