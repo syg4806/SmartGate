@@ -16,7 +16,7 @@ class FBTicketRepository {
    * 장소 안에 컬렉션으로 티켓을 반영한다.
    */
   fun setTicket(ticketData: TicketData, setDataListener: SetDataListener) {
-    db.collection("place").whereEqualTo("id", "1588159202345")
+    db.collection("place").whereEqualTo("id", "1588764861486")
       .get()
       .addOnSuccessListener {
         ticketData.placeRef = it.documents.last().reference
@@ -68,7 +68,6 @@ class FBTicketRepository {
             getTicketListener.getTicketReference(it.documents.last().reference)
           }
       }
-
   }
 
   /**
