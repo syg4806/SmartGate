@@ -36,10 +36,6 @@ class UsedTicketActivity : AppCompatActivity() {
       Logg.d(ownedTickets.joinToString { it.certificateNo.toString() })
       if (ownedTickets.isEmpty()) {
         usedTicketEmptyTicketView.visibility = View.VISIBLE
-        usedTicketEmptyTicketToSendTicket.setOnClickListener {
-          startActivity(bookingIntent)
-          finish()
-        }
         progressbar.dismiss()
       } else {
         activity.usedTicketEmptyTicketView.visibility = View.GONE
