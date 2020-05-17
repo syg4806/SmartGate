@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import com.chambit.smartgate.ui.login.KakaoSDKAdapter
+import com.kakao.auth.KakaoSDK
 
 class App : Application() {
   companion object {
@@ -18,6 +20,7 @@ class App : Application() {
     super.onCreate()
     instance = this
 
+    KakaoSDK.init(KakaoSDKAdapter())
     registerActivityLifecycleCallbacks(activityLifecycleCallbacks)
   }
 

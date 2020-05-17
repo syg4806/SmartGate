@@ -3,12 +3,11 @@ package com.chambit.smartgate.util
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
-import com.chambit.smartgate.dataClass.PlaceInfoData
+import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.network.SetDataListener
-import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_set_data.*
 import java.util.*
 
@@ -62,7 +61,7 @@ class SetDataActivity : AppCompatActivity() {
     placeDataSettingButton.setOnClickListener {
       val date = Date()
       progressbar.show()
-      val placeInfoData = PlaceInfoData(
+      val placeInfoData = PlaceData(
         date.time.toString(),
         setname.text.toString(),
         setPlaceDisciption.text.toString(),

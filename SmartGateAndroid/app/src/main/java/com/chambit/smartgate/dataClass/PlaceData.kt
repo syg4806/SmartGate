@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 /**
  *  모든 장소에 대한 로고, 이름 데이터
  */
-data class PlaceInfoData(
+data class PlaceData(
   var id: String? = null,
   var name: String? = null, // 장소 이름
   var desc: String? = null, // 장소 설명
@@ -19,6 +19,4 @@ data class PlaceInfoData(
   // 장소 설명
   // 장소 시간 정보 (오픈, 휴일...)
 ) : Parcelable
-/*
 
- */
