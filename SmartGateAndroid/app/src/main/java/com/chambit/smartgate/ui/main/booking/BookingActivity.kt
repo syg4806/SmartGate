@@ -59,15 +59,20 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
           noticePopup = ChoicePopUp(this, "티켓구매",
             "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
             "확인", "선물하기",
-            View.OnClickListener {
+            View.OnClickListener {// 확인 버튼
               FBTicketRepository().buyTicket(
                 tickets[ticketNo].placeRef!!.collection(
                   "tickets"
                 ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
               )
-              finish()
+              noticePopup.dismiss()
+              startActivity(Intent(this,MyTicketActivity::class.java).apply {
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+              })
             },
-            View.OnClickListener {
+            View.OnClickListener {// 선물하기 버튼
               noticePopup.dismiss()
             })
           noticePopup.show()

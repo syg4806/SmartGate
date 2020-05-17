@@ -24,11 +24,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
       }
       R.id.toBooking -> {
-        val intent = Intent(
-          this,
-          PlaceListActivity::class.java
-        )
-        startActivity(intent)
+          startActivity(Intent(this,PlaceListActivity::class.java))
       }
       R.id.toMyTicket -> {
         val intent = Intent(this, MyTicketActivity::class.java)
