@@ -67,9 +67,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
               )
               noticePopup.dismiss()
               startActivity(Intent(this,MyTicketActivity::class.java).apply {
-//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
               })
             },
             View.OnClickListener {// 선물하기 버튼

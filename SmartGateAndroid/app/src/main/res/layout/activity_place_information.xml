@@ -4,22 +4,17 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:weightSum="100"
   android:orientation="vertical"
   tools:context=".ui.main.booking.PlaceInformationActivity">
 
-  <FrameLayout
+  <ImageView
     android:id="@+id/logo"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="13"
-    android:background="@color/violet">
-
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_booking_top_image" />
-  </FrameLayout>
+    android:scaleType="fitXY"
+    android:src="@drawable/ic_booking_top_image" />
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -42,7 +37,7 @@
       android:layout_gravity="center_horizontal"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/gd_begin"/>
+      app:layout_constraintTop_toTopOf="@+id/gd_begin" />
 
     <ImageView
       android:id="@+id/placeInfoLogo"
@@ -59,14 +54,14 @@
       android:layout_width="350dp"
       android:layout_height="200dp"
       android:layout_gravity="center_horizontal"
+      android:layout_marginTop="10dp"
       android:background="@drawable/ic_place_info_box"
-      android:scrollbars="vertical"
-      android:textSize="20sp"
-      android:typeface="sans"
-      android:textStyle="bold"
       android:gravity="center"
       android:padding="10dp"
-      android:layout_marginTop="10dp"
+      android:scrollbars="vertical"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      android:typeface="sans"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/placeInfoLogo" />
