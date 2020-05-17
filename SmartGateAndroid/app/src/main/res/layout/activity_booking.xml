@@ -73,7 +73,7 @@
         android:layout_height="45dp"
         android:layout_margin="5dp"
         android:layout_weight="55"
-        android:paddingEnd="15dp"
+        android:paddingEnd="20dp"
         android:background="@drawable/ic_sub_items_bar"
         tools:ignore="RtlSymmetry" />
       <!-- android:background="@drawable/ic_sub_items_bar"-->
