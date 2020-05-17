@@ -3,11 +3,11 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 class FBTicketRepository {
@@ -18,11 +18,12 @@ class FBTicketRepository {
    * 장소 안에 컬렉션으로 티켓을 반영한다.
    */
   fun setTicket(ticketData: TicketData, setDataListener: SetDataListener) {
-    db.collection("place").whereEqualTo("id", "1588764861486")
+    db.collection("place").whereEqualTo("id", "1588783928489")
       .get()
       .addOnSuccessListener {
         ticketData.placeRef = it.documents.last().reference
-        ticketData.placeRef!!.collection("tickets").add(ticketData)
+        ticketData.placeRef!!.collection("tickets").document(ticketData.id.toString())
+          .set(ticketData)
         setDataListener.setTicketData()
       }
   }
@@ -77,10 +78,11 @@ class FBTicketRepository {
   /**
    * user가 보유한 ownedTickets의 리스트를 반환한다.
    */
-  suspend fun listOwnedTickets():MutableList<OwnedTicket>{
+  suspend fun listOwnedTickets(used: Boolean): MutableList<OwnedTicket> {
     Logg.d("ListTickets start")
     val data = db.collection("users").document(SharedPref.autoLoginKey)
       .collection("ownedTickets")
+      .whereEqualTo("used", used)
       .get()
       .await()
     Logg.d("await finish")
@@ -90,7 +92,29 @@ class FBTicketRepository {
   /**
    * ticketRef에 해당하는 TicketData를 반환한다.
    */
-  suspend fun getTicket(ticketRef: DocumentReference) : TicketData{
-     return ticketRef.get().await().toObject(TicketData::class.java)!!
+  suspend fun getTicket(ticketRef: DocumentReference): TicketData {
+    return ticketRef.get().await().toObject(TicketData::class.java)!!
+  }
+
+  suspend fun deleteTicket(certificateNo: Long): Boolean {
+    return try {
+      db.collection("users").document(SharedPref.autoLoginKey).collection("ownedTickets")
+        .whereEqualTo("certificateNo", certificateNo).get()
+        .await().documents.first().reference.delete().await()
+      "티켓이 사용되었습니다.".show()
+      true
+    } catch (e: Exception) {
+      "티켓 사용에 실패 했습니다.".show()
+      false
+    }
+  }
+
+  suspend fun getOwnedTicket(certificateNo: Long?): OwnedTicket? {
+    Logg.d("${SharedPref.autoLoginKey} $certificateNo")
+    return db.collection("users").document(SharedPref.autoLoginKey)
+      .collection("ownedTickets").whereEqualTo("certificateNo", certificateNo)
+      .get()
+      .await().documents.first().toObject(OwnedTicket::class.java)
+
   }
 }
