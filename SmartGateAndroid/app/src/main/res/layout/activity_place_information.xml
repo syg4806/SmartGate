@@ -4,86 +4,88 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:gravity="center"
+  android:weightSum="100"
   android:orientation="vertical"
   tools:context=".ui.main.booking.PlaceInformationActivity">
 
-  <FrameLayout
+  <ImageView
     android:id="@+id/logo"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="13"
-    android:background="@color/violet">
+    android:scaleType="fitXY"
+    android:src="@drawable/ic_booking_top_image" />
 
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_booking_top_image" />
-  </FrameLayout>
-
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <ScrollView
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="87"
-    android:background="@drawable/ic_booking_gradient"
-    android:orientation="vertical">
+    android:layout_weight="87">
 
-    <androidx.constraintlayout.widget.Guideline
-      android:id="@+id/gd_begin"
-      android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintGuide_begin="20dp" />
+      android:background="@drawable/ic_booking_gradient"
+      android:orientation="vertical">
 
-    <ImageView
-      android:id="@+id/placeInfoMapImage"
-      android:layout_width="320dp"
-      android:layout_height="250dp"
-      android:layout_gravity="center_horizontal"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/gd_begin"/>
+      <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
 
-    <ImageView
-      android:id="@+id/placeInfoLogo"
-      android:layout_width="320dp"
-      android:layout_height="50dp"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="10dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/placeInfoMapImage" />
+      <ImageView
+        android:id="@+id/placeInfoMapImage"
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gd_begin" />
 
-    <TextView
-      android:id="@+id/placeInfoMapDescription"
-      android:layout_width="350dp"
-      android:layout_height="200dp"
-      android:layout_gravity="center_horizontal"
-      android:background="@drawable/ic_place_info_box"
-      android:scrollbars="vertical"
-      android:textSize="20sp"
-      android:typeface="sans"
-      android:textStyle="bold"
-      android:gravity="center"
-      android:padding="10dp"
-      android:layout_marginTop="10dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/placeInfoLogo" />
+      <ImageView
+        android:id="@+id/placeInfoLogo"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeInfoMapImage" />
+
+      <TextView
+        android:id="@+id/placeInfoMapDescription"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_place_info_box"
+        android:gravity="center"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeInfoLogo" />
 
 
-    <TextView
-      android:id="@+id/toReserveButton"
-      android:layout_width="200dp"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="30dp"
-      android:background="@drawable/booking_place_information_button"
-      android:onClick="onClick"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/placeInfoMapDescription" />
+      <TextView
+        android:id="@+id/toReserveButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/booking_place_information_button"
+        android:onClick="onClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeInfoMapDescription" />
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </ScrollView>
+
 
 </LinearLayout>
