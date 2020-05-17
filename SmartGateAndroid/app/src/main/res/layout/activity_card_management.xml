@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:orientation="vertical"
+  android:weightSum="100"
+  tools:context=".ui.main.mypage.cardmanagement.CardManagementActivity">
+
+  <FrameLayout
+    android:id="@+id/logo"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="18"
+    android:background="@color/pink3">
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="fitXY"
+      android:src="@drawable/ic_my_ticket_logo" />
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:src="@drawable/ic_card_management_text" />
+  </FrameLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/noCardView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="82"
+    android:background="@drawable/ic_card_management_gradient">
+
+    <!-- 나중에 수정 필요!!!! 일단 기능 먼저 해 놓을 게요 -->
+    <ImageView
+      android:id="@+id/cardImageView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_card_add"
+      tools:ignore="MissingConstraints"
+      tools:layout_editor_absoluteX="0dp"
+      tools:layout_editor_absoluteY="102dp" />
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

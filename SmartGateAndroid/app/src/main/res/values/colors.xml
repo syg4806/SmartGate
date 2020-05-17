@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+  <color name="colorPrimary">#6200EE</color>
+  <color name="colorPrimaryDark">#3700B3</color>
+  <color name="colorAccent">#03DAC5</color>
+  <color name="white">#ffffff</color>
+  <color name="lightRed">#eb4b43</color>
+  <color name="black">#000000</color>
+
+
+  <!-- login, splash -->
+  <color name="indiePink">#F6E3E9</color>
+
+  <!-- main -->
+  <color name="violet">#B1A7F2</color>
+  <color name="orange">#FFC06C</color>
+  <color name="pink">#F97964</color>
+
+  <!--my page-->
+  <color name="pink1">#F6E3E9</color>
+  <color name="pink2">#F7C9C8</color>
+  <color name="pink3">#F8AEA7</color>
+  <color name="pink4">#F89385</color>
+
+  <!-- usedTicketPage -->
+  <color name="powderPink">#FDF4F4 </color>
+  <color name="lightPint">#FBEAEA</color>
+
+
 </resources>
