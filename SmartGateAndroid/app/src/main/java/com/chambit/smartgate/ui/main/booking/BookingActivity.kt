@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
@@ -66,10 +67,14 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
                 ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
               )
               noticePopup.dismiss()
-              startActivity(Intent(this,MyTicketActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-              })
+              // TODO : 티켓 액티비티로 갈때 그 전 액티비티들 삭제해야하는데 1. 메인으로 갈지 2. 그대로 할지 정하기.
+              startActivity(Intent(this,MyTicketActivity::class.java))
+              App.activityList.forEachIndexed{i,activity->
+                if(i == 0)
+                  return@forEachIndexed
+                activity.finish()
+              }
+
             },
             View.OnClickListener {// 선물하기 버튼
               noticePopup.dismiss()

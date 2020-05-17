@@ -7,159 +7,160 @@
   android:weightSum="100"
   tools:context=".ui.main.booking.BookingActivity">
 
-  <FrameLayout
+
+  <ImageView
     android:id="@+id/logo"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="13"
-    android:background="@color/violet">
+    android:background="@color/violet"
+    android:scaleType="fitXY"
+    android:src="@drawable/ic_booking_top_image" />
 
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_booking_top_image" />
-  </FrameLayout>
-
-  <LinearLayout
+  <ScrollView
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="87"
-    android:background="@drawable/ic_booking_gradient"
-    android:orientation="vertical">
-
-    <ImageView
-      android:id="@+id/bookingPlaceLogo"
-      android:layout_width="300dp"
-      android:layout_height="200dp"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="20dp"
-      android:scaleType="fitCenter" />
-
-    <TextView
-      android:id="@+id/bookingname"
-      android:layout_width="200dp"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:gravity="center_horizontal"
-      android:textSize="30sp" />
-
-    <View
-      android:layout_width="350dp"
-      android:layout_height="2dp"
-      android:layout_gravity="center_horizontal"
-      android:layout_margin="10dp"
-      android:background="@drawable/ic_payment_line" />
+    android:layout_weight="87">
 
     <LinearLayout
-      android:layout_width="320dp"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:weightSum="100">
+      android:background="@drawable/ic_booking_gradient"
+      android:orientation="vertical">
+
+      <ImageView
+        android:id="@+id/bookingPlaceLogo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter" />
 
       <TextView
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="45"
+        android:id="@+id/bookingname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:text="티켓 종류"
-        android:textSize="28sp" />
+        android:textSize="30sp" />
 
-      <Spinner
-        android:id="@+id/ticketKindSpinner"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="55"
-        android:paddingEnd="20dp"
-        android:background="@drawable/ic_sub_items_bar"
-        tools:ignore="RtlSymmetry" />
-      <!-- android:background="@drawable/ic_sub_items_bar"-->
-    </LinearLayout>
+      <View
+        android:layout_width="350dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_payment_line" />
 
-    <LinearLayout
-      android:layout_width="320dp"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:weightSum="100">
+      <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
-      <TextView
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="45"
-        android:gravity="center_horizontal"
-        android:text="날짜"
-        android:textSize="28sp" />
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="45"
+          android:gravity="center_horizontal"
+          android:text="티켓 종류"
+          android:textSize="28sp" />
 
-      <Button
-        android:id="@+id/ticketDatePicker"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="55"
-        android:textStyle="bold"
-        android:background="@drawable/ic_sub_items_bar" />
+        <Spinner
+          android:id="@+id/ticketKindSpinner"
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="55"
+          android:background="@drawable/ic_sub_items_bar"
+          android:paddingEnd="20dp"
+          tools:ignore="RtlSymmetry" />
+        <!-- android:background="@drawable/ic_sub_items_bar"-->
+      </LinearLayout>
 
-    </LinearLayout>
+      <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
-    <LinearLayout
-      android:layout_width="320dp"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:weightSum="100">
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="45"
+          android:gravity="center_horizontal"
+          android:text="날짜"
+          android:textSize="28sp" />
 
-      <TextView
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="45"
-        android:gravity="center_horizontal"
-        android:text="수량"
-        android:textSize="28sp" />
+        <Button
+          android:id="@+id/ticketDatePicker"
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="55"
+          android:background="@drawable/ic_sub_items_bar"
+          android:textStyle="bold" />
 
-      <Spinner
-        android:id="@+id/ticketCountSpinner"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_margin="5dp"
-        android:layout_weight="55"
-        android:gravity ="right"
-        android:background="@drawable/ic_sub_items_bar"
-        tools:ignore="RtlSymmetry" />
+      </LinearLayout>
 
-    </LinearLayout>
+      <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="20dp"
-      android:orientation="horizontal">
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="45"
+          android:gravity="center_horizontal"
+          android:text="수량"
+          android:textSize="28sp" />
 
-      <CheckBox
-        android:id="@+id/bookingCheckBox"
+        <Spinner
+          android:id="@+id/ticketCountSpinner"
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_margin="5dp"
+          android:layout_weight="55"
+          android:background="@drawable/ic_sub_items_bar"
+          android:gravity="right"
+          tools:ignore="RtlSymmetry" />
+
+      </LinearLayout>
+
+      <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:drawableEnd="@drawable/ic_payment_agree_sentence"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+          android:id="@+id/bookingCheckBox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:drawableEnd="@drawable/ic_payment_agree_sentence" />
 
 
+      </LinearLayout>
 
+      <TextView
+        android:id="@+id/paymentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/certified_select_button"
+        tools:ignore="MissingConstraints" />
     </LinearLayout>
+  </ScrollView>
 
-    <TextView
-      android:id="@+id/paymentButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="30dp"
-      android:background="@drawable/certified_select_button"
-      tools:ignore="MissingConstraints" />
-  </LinearLayout>
 
 </LinearLayout>
