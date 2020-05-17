@@ -87,11 +87,13 @@
         android:text="날짜"
         android:textSize="28sp" />
 
-      <Spinner
-        android:id="@+id/ticketDateSpinner"
+      <Button
+        android:id="@+id/ticketDatePicker"
         android:layout_width="150dp"
         android:layout_height="45dp"
+        android:background="@drawable/button_empty_line"
         android:layout_margin="5dp" />
+
 
     </LinearLayout>
 

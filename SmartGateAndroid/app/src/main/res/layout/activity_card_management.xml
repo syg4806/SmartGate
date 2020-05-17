@@ -35,8 +35,8 @@
     android:layout_weight="82"
     android:background="@drawable/ic_card_management_gradient">
 
-
     <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/cardRecyclerView"
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       app:layout_constraintBottom_toBottomOf="parent"
