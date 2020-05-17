@@ -46,6 +46,6 @@ class FBPlaceRepository {
     Logg.d("find place by beacon ID : ${beaconId}")
     return db.collection("place").whereArrayContains("gateArray", beaconId)
       .get().await().documents.first().reference.collection("tickets").get().await()
-      .toObjects(TicketData::class.java)
+      ?.toObjects(TicketData::class.java)
   }
 }

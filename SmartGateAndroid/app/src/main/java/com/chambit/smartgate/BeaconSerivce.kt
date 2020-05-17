@@ -95,7 +95,7 @@ class BeaconSerivce : Service(), BeaconConsumer {
       withContext(Dispatchers.IO) {
         val ticketIdList =
           FBPlaceRepository().listAvailableTickets(beaconList.first().id2.toString())?.map { it.id }
-        ownedTicketList = FBTicketRepository().listOwnedTickets()
+        ownedTicketList = FBTicketRepository().listOwnedTickets(false)
         run loop@{
           ownedTicketList?.forEach {
             val ticketId = it.ticketRef?.path.toString().split('/').last()
