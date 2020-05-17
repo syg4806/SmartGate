@@ -5,26 +5,25 @@
   <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 인터넷 사용 permission -->
   <uses-permission android:name="android.permission.INTERNET" />
 
-    <application
-        android:name=".App"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.login.splash.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:name=".App"
+    android:allowBackup="false"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name=".ui.login.splash.SplashActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
     <activity android:name=".ui.FriendActivity" />
     <activity android:name=".util.ChoicePopUp" />
     <activity android:name=".util.SetDataActivity" />
-    <activity
-      android:name=".ui.main.booking.BookingActivity" />
+    <activity android:name=".ui.main.booking.BookingActivity" />
     <activity android:name=".ui.main.mypage.usedticketlookup.UsedTicketActivity" />
     <activity android:name=".ui.main.mypage.paymentmanagement.PaymentManagementActivity" />
     <activity android:name=".ui.main.mypage.cardmanagement.CardManagementActivity" />
@@ -36,8 +35,9 @@
            app to run.
     -->
     <activity android:name=".ui.main.myticket.MyTicketActivity" />
-    <activity android:name=".ui.main.booking.placelist.PlaceListActivity"
-      android:windowSoftInputMode="adjustPan"/>
+    <activity
+      android:name=".ui.main.booking.placelist.PlaceListActivity"
+      android:windowSoftInputMode="adjustPan" />
     <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
     <activity
       android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
