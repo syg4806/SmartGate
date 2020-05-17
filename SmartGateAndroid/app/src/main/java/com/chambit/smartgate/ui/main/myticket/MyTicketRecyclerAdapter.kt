@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
+import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
+import com.chambit.smartgate.constant.Constants.TICKET_DATA
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
+import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.ui.send.SendTicketActivity
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.Dispatchers
@@ -32,10 +35,10 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
+    var ticketData: TicketData? = null
+    var placeData: PlaceData? = null
+    var imgUri: Uri? = null
     MainScope().launch {
-      var ticketData: TicketData? = null
-      var placeData: PlaceData? = null
-      var imgUri: Uri? = null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
           placeData = FBPlaceRepository().getPlace(it.placeRef!!)
@@ -49,6 +52,11 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
       holder.place.text = placeData?.name
       holder.kinds.text = ticketData?.kinds
       holder.date.text = ownedTicket.expirationDate.toString()
+    }
+    holder.useButton.setOnClickListener {
+      context?.startActivity(Intent(context,TicketUsingActivity::class.java).apply {
+        putExtra(CERTIFICATE_NO,ownedTicket.certificateNo)
+      })
     }
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
@@ -78,6 +86,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     var kinds = view.myTicketItemKindsTextView
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton
+    var useButton=view.myTicketActivityItemUseButton
   }
 
 

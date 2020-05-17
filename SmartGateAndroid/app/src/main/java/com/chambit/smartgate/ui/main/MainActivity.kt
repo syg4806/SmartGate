@@ -8,7 +8,7 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
-import com.chambit.smartgate.ui.testui.TestBLEActivity
+import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.util.SetDataActivity
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
       }
       R.id.toBLE -> {
-        val intent = Intent(this, TestBLEActivity::class.java)
+        val intent = Intent(this, TicketUsingActivity::class.java)
         startActivity(intent)
       }
     }
