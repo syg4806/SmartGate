@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:orientation="vertical"
   tools:context=".ui.main.mypage.cardmanagement.CardAddActivity">
 
-  <TextView
+  <ImageView
+    android:layout_gravity="center"
+    android:layout_marginTop="100dp"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    android:src="@drawable/card_add_sample"/>
+
+  <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="카드 추가!!"
-    android:textSize="40sp"
-    tools:ignore="MissingConstraints" />
+    android:background="@drawable/ic_card_add_unpressed"
+    android:layout_gravity="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
