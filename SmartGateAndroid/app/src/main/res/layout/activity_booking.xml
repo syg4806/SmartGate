@@ -97,10 +97,12 @@
 
       <Button
         android:id="@+id/ticketDatePicker"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:background="@drawable/button_empty_line"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:layout_weight="55"
+        android:textStyle="bold"
+        android:background="@drawable/ic_sub_items_bar" />
 
     </LinearLayout>
 
@@ -126,7 +128,7 @@
         android:layout_height="45dp"
         android:layout_margin="5dp"
         android:layout_weight="55"
-        android:paddingEnd="15dp"
+        android:gravity ="right"
         android:background="@drawable/ic_sub_items_bar"
         tools:ignore="RtlSymmetry" />
 

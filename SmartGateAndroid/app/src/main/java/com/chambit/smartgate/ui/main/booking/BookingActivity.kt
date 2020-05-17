@@ -18,10 +18,8 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
-import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
@@ -113,7 +111,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
 
       arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
+        ArrayAdapter(activity, R.layout.ticket_count_spinner_item , ticketCounts)
       ticketCountSpinner.adapter = arrayAdapter
     }
 
