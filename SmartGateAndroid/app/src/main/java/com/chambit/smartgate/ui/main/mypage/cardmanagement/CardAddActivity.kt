@@ -2,6 +2,7 @@ package com.chambit.smartgate.ui.main.mypage.cardmanagement
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.chambit.smartgate.R
 
 class CardAddActivity : AppCompatActivity() {
 

@@ -85,7 +85,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
               set(Calendar.MONTH, month)
               set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }.timeInMillis
-            ticketDatePicker.text = selectedDateFrom . format (M_D)
+            ticketDatePicker.text = selectedDateFrom.format(M_D)
           },
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
