@@ -17,7 +17,7 @@ class FBPlaceRepository {
    * 장소 셋팅하는 함수
    */
   fun setPlace(placeInfoData: PlaceData, listener: SetDataListener) {
-    db.collection("place").add(placeInfoData)
+    db.collection("place").document(placeInfoData.id.toString()).set(placeInfoData)
       .addOnSuccessListener {
         listener.setPlaceData()
       }

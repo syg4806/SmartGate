@@ -30,7 +30,7 @@ class MyTicketActivity : AppCompatActivity() {
     progressbar.show()
     MainScope().launch {
       val ownedTickets = withContext(Dispatchers.IO) {
-        FBTicketRepository().listOwnedTickets()
+        FBTicketRepository().listOwnedTickets(false)
       }
       Logg.d(ownedTickets.joinToString { it.certificateNo.toString() })
       if (ownedTickets.isEmpty()) {

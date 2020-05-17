@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+    <RelativeLayout
+        android:id="@+id/cardItemRootView"
+        android:layout_width="300dp"
+        android:layout_height="550dp"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/cardItemImageView"
+            android:layout_width="285dp"
+            android:layout_height="180dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_empty_background" />
+
+        <TextView
+            android:id="@+id/cardItemNameTextView"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardItemImageView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_below="@id/cardItemNameTextView"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="22dp"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/cardItemNumberTextView"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardItemNameTextView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_below="@id/cardItemNumberTextView"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="22dp"
+            android:background="#000000" />
+
+        <Button
+            android:id="@+id/cardActivityItemGiftButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardItemNumberTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:text="QR / 결제코드"
+            android:background="@drawable/button_empty_background"
+            android:textSize="18sp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

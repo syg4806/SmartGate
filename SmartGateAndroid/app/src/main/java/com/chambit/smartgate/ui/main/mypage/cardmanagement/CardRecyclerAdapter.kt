@@ -1,5 +1,6 @@
-package com.chambit.smartgate.ui.main.myticket
+package com.chambit.smartgate.ui.main.mypage.cardmanagement
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -23,23 +24,21 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
-  RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
+class CardRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
+  RecyclerView.Adapter<CardRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
-  val GETLIKES = 50
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
     MainScope().launch {
-      var ticketData: TicketData? = null
-      var placeData: PlaceData? = null
-      var imgUri: Uri? = null
+      var ticketData:TicketData?=null
+      var placeData:PlaceData?=null
+      var imgUri: Uri?=null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
-          placeData = FBPlaceRepository().getPlace(it.placeRef!!)
-          imgUri = BaseFB().getImage(it.imagePath!!)
+          placeData= FBPlaceRepository().getPlace(it.placeRef!!)
+          imgUri=BaseFB().getImage(it.imagePath!!)
         }
       }
       Glide.with(App.instance)
@@ -62,7 +61,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   //뷰 홀더 생성
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): mViewHolder {
     val view =
-      LayoutInflater.from(parent.context).inflate(R.layout.myticket_recycler_item, parent, false)
+      LayoutInflater.from(parent.context).inflate(R.layout.card_recycler_item, parent, false)
     context = parent.context
     return mViewHolder(view) //view 객체는 한개의 리사이클러뷰가 디자인 되어 있는 레이아웃을 의미
   }

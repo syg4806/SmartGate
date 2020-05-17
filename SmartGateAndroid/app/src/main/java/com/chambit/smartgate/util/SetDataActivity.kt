@@ -39,7 +39,6 @@ class SetDataActivity : AppCompatActivity() {
       progressbar.show()
       val dt = Date()
 
-
       val ticketData = TicketData(
         dt.time.toString(),
         null,
