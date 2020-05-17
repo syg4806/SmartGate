@@ -24,9 +24,9 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:orientation="vertical"
     android:layout_weight="87"
-    android:background="@drawable/ic_booking_gradient">
+    android:background="@drawable/ic_booking_gradient"
+    android:orientation="vertical">
 
     <ImageView
       android:id="@+id/bookingPlaceLogo"
@@ -45,44 +45,52 @@
       android:textSize="30sp" />
 
     <View
-      android:layout_width="300dp"
+      android:layout_width="350dp"
       android:layout_height="2dp"
       android:layout_gravity="center_horizontal"
       android:layout_margin="10dp"
-      android:background="@color/black" />
+      android:background="@drawable/ic_payment_line" />
 
     <LinearLayout
       android:layout_width="320dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:orientation="horizontal">
+      android:orientation="horizontal"
+      android:weightSum="100">
 
       <TextView
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_margin="5dp"
+        android:layout_weight="45"
         android:gravity="center_horizontal"
         android:text="티켓 종류"
         android:textSize="28sp" />
 
       <Spinner
         android:id="@+id/ticketKindSpinner"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_margin="5dp" />
-
+        android:layout_margin="5dp"
+        android:layout_weight="55"
+        android:paddingEnd="20dp"
+        android:background="@drawable/ic_sub_items_bar"
+        tools:ignore="RtlSymmetry" />
+      <!-- android:background="@drawable/ic_sub_items_bar"-->
     </LinearLayout>
 
     <LinearLayout
       android:layout_width="320dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:orientation="horizontal">
+      android:orientation="horizontal"
+      android:weightSum="100">
 
       <TextView
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_margin="5dp"
+        android:layout_weight="45"
         android:gravity="center_horizontal"
         android:text="날짜"
         android:textSize="28sp" />
@@ -94,28 +102,33 @@
         android:background="@drawable/button_empty_line"
         android:layout_margin="5dp" />
 
-
     </LinearLayout>
 
     <LinearLayout
       android:layout_width="320dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:orientation="horizontal">
+      android:orientation="horizontal"
+      android:weightSum="100">
 
       <TextView
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_margin="5dp"
+        android:layout_weight="45"
         android:gravity="center_horizontal"
         android:text="수량"
         android:textSize="28sp" />
 
       <Spinner
         android:id="@+id/ticketCountSpinner"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:layout_weight="55"
+        android:paddingEnd="15dp"
+        android:background="@drawable/ic_sub_items_bar"
+        tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 
@@ -137,20 +150,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
-        android:gravity="center_horizontal"
-        android:text="본 내용으로 결제를 동의합니다."
-        android:textSize="16sp" />
+        android:background="@drawable/ic_payment_agree_sentence"
+        android:gravity="center_horizontal" />
 
 
     </LinearLayout>
 
     <TextView
       android:id="@+id/paymentButton"
-      android:background="@drawable/certified_select_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="30dp"
+      android:background="@drawable/certified_select_button"
       tools:ignore="MissingConstraints" />
   </LinearLayout>
 
