@@ -10,6 +10,7 @@ import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBPlaceRepository
+import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import kotlinx.android.synthetic.main.activity_place_information.*
 
 class PlaceInformationActivity : AppCompatActivity() {
@@ -41,12 +42,22 @@ class PlaceInformationActivity : AppCompatActivity() {
 
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (resultCode == 100) {
+      val nextIntent = Intent(this, PlaceListActivity::class.java)
+      setResult(100, nextIntent)
+      finish()
+    }
+
+  }
+
   fun onClick(view: View) {
     when (view.id) {
       R.id.toReserveButton -> {
         val nextIntent = Intent(this, BookingActivity::class.java)
         nextIntent.putExtra(PLACE_ID, placeInfoData.id)
-        startActivity(nextIntent)
+        startActivityForResult(nextIntent, 102)
       }
     }
   }

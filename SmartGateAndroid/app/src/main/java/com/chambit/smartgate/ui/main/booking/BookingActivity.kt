@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
@@ -22,6 +21,7 @@ import com.chambit.smartgate.util.ChoicePopUp
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import java.util.*
+
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
@@ -60,23 +60,21 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
           noticePopup = ChoicePopUp(this, "티켓구매",
             "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
             "확인", "선물하기",
-            View.OnClickListener {// 확인 버튼
+            View.OnClickListener {
+              // 확인 버튼
               FBTicketRepository().buyTicket(
                 tickets[ticketNo].placeRef!!.collection(
                   "tickets"
                 ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
               )
               noticePopup.dismiss()
-              // TODO : 티켓 액티비티로 갈때 그 전 액티비티들 삭제해야하는데 1. 메인으로 갈지 2. 그대로 할지 정하기.
-              startActivity(Intent(this,MyTicketActivity::class.java))
-              App.activityList.forEachIndexed{i,activity->
-                if(i == 0)
-                  return@forEachIndexed
-                activity.finish()
-              }
 
+              val nextIntent = Intent(this, PlaceInformationActivity::class.java)
+              setResult(100, nextIntent)
+              finish()
             },
-            View.OnClickListener {// 선물하기 버튼
+            View.OnClickListener {
+              // 선물하기 버튼
               noticePopup.dismiss()
             })
           noticePopup.show()
@@ -92,7 +90,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
               set(Calendar.MONTH, month)
               set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }.timeInMillis
-            ticketDatePicker.text = selectedDateFrom . format (M_D)
+            ticketDatePicker.text = selectedDateFrom.format(M_D)
           },
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
@@ -120,7 +118,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
 
       arrayAdapter =
-        ArrayAdapter(activity, R.layout.ticket_count_spinner_item , ticketCounts)
+        ArrayAdapter(activity, R.layout.ticket_count_spinner_item, ticketCounts)
       ticketCountSpinner.adapter = arrayAdapter
     }
 

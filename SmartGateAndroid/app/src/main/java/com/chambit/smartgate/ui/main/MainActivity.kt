@@ -17,13 +17,20 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (resultCode == 100) {
+      startActivity(Intent(this, MyTicketActivity::class.java))
+    }
+  }
+
   fun onClick(view: View) {
     when (view.id) {
       R.id.logo -> {
         startActivity(Intent(this, SetDataActivity::class.java))
       }
       R.id.toBooking -> {
-          startActivity(Intent(this,PlaceListActivity::class.java))
+        startActivityForResult(Intent(this, PlaceListActivity::class.java), 100)
       }
       R.id.toMyTicket -> {
         startActivity(Intent(this, MyTicketActivity::class.java))
