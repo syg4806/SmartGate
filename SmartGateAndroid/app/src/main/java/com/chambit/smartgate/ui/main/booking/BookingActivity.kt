@@ -57,9 +57,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
         if (bookingCheckBox.isChecked) {
           setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
           val ticketNo = ticketKindSpinner.selectedItemPosition
-          noticePopup = ChoicePopUp(this, "티켓구매",
-            "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
-            "확인", "선물하기",
+          noticePopup = ChoicePopUp(this,
+            "\n${placeInfoData.name}\n${ticketKindSpinner.selectedItem} \n${ticketCountSpinner.selectedItem} 개",
             View.OnClickListener {
               // 확인 버튼
               FBTicketRepository().buyTicket(

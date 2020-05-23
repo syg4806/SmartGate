@@ -7,6 +7,9 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
@@ -25,7 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
+class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>, val activity: Activity) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
   val GETLIKES = 50
@@ -34,18 +37,18 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
     MainScope().launch {
-      var ticketData:TicketData?=null
-      var placeData:PlaceData?=null
-      var imgUri: Uri?=null
+      var ticketData: TicketData? = null
+      var placeData: PlaceData? = null
+      var imgUri: Uri? = null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
-          placeData= FBPlaceRepository().getPlace(it.placeRef!!)
-          imgUri=BaseFB().getImage(it.imagePath!!)
+          placeData = FBPlaceRepository().getPlace(it.placeRef!!)
+          imgUri = BaseFB().getImage(it.imagePath!!)
         }
       }
       Glide.with(App.instance)
         .load(imgUri)
-        .override(1024, 980)
+//        .override(1024, 980)
         .into(holder.imageView)
       holder.place.text = placeData?.name
       holder.kinds.text = ticketData?.kinds
@@ -54,8 +57,8 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
       val nextIntent = Intent(context, SendTicketActivity::class.java)
-       nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
-       //nextIntent.putExtra("nickname", holder.nickname.text.toString())
+      nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
+      //nextIntent.putExtra("nickname", holder.nickname.text.toString())
       context!!.startActivity(nextIntent)
     }
   }
@@ -74,11 +77,11 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   }
 
   inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var imageView = view.myTicketItemImageView
-    var place = view.myTicketItemPlaceTextView
-    var kinds = view.myTicketItemKindsTextView
-    var date = view.myTicketItemDateTextView
-    var giftButton = view.myTicketActivityItemGiftButton
+    val imageView: ImageView = view.myTicketItemImageView
+    val place: TextView = view.myTicketItemPlaceTextView
+    val kinds: TextView = view.myTicketItemKindsTextView
+    val date: TextView = view.myTicketItemDateTextView
+    val giftButton: Button = view.myTicketActivityItemGiftButton
   }
 
 
