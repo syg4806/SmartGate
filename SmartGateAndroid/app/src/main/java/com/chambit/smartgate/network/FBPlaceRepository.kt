@@ -1,8 +1,11 @@
 package com.chambit.smartgate.network
 
 import com.chambit.smartgate.dataClass.PlaceData
+import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 /**
  * 장소 데이터 관련한 Repository
@@ -20,22 +23,29 @@ class FBPlaceRepository {
       }
   }
 
-  fun listPlaces(listener: (ArrayList<PlaceData>)->Unit) {
+  fun listPlaces(listener: (ArrayList<PlaceData>) -> Unit) {
     db.collection("place").get()
-      .addOnSuccessListener {snapshot->
-        listener(ArrayList(snapshot.map{it.toObject(PlaceData::class.java)}))
+      .addOnSuccessListener { snapshot ->
+        listener(ArrayList(snapshot.map { it.toObject(PlaceData::class.java) }))
       }
   }
 
-  fun getPlaceInfo(id: String, listener: (PlaceData)->Unit) {
+  fun getPlaceInfo(id: String, listener: (PlaceData) -> Unit) {
     db.collection("place").whereEqualTo("id", id)
       .get()
       .addOnSuccessListener {
-        listener( it.documents.last().toObject(PlaceData::class.java)!!)
+        listener(it.documents.last().toObject(PlaceData::class.java)!!)
       }
   }
 
-  fun getPlace(placeRef: DocumentReference):PlaceData? {
+  fun getPlace(placeRef: DocumentReference): PlaceData? {
     return null
+  }
+
+  suspend fun listAvailableTickets(beaconId: String): MutableList<TicketData>? {
+    Logg.d("find place by beacon ID : ${beaconId}")
+    return db.collection("place").whereArrayContains("gateArray", beaconId)
+      .get().await().documents.first().reference.collection("tickets").get().await()
+      ?.toObjects(TicketData::class.java)
   }
 }

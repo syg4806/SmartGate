@@ -57,6 +57,16 @@
     app:layout_constraintBottom_toTopOf="@+id/myTicketActivityItemGiftButton"/>
 
   <Button
+    android:id="@+id/myTicketActivityItemUseButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="티켓 사용사기"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/myTicketActivityItemGiftButton"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView" />
+
+  <Button
     android:id="@+id/myTicketActivityItemGiftButton"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
@@ -64,6 +74,5 @@
     android:background="@drawable/ticket_gift_select_button"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,11 +3,11 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 class FBTicketRepository {
@@ -94,5 +94,27 @@ class FBTicketRepository {
    */
   suspend fun getTicket(ticketRef: DocumentReference): TicketData {
     return ticketRef.get().await().toObject(TicketData::class.java)!!
+  }
+
+  suspend fun deleteTicket(certificateNo: Long): Boolean {
+    return try {
+      db.collection("users").document(SharedPref.autoLoginKey).collection("ownedTickets")
+        .whereEqualTo("certificateNo", certificateNo).get()
+        .await().documents.first().reference.delete().await()
+      "티켓이 사용되었습니다.".show()
+      true
+    } catch (e: Exception) {
+      "티켓 사용에 실패 했습니다.".show()
+      false
+    }
+  }
+
+  suspend fun getOwnedTicket(certificateNo: Long?): OwnedTicket? {
+    Logg.d("${SharedPref.autoLoginKey} $certificateNo")
+    return db.collection("users").document(SharedPref.autoLoginKey)
+      .collection("ownedTickets").whereEqualTo("certificateNo", certificateNo)
+      .get()
+      .await().documents.first().toObject(OwnedTicket::class.java)
+
   }
 }

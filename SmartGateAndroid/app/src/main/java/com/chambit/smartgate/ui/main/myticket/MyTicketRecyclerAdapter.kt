@@ -7,19 +7,18 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
+import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
+import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.ui.send.SendTicketActivity
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +35,9 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>, val ac
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
+    var ticketData: TicketData? = null
+    var placeData: PlaceData? = null
+    var imgUri: Uri? = null
     MainScope().launch {
       var ticketData: TicketData? = null
       var placeData: PlaceData? = null
@@ -53,6 +55,11 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>, val ac
       holder.place.text = placeData?.name
       holder.kinds.text = ticketData?.kinds
       holder.date.text = ownedTicket.expirationDate.toString()
+    }
+    holder.useButton.setOnClickListener {
+      context?.startActivity(Intent(context,TicketUsingActivity::class.java).apply {
+        putExtra(CERTIFICATE_NO,ownedTicket.certificateNo)
+      })
     }
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
@@ -77,11 +84,12 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>, val ac
   }
 
   inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val imageView: ImageView = view.myTicketItemImageView
-    val place: TextView = view.myTicketItemPlaceTextView
-    val kinds: TextView = view.myTicketItemKindsTextView
-    val date: TextView = view.myTicketItemDateTextView
-    val giftButton: Button = view.myTicketActivityItemGiftButton
+    var imageView = view.myTicketItemImageView
+    var place = view.myTicketItemPlaceTextView
+    var kinds = view.myTicketItemKindsTextView
+    var date = view.myTicketItemDateTextView
+    var giftButton = view.myTicketActivityItemGiftButton
+    var useButton=view.myTicketActivityItemUseButton
   }
 
 

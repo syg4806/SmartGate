@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
+import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.util.Logg
@@ -22,7 +23,12 @@ class MyTicketActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_my_ticket)
     bookingIntent = Intent(this, PlaceListActivity::class.java)
+    myTicketActivityRecyclerView.layoutManager =
+      LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
+  }
 
+  override fun onResume() {
+    super.onResume()
     val progressbar = MyProgressBar(activity)
     progressbar.show()
     launch {
@@ -36,6 +42,7 @@ class MyTicketActivity : AppCompatActivity(), CoroutineScope by MainScope() {
           startActivity(bookingIntent)
           finish()
         }
+        myTicketActivityRecyclerView.gone()
         progressbar.dismiss()
       } else { // 구매한 티켓이 존재할 때
         activity.myTicketEmptyTicketView.visibility = View.GONE

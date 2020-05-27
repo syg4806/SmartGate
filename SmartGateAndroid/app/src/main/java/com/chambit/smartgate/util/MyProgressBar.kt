@@ -1,14 +1,13 @@
 package com.chambit.smartgate.util
 
 import android.content.Context
-import com.chambit.smartgate.App
 
 class MyProgressBar(context: Context) {
   var switch = 0
   var mprogressBar = ProgressBar(context)
 
   fun show() {
-    if(switch==0) mprogressBar.show()
+    if (switch == 0) mprogressBar.show()
     switch++
   }
 

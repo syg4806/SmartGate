@@ -12,10 +12,8 @@ import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_used_ticket.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class UsedTicketActivity : AppCompatActivity() {
   val activity = this
@@ -28,16 +26,12 @@ class UsedTicketActivity : AppCompatActivity() {
     val progressbar = MyProgressBar(activity)
     progressbar.show()
     MainScope().launch {
-      val ownedTickets = withContext(Dispatchers.IO) {
+      val ownedTickets =
         FBTicketRepository().listOwnedTickets(true)
-      }
+
       Logg.d(ownedTickets.joinToString { it.certificateNo.toString() })
       if (ownedTickets.isEmpty()) {
         usedTicketEmptyTicketView.visibility = View.VISIBLE
-        usedTicketEmptyTicketToSendTicket.setOnClickListener {
-          startActivity(bookingIntent)
-          finish()
-        }
         progressbar.dismiss()
       } else {
         activity.usedTicketEmptyTicketView.visibility = View.GONE

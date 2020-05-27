@@ -30,18 +30,23 @@
   </FrameLayout>
 
   <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/noCardView"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="82"
     android:background="@drawable/ic_card_management_gradient">
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/cardRecyclerView"
+    <!-- 나중에 수정 필요!!!! 일단 기능 먼저 해 놓을 게요 -->
+    <ImageView
+      android:id="@+id/cardImageView"
       android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+      android:layout_height="wrap_content"
+      android:src="@drawable/ic_card_add"
+      tools:ignore="MissingConstraints"
+      tools:layout_editor_absoluteX="0dp"
+      tools:layout_editor_absoluteY="102dp" />
+
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
