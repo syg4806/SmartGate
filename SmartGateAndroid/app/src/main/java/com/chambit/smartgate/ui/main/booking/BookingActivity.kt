@@ -3,10 +3,17 @@ package com.chambit.smartgate.ui.main.booking
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
@@ -18,12 +25,18 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
+import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.MainScope
+import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
-
-class BookingActivity : AppCompatActivity(), View.OnClickListener {
+class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope by MainScope() {
   var placeInfoData = PlaceData()
   lateinit var id: String
   lateinit var tickets: ArrayList<TicketData>
@@ -32,9 +45,87 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
   lateinit var nextIntent: Intent
   val now = Calendar.getInstance()
 
+  private val executor = Executors.newSingleThreadExecutor()
+  private fun showBiometricPrompt() {
+    val promptInfo = BiometricPrompt.PromptInfo.Builder()
+      .setTitle("Biometric login for my app")
+      .setSubtitle("Log in using your biometric credential")
+      .setNegativeButtonText("Cancel")
+      .build()
+    val biometricPrompt = BiometricPrompt(this, executor,
+      object : BiometricPrompt.AuthenticationCallback() {
+        override fun onAuthenticationError(errorCode: Int,
+                                           errString: CharSequence) {
+          super.onAuthenticationError(errorCode, errString)
+
+          launch {
+            Toast.makeText(applicationContext,
+              "Authentication error: $errString", Toast.LENGTH_SHORT)
+              .show()
+          }
+
+        }
+
+        override fun onAuthenticationSucceeded(
+          result: BiometricPrompt.AuthenticationResult) {
+          super.onAuthenticationSucceeded(result)
+
+          val authenticatedCryptoObject: BiometricPrompt.CryptoObject? =
+            result.cryptoObject
+
+          launch {
+            Toast.makeText(
+              baseContext, "Authentication success ",
+              Toast.LENGTH_SHORT
+            )
+              .show()
+          }
+
+          // User has verified the signature, cipher, or message
+          // authentication code (MAC) associated with the crypto object,
+          // so you can use it in your app's crypto-driven workflows.
+        }
+
+        override fun onAuthenticationFailed() {
+          super.onAuthenticationFailed()
+          launch {
+            Toast.makeText(
+              baseContext, "Authentication failed",
+              Toast.LENGTH_SHORT
+            )
+              .show()
+          }
+        }
+      })
+
+    // Displays the "log in" prompt.
+    biometricPrompt.authenticate(promptInfo)
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_booking)
+
+    val biometricManager = BiometricManager.from(this)
+    when (biometricManager.canAuthenticate()) {
+      BiometricManager.BIOMETRIC_SUCCESS ->
+        Logg.d("ssmm11 App can authenticate using biometrics.")
+      BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+        Logg.e("ssmm11 No biometric features available on this device.")
+      BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+        Logg.e("ssmm11 Biometric features are currently unavailable.")
+      BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+        Logg.e(
+          "ssmm11 The user hasn't associated any biometric credentials " +
+            "with their account."
+        )
+        launch {
+
+          Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
+        }
+      }
+    }
+
 
     nextIntent = Intent(this, MyTicketActivity::class.java)
     id = intent.getStringExtra(PLACE_ID)!!
@@ -46,6 +137,12 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
     }
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
+    paymentButton.setOnClickListener {
+      if (bookingCheckBox.isChecked)
+        showBiometricPrompt()
+      else
+        Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+    }
   }
 
   // 팝업 띄우는 함수
@@ -53,34 +150,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
   override fun onClick(view: View?) {
     when (view!!.id) {
-      R.id.paymentButton -> {
-        if (bookingCheckBox.isChecked) {
-          setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
-          val ticketNo = ticketKindSpinner.selectedItemPosition
-          noticePopup = ChoicePopUp(this,
-            "\n${placeInfoData.name}\n${ticketKindSpinner.selectedItem} \n${ticketCountSpinner.selectedItem} 개",
-            View.OnClickListener {
-              // 확인 버튼
-              FBTicketRepository().buyTicket(
-                tickets[ticketNo].placeRef!!.collection(
-                  "tickets"
-                ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
-              )
-              noticePopup.dismiss()
-
-              val nextIntent = Intent(this, PlaceInformationActivity::class.java)
-              setResult(100, nextIntent)
-              finish()
-            },
-            View.OnClickListener {
-              // 선물하기 버튼
-              noticePopup.dismiss()
-            })
-          noticePopup.show()
-        } else {
-          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
-        }
-      }
       R.id.ticketDatePicker -> {
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->

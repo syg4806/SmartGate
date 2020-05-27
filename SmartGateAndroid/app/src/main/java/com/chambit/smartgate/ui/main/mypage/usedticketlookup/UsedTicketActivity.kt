@@ -39,7 +39,7 @@ class UsedTicketActivity : AppCompatActivity() {
         usedTicketActivityRecyclerView.layoutManager =
           LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
         usedTicketActivityRecyclerView.adapter =
-          MyTicketRecyclerAdapter(ownedTickets, activity)
+          MyTicketRecyclerAdapter(ownedTickets)
       }
       progressbar.dismiss()
     }
