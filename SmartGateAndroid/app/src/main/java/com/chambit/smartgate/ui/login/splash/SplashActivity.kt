@@ -22,6 +22,7 @@ class SplashActivity : AppCompatActivity() {
     Glide.with(this).load(R.drawable.logo_gif).fitCenter().into(splashLogo)
     launchApp()
   }
+
   fun launchApp() {
     /**
      *  Firestore 초기화

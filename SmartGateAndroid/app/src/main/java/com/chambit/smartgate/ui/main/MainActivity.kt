@@ -8,6 +8,7 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.util.SetDataActivity
 
 class MainActivity : AppCompatActivity() {
@@ -31,10 +32,10 @@ class MainActivity : AppCompatActivity() {
       R.id.toMyPage -> {
         startActivity(Intent(this, MyPageActivity::class.java))
       }
-//      R.id.toFriend->{
-//        val intent = Intent(this, FriendActivity::class.java)
-//        startActivity(intent)
-//      }
+      R.id.toBLE -> {
+        val intent = Intent(this, TicketUsingActivity::class.java)
+        startActivity(intent)
+      }
     }
   }
 }

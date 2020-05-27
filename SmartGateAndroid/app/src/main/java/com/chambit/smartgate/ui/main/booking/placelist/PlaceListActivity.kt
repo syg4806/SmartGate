@@ -22,7 +22,7 @@ class PlaceListActivity : AppCompatActivity() {
     val progressbar = MyProgressBar(this)
     progressbar.show()
 
-    FBPlaceRepository().listPlaces{
+    FBPlaceRepository().listPlaces {
       if (it.isNotEmpty()) {
         //adpater 추가
         bookingRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -32,10 +32,9 @@ class PlaceListActivity : AppCompatActivity() {
     }
   }
 
-  fun onClick(view : View)
-  {
-    when(view.id){
-      R.id.searchButton->{
+  fun onClick(view: View) {
+    when (view.id) {
+      R.id.searchButton -> {
 
       }
     }

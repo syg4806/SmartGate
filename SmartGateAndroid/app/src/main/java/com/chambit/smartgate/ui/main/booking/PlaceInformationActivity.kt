@@ -20,7 +20,6 @@ class PlaceInformationActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_place_information)
 
-    val intent = intent
     //전달 받은 값으로 Title 설정
     val id = intent.getStringExtra(Constants.PLACE_ID)
 
