@@ -150,7 +150,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
 
   override fun onClick(view: View?) {
     when (view!!.id) {
-          noticePopup.show()
       R.id.ticketDatePicker -> {
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->

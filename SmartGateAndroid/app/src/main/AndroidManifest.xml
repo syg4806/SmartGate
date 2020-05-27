@@ -8,7 +8,7 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.INTERNET" /><!-- 인터넷 사용 permission -->
   <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 인터넷 사용 permission -->
-  <uses-permission android:name="android.permission.USE_BIOMETRIC"/> <!-- 생체인증 사용 permission -->
+  <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- 생체인증 사용 permission -->
 
   <application
     android:name=".App"
@@ -42,8 +42,7 @@
            app to run.
     -->
     <activity android:name=".ui.main.myticket.MyTicketActivity" />
-    <activity
-      android:name=".ui.main.booking.placelist.PlaceListActivity"
+    <activity android:name=".ui.main.booking.placelist.PlaceListActivity" />
     <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
     <activity
       android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
@@ -53,7 +52,7 @@
     <activity android:name=".ui.main.mypage.MyPageActivity" />
     <activity android:name=".ui.send.SendTicketActivity" />
     <activity android:name=".ui.main.MainActivity" /> <!-- 카카오 앱 키 사용 -->
-    <activity android:name=".ui.beacon.BeaconReceiver" />
+    <!--<activity android:name=".ui.beacon.BeaconReceiver" />-->
     <meta-data
       android:name="com.kakao.sdk.AppKey"
       android:value="@string/kakao_app_key" />
