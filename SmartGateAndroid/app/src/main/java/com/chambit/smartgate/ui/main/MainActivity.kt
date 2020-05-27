@@ -21,16 +21,23 @@ class MainActivity : AppCompatActivity() {
   fun onClick(view: View) {
     when (view.id) {
       R.id.logo -> {
-        startActivity(Intent(this, SetDataActivity::class.java))
+        val intent = Intent(this, SetDataActivity::class.java)
+        startActivity(intent)
       }
       R.id.toBooking -> {
-          startActivity(Intent(this,PlaceListActivity::class.java))
+        val intent = Intent(
+          this,
+          PlaceListActivity::class.java
+        )
+        startActivity(intent)
       }
       R.id.toMyTicket -> {
-        startActivity(Intent(this, MyTicketActivity::class.java))
+        val intent = Intent(this, MyTicketActivity::class.java)
+        startActivity(intent)
       }
       R.id.toMyPage -> {
-        startActivity(Intent(this, MyPageActivity::class.java))
+        val intent = Intent(this, MyPageActivity::class.java)
+        startActivity(intent)
       }
       R.id.toBLE -> {
         val intent = Intent(this, TicketUsingActivity::class.java)

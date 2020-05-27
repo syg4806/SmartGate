@@ -3,8 +3,6 @@ package com.chambit.smartgate.ui.main.mypage.paymentmanagement
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
-import com.chambit.smartgate.util.Logg
-import kotlinx.android.synthetic.main.activity_payment_management.*
 
 class PaymentManagementActivity : AppCompatActivity() {
 

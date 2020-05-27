@@ -29,8 +29,9 @@ import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.MainScope
+import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -149,7 +150,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
 
   override fun onClick(view: View?) {
     when (view!!.id) {
-
+          noticePopup.show()
       R.id.ticketDatePicker -> {
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
