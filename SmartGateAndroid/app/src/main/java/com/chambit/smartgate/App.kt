@@ -9,7 +9,6 @@ import com.kakao.auth.KakaoSDK
 
 class App : Application() {
   companion object {
-    var activityList = ArrayList<Activity>()
     lateinit var instance: App
       private set
   }
@@ -34,7 +33,6 @@ class App : Application() {
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
       currentActivity = activity
-      activityList.add(currentActivity!!)
       activityCount++
     }
 
@@ -47,7 +45,7 @@ class App : Application() {
     override fun onActivityStopped(activity: Activity?) {}
     override fun onActivityDestroyed(activity: Activity?) {
       activityCount--
-      activityList.remove(activity)
+
       // 앱을 완전히 종료할 때 구독 끊기
       if (activityCount == 0) {
         destroyAllRepository()
