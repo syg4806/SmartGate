@@ -1,5 +1,6 @@
 package com.chambit.smartgate.ui.main.myticket
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
-import com.chambit.smartgate.constant.Constants.TICKET_DATA
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
+class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>, val activity: Activity) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
   val GETLIKES = 50
@@ -39,6 +39,9 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     var placeData: PlaceData? = null
     var imgUri: Uri? = null
     MainScope().launch {
+      var ticketData: TicketData? = null
+      var placeData: PlaceData? = null
+      var imgUri: Uri? = null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
           placeData = FBPlaceRepository().getPlace(it.placeRef!!)
@@ -47,7 +50,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
       }
       Glide.with(App.instance)
         .load(imgUri)
-        .override(1024, 980)
+//        .override(1024, 980)
         .into(holder.imageView)
       holder.place.text = placeData?.name
       holder.kinds.text = ticketData?.kinds
@@ -61,8 +64,8 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
       val nextIntent = Intent(context, SendTicketActivity::class.java)
-       nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
-       //nextIntent.putExtra("nickname", holder.nickname.text.toString())
+      nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
+      //nextIntent.putExtra("nickname", holder.nickname.text.toString())
       context!!.startActivity(nextIntent)
     }
   }

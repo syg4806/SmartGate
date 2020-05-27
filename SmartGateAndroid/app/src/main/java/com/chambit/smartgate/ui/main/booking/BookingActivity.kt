@@ -18,11 +18,10 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
-import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
+
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
@@ -58,18 +57,23 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
         if (bookingCheckBox.isChecked) {
           setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
           val ticketNo = ticketKindSpinner.selectedItemPosition
-          noticePopup = ChoicePopUp(this, "티켓구매",
-            "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
-            "확인", "선물하기",
+          noticePopup = ChoicePopUp(this,
+            "\n${placeInfoData.name}\n${ticketKindSpinner.selectedItem} \n${ticketCountSpinner.selectedItem} 개",
             View.OnClickListener {
+              // 확인 버튼
               FBTicketRepository().buyTicket(
                 tickets[ticketNo].placeRef!!.collection(
                   "tickets"
                 ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
               )
+              noticePopup.dismiss()
+
+              val nextIntent = Intent(this, PlaceInformationActivity::class.java)
+              setResult(100, nextIntent)
               finish()
             },
             View.OnClickListener {
+              // 선물하기 버튼
               noticePopup.dismiss()
             })
           noticePopup.show()
@@ -113,7 +117,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
 
 
       arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
+        ArrayAdapter(activity, R.layout.ticket_count_spinner_item, ticketCounts)
       ticketCountSpinner.adapter = arrayAdapter
     }
 
