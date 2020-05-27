@@ -15,13 +15,13 @@
     android:layout_weight="18"
     android:background="@color/violet">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:scaleType="fitXY"
       android:src="@drawable/ic_my_ticket_logo" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
@@ -38,7 +38,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/search"
       android:layout_width="406dp"
-      android:layout_height="90dp"
+      android:layout_height="100dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent">
@@ -47,7 +47,7 @@
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/search_select_button"
         android:onClick="onClick"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,7 @@
         android:id="@+id/editText"
         android:layout_width="281dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/ic_search_unpressed_bar"
         android:textSize="25sp"
         android:singleLine="true"

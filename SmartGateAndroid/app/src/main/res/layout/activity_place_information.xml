@@ -9,7 +9,7 @@
   android:orientation="vertical"
   tools:context=".ui.main.booking.PlaceInformationActivity">
 
-  <ImageView
+  <androidx.appcompat.widget.AppCompatImageView
     android:id="@+id/logo"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -33,18 +33,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintGuide_begin="30dp" />
 
-      <ImageView
+      <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/placeInfoMapImage"
         android:layout_width="320dp"
         android:layout_height="250dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gd_begin" />
+        app:layout_constraintTop_toTopOf="@+id/gd_begin"
+        app:layout_constraintBottom_toTopOf="@+id/placeInfoLogo"/>
 
-      <ImageView
+      <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/placeInfoLogo"
         android:layout_width="320dp"
         android:layout_height="50dp"
@@ -52,7 +53,8 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeInfoMapImage" />
+        app:layout_constraintTop_toBottomOf="@+id/placeInfoMapImage"
+        app:layout_constraintBottom_toTopOf="@+id/placeInfoMapDescription"/>
 
       <TextView
         android:id="@+id/placeInfoMapDescription"
@@ -61,15 +63,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_place_info_box"
-        android:gravity="center"
         android:padding="10dp"
         android:scrollbars="vertical"
         android:textSize="20sp"
-        android:textStyle="bold"
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeInfoLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/placeInfoLogo"
+        app:layout_constraintBottom_toTopOf="@+id/toReserveButton"/>
 
 
       <TextView
@@ -80,6 +81,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/booking_place_information_button"
         android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeInfoMapDescription" />
