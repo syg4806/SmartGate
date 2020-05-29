@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
+import com.chambit.smartgate.dataClass.TicketState
 import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
@@ -36,7 +37,7 @@ class MyTicketActivity : AppCompatActivity() {
     progressbar.show()
     MainScope().launch {
       val ownedTickets = withContext(Dispatchers.IO) {
-        FBTicketRepository().listOwnedTickets(false)
+        FBTicketRepository().listOwnedTickets(TicketState.UNUSED)
       }
       Logg.d(ownedTickets.joinToString { it.certificateNo.toString() })
       if (ownedTickets.isEmpty()) {
