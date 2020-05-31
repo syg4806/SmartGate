@@ -74,7 +74,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
             Toast.makeText(baseContext, "지문 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
             booking()
           }
-
           // User has verified the signature, cipher, or message
           // authentication code (MAC) associated with the crypto object,
           // so you can use it in your app's crypto-driven workflows.
@@ -94,9 +93,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_booking)
-
-
-    
 
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
@@ -154,7 +150,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
         datePicker.show()
-
       }
     }
   }

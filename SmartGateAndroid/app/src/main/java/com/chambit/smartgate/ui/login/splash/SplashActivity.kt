@@ -36,10 +36,10 @@ class SplashActivity : AppCompatActivity() {
        */
       // 앱 설치시에는 isEmpty() 즉, 값이 없다.
       if (SharedPref.autoLoginKey.isEmpty()) { // 로그인 고유 값이 있으면 --> 회원가입 진행 끝났다고 생각하고 일단ㄱㄱ -> 수정해야함
-      val nextIntent = Intent(this@SplashActivity, LoginActivity::class.java)
-      startActivity(nextIntent)
-      finish()
-     } else {
+        val nextIntent = Intent(this@SplashActivity, LoginActivity::class.java)
+        startActivity(nextIntent)
+        finish()
+      } else {
         // shared에 로그인 ID 고유값이 없으면 초기 가입자 or (로그아웃 or 앱 삭제 후 재 로그인)
         // main으로
 

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
@@ -19,6 +21,7 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
+import kotlinx.android.synthetic.main.activity_booking.*
 import java.security.MessageDigest
 
 
@@ -103,8 +106,9 @@ class LoginActivity : AppCompatActivity() {
           Logg.d(result.kakaoAccount.email)
 
 
-          //TODO: 메인 액티비티로 넘어가서 할 일
-          val intent = Intent(baseContext, MainActivity::class.java)
+          //TODO: PaymentKeySetting 액티비티로 넘어가서 할 일
+          val intent = Intent(baseContext, PaymentKeySettingActivity::class.java)
+          intent.putExtra("email", result.kakaoAccount.email)
           startActivity(intent)
           finish()
           // 로그아웃 코드
@@ -118,6 +122,8 @@ class LoginActivity : AppCompatActivity() {
       })
     }
   }
+
+
 }
 
 
