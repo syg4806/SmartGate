@@ -20,6 +20,7 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
+import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
@@ -97,7 +98,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
 
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
-      BiometricManager.BIOMETRIC_SUCCESS ->
+      androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS ->
         Logg.d("ssmm11 App can authenticate using biometrics.")
       BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
         Logg.e("ssmm11 No biometric features available on this device.")
@@ -159,9 +160,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
   fun booking() {
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
-    noticePopup = ChoicePopUp(this, "티켓구매",
+    noticePopup = ChoicePopUp(this,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
-      "확인", "선물하기",
       View.OnClickListener {
         FBTicketRepository().buyTicket(
           tickets[ticketNo].placeRef!!.collection(
