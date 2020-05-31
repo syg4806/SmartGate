@@ -184,9 +184,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
         ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
       ticketKindSpinner.adapter = arrayAdapter
 
-
-      arrayAdapter =
-        ArrayAdapter(activity, R.layout.ticket_count_spinner_item, ticketCounts)
+      /*arrayAdapter =
+        ArrayAdapter(activity, R.layout., ticketCounts)*/
       ticketCountSpinner.adapter = arrayAdapter
     }
 
