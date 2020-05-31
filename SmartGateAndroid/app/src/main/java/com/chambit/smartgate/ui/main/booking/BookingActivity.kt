@@ -83,7 +83,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            Toast.makeText(baseContext, "지문 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
           }
         }
       })
@@ -95,6 +94,9 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_booking)
+
+
+    
 
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
