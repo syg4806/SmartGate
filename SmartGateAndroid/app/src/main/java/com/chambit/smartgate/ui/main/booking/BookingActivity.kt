@@ -20,7 +20,6 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
-import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
