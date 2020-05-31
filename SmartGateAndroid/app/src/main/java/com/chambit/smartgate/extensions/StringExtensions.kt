@@ -1,4 +1,4 @@
-package com.chambit.smartgate.extension
+package com.chambit.smartgate.extensions
 
 import android.widget.Toast
 import com.chambit.smartgate.App

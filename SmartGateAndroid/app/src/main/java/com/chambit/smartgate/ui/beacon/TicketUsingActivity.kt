@@ -17,31 +17,28 @@ import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.FBTicketRepository
+import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.util.Logg
-import kotlinx.android.synthetic.main.activity_test_b_l_e.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.android.synthetic.main.activity_ticket_using.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.altbeacon.beacon.*
 
 
-class TicketUsingActivity : AppCompatActivity(), BeaconConsumer, CoroutineScope by MainScope() {
+class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   private val multiplePermissionsCode = 100          //권한
   private val requiredPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
   private lateinit var ownedTicket: OwnedTicket
-  lateinit var beaconManager: BeaconManager
-  private lateinit var ticketData: TicketData
-
-  // 감지된 비콘들을 임시로 담을 리스트
-  var beaconList = ArrayList<Beacon>();
-  var BSearching = true
-  lateinit var gateArrayList: List<String>
+  private lateinit var beaconManager: BeaconManager
+  private val beaconList = ArrayList<Beacon>();
+  private var BSearching = true
+  private lateinit var gateArrayList: List<String>
 
   @RequiresApi(Build.VERSION_CODES.P)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_test_b_l_e)
+    setContentView(R.layout.activity_ticket_using)
     val certificateNo = intent.getLongExtra(CERTIFICATE_NO, 0L)
     checkPermissions()
     initBeaconConsumer()

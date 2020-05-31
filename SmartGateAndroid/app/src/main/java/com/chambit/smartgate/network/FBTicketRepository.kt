@@ -4,7 +4,7 @@ import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
-import com.chambit.smartgate.extension.show
+import com.chambit.smartgate.extensions.show
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
