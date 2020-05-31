@@ -7,19 +7,13 @@
   android:weightSum="100"
   tools:context=".ui.main.booking.BookingActivity">
 
-  <FrameLayout
-    android:id="@+id/logo"
+  <androidx.appcompat.widget.AppCompatImageView
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="13"
-    android:background="@color/violet">
-
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_booking_top_image" />
-  </FrameLayout>
+    android:background="@color/violet"
+    android:scaleType="fitXY"
+    android:src="@drawable/ic_booking_top_image" />
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -28,7 +22,7 @@
     android:background="@drawable/ic_booking_gradient"
     android:orientation="vertical">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:id="@+id/bookingPlaceLogo"
       android:layout_width="300dp"
       android:layout_height="200dp"
@@ -56,6 +50,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:orientation="horizontal"
+      android:layout_marginBottom="10dp"
       android:weightSum="100">
 
       <TextView
@@ -73,8 +68,8 @@
         android:layout_height="45dp"
         android:layout_margin="5dp"
         android:layout_weight="55"
-        android:paddingEnd="20dp"
         android:background="@drawable/ic_sub_items_bar"
+        android:paddingEnd="20dp"
         tools:ignore="RtlSymmetry" />
       <!-- android:background="@drawable/ic_sub_items_bar"-->
     </LinearLayout>
@@ -84,6 +79,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:orientation="horizontal"
+      android:layout_marginBottom="10dp"
       android:weightSum="100">
 
       <TextView
@@ -97,10 +93,12 @@
 
       <Button
         android:id="@+id/ticketDatePicker"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:background="@drawable/button_empty_line"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:layout_weight="55"
+        android:background="@drawable/ic_sub_items_bar"
+        android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -126,8 +124,8 @@
         android:layout_height="45dp"
         android:layout_margin="5dp"
         android:layout_weight="55"
-        android:paddingEnd="15dp"
         android:background="@drawable/ic_sub_items_bar"
+        android:gravity="right"
         tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
@@ -143,16 +141,8 @@
         android:id="@+id/bookingCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
-        android:background="@drawable/ic_payment_agree_sentence"
-        android:gravity="center_horizontal" />
-
+        android:drawableEnd="@drawable/ic_payment_agree_sentence" />
 
     </LinearLayout>
 

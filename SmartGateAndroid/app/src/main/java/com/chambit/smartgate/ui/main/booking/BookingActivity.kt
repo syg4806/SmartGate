@@ -18,10 +18,8 @@ import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
-import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
 
 class BookingActivity : AppCompatActivity(), View.OnClickListener {
@@ -58,10 +56,9 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
         if (bookingCheckBox.isChecked) {
           setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
           val ticketNo = ticketKindSpinner.selectedItemPosition
-          noticePopup = ChoicePopUp(this, "티켓구매",
+          noticePopup = ChoicePopUp(this,
             "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
-            "확인", "선물하기",
-            View.OnClickListener {
+            View.OnClickListener { // 확인 버튼
               FBTicketRepository().buyTicket(
                 tickets[ticketNo].placeRef!!.collection(
                   "tickets"
@@ -69,7 +66,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener {
               )
               finish()
             },
-            View.OnClickListener {
+            View.OnClickListener {// 선물하기 버튼
               noticePopup.dismiss()
             })
           noticePopup.show()
