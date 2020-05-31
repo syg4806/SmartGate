@@ -3,17 +3,12 @@ package com.chambit.smartgate.ui.main.booking
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
@@ -31,12 +26,10 @@ import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.MainScope
-import kotlinx.android.synthetic.main.activity_choice_pop_up.view.*
 import java.util.*
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope by MainScope() {
+class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScope by MainScope() {
   var placeInfoData = PlaceData()
   lateinit var id: String
   lateinit var tickets: ArrayList<TicketData>
@@ -54,31 +47,31 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
       .build()
     val biometricPrompt = BiometricPrompt(this, executor,
       object : BiometricPrompt.AuthenticationCallback() {
-        override fun onAuthenticationError(errorCode: Int,
-                                           errString: CharSequence) {
+        override fun onAuthenticationError(
+          errorCode: Int,
+          errString: CharSequence
+        ) {
           super.onAuthenticationError(errorCode, errString)
 
           launch {
-            Toast.makeText(applicationContext,
-              "Authentication error: $errString", Toast.LENGTH_SHORT)
-              .show()
+            Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
+            /*Toast.makeText(applicationContext,
+              "인증 오류: $errString", Toast.LENGTH_SHORT)
+              .show()*/
           }
 
         }
 
         override fun onAuthenticationSucceeded(
-          result: BiometricPrompt.AuthenticationResult) {
+          result: BiometricPrompt.AuthenticationResult
+        ) {
           super.onAuthenticationSucceeded(result)
 
           val authenticatedCryptoObject: BiometricPrompt.CryptoObject? =
             result.cryptoObject
 
           launch {
-            Toast.makeText(
-              baseContext, "Authentication success ",
-              Toast.LENGTH_SHORT
-            )
-              .show()
+            Toast.makeText(baseContext, "지문 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
           }
 
           // User has verified the signature, cipher, or message
@@ -89,11 +82,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            Toast.makeText(
-              baseContext, "Authentication failed",
-              Toast.LENGTH_SHORT
-            )
-              .show()
+            Toast.makeText(baseContext, "지문 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
           }
         }
       })
@@ -121,7 +110,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener,CoroutineScope
         )
         launch {
 
-          Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
         }
       }
     }
