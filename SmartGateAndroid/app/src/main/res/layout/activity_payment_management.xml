@@ -16,13 +16,13 @@
     android:layout_weight="18"
     android:background="@color/pink4">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:scaleType="fitXY"
       android:src="@drawable/ic_my_ticket_logo" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
@@ -37,15 +37,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/biometric_bar"
-      android:layout_width="354dp"
+      android:layout_width="wrap_content"
       android:layout_height="60dp"
-      android:layout_marginTop="40dp"
+      android:paddingStart="10dp"
+      android:paddingEnd="10dp"
       android:background="@drawable/ic_biometric_authentication_bar"
+      app:layout_constraintVertical_bias="0.6"
+      app:layout_constraintBottom_toTopOf="@+id/guideline2"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.45"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:ignore="MissingConstraints">
+      app:layout_constraintTop_toTopOf="parent">
 
       <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -62,6 +63,7 @@
         android:src="@drawable/ic_biometric_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -73,18 +75,28 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline2"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.3" />
+
     <ImageView
+      android:id="@+id/info"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:src="@drawable/ic_biometric_body"
+      app:layout_constraintVertical_bias="0"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/biometric_bar" />
+      app:layout_constraintTop_toBottomOf="@+id/guideline2" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
