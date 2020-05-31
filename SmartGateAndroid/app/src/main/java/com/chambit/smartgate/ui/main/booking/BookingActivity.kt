@@ -72,6 +72,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
 
           launch {
             Toast.makeText(baseContext, "지문 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            booking()
           }
 
           // User has verified the signature, cipher, or message
@@ -125,12 +126,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     }
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
-    paymentButton.setOnClickListener {
-      if (bookingCheckBox.isChecked)
-        showBiometricPrompt()
-      else
-        Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
-    }
   }
 
   // 팝업 띄우는 함수
@@ -138,6 +133,12 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
 
   override fun onClick(view: View?) {
     when (view!!.id) {
+      R.id.paymentButton -> {
+        if (bookingCheckBox.isChecked)
+          showBiometricPrompt()
+        else
+          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+      }
       R.id.ticketDatePicker -> {
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
@@ -156,6 +157,26 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     }
   }
 
+  fun booking() {
+    setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
+    val ticketNo = ticketKindSpinner.selectedItemPosition
+    noticePopup = ChoicePopUp(this, "티켓구매",
+      "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
+      "확인", "선물하기",
+      View.OnClickListener {
+        FBTicketRepository().buyTicket(
+          tickets[ticketNo].placeRef!!.collection(
+            "tickets"
+          ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
+        )
+        finish()
+      },
+      View.OnClickListener {
+        noticePopup.dismiss()
+      })
+    noticePopup.show()
+  }
+
   private val getTicketListener = object : GetTicketListener {
     override fun tickets(ticketDatas: ArrayList<TicketData>) {
       tickets = ticketDatas
@@ -172,8 +193,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
       ticketKindSpinner.adapter = arrayAdapter
 
-      /*arrayAdapter =
-        ArrayAdapter(activity, R.layout., ticketCounts)*/
+      arrayAdapter =
+        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
       ticketCountSpinner.adapter = arrayAdapter
     }
 
