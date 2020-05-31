@@ -12,6 +12,7 @@ import com.kakao.kakaotalk.v2.KakaoTalkService
 import com.kakao.network.ErrorResult
 
 
+
 class FriendActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
