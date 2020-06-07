@@ -1,4 +1,4 @@
-package com.chambit.smartgate.ui.login
+package com.chambit.smartgate.ui.main.booking
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,15 +15,16 @@ import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.android.synthetic.main.activity_booking.paymentButton
 import kotlinx.android.synthetic.main.activity_payment_key_setting.*
 
-class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
+class PaymentKeyBookingActivity : AppCompatActivity(), View.OnClickListener {
   var password = ""
-  var passwordConfirmation = false
   private val numberList = arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
 
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_payment_key_setting)
+
+    paymentKeyTextView.text = "결제 비밀 번호 입력"
 
     numberList.shuffle()
     setNumber(numberList)
@@ -67,77 +68,56 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
     if (password.length == 1) {
       if (mode) {
         dot1.setImageResource(R.drawable.dot_fill)
-      }
-      else {
+      } else {
         dot1.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
+        password = password.subSequence(0, password.length - 1).toString()
       }
     }
     if (password.length == 2) {
       if (mode) {
         dot2.setImageResource(R.drawable.dot_fill)
-      }
-      else {
+      } else {
         dot2.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
+        password = password.subSequence(0, password.length - 1).toString()
       }
     }
     if (password.length == 3) {
       if (mode) {
         dot3.setImageResource(R.drawable.dot_fill)
-      }
-      else {
+      } else {
         dot3.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
+        password = password.subSequence(0, password.length - 1).toString()
       }
     }
 
     if (password.length == 4) {
       if (mode) {
         dot4.setImageResource(R.drawable.dot_fill)
-      }
-      else {
+      } else {
         dot4.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
+        password = password.subSequence(0, password.length - 1).toString()
       }
     }
 
     if (password.length == 5) {
       if (mode) {
         dot5.setImageResource(R.drawable.dot_fill)
-      }
-      else {
+      } else {
         dot5.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
+        password = password.subSequence(0, password.length - 1).toString()
       }
     }
     if (password.length == 6) {
-      val email = intent.getStringExtra("email")
       // TODO 비밀번호 확인 만들기
-      if (!passwordConfirmation) {
-        SharedPref.paymentKey = password
+      if (SharedPref.paymentKey == password) {
+        setResult(100)
+        finish()
+      } else {
+        Toast.makeText(this, "비밀 번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show()
         password = ""
         imageInit()
         numberList.shuffle()
         setNumber(numberList)
-        paymentKeyTextView.text = "비밀 번호 확인"
-        Toast.makeText(this, "비밀 번호 확인 입력을 해주세요", Toast.LENGTH_LONG).show()
-        passwordConfirmation = true
-      }
-      else {
-        if (SharedPref.paymentKey == password) {
-          FBUsersRepository().userSignUp(email!!)
-          val intent = Intent(baseContext, MainActivity::class.java)
-          startActivity(intent)
-          finish()
-        }
-        else {
-          Toast.makeText(this, "비밀 번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show()
-          password = ""
-          imageInit()
-          numberList.shuffle()
-          setNumber(numberList)
-        }
       }
     }
   }

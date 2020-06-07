@@ -53,12 +53,13 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         ) {
           super.onAuthenticationError(errorCode, errString)
 
+          val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
+          startActivityForResult(intent, 0)
+
+
           launch {
             Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
             //TODO 결제 비밀번호 숫자 여섯자리로 설정
-            /*Toast.makeText(applicationContext,
-              "인증 오류: $errString", Toast.LENGTH_SHORT)
-              .show()*/
           }
 
         }
@@ -91,14 +92,26 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     biometricPrompt.authenticate(promptInfo)
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if (requestCode == 0) {
+      if (resultCode == 100) {
+        booking()
+      }
+    }
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_booking)
 
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
-      androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS ->
+      BiometricManager.BIOMETRIC_SUCCESS -> {
         Logg.d("ssmm11 App can authenticate using biometrics.")
+
+      }
       BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
         Logg.e("ssmm11 No biometric features available on this device.")
       BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
