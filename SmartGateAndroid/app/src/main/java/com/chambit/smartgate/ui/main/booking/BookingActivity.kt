@@ -55,6 +55,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
 
           launch {
             Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
+            //TODO 결제 비밀번호 숫자 여섯자리로 설정
             /*Toast.makeText(applicationContext,
               "인증 오류: $errString", Toast.LENGTH_SHORT)
               .show()*/
