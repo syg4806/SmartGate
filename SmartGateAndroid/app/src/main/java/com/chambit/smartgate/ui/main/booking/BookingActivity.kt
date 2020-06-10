@@ -21,6 +21,7 @@ import com.chambit.smartgate.network.*
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
+import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
@@ -110,7 +111,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     when (biometricManager.canAuthenticate()) {
       BiometricManager.BIOMETRIC_SUCCESS -> {
         Logg.d("ssmm11 App can authenticate using biometrics.")
-
       }
       BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
         Logg.e("ssmm11 No biometric features available on this device.")
@@ -145,9 +145,21 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
 
   override fun onClick(view: View?) {
     when (view!!.id) {
+      /**
+       * 결제 버튼 클릭시
+       */
+      // TODO 회원가입 시 , 묻기 |||| 지문인식 결제 할 때 검사해서 하기
       R.id.paymentButton -> {
-        if (bookingCheckBox.isChecked)
-          showBiometricPrompt()
+        // 결제 동의 체크박스카 체크 되어있을 때만 결제 진행
+        if (bookingCheckBox.isChecked) {
+          if (SharedPref.useFingerPrint) { // 지문 인식 기능을 check 한 경우 지문인식으로 결제
+            showBiometricPrompt()
+          } else { // 지문 인식 기능이 off 인 경우 결제 비밀번호로 결제
+            val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
+            startActivityForResult(intent, 0)
+          }
+
+        }
         else
           Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
       }
