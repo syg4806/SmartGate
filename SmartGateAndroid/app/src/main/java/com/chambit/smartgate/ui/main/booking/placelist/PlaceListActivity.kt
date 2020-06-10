@@ -11,8 +11,6 @@ import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_place_list.*
 
 class PlaceListActivity : AppCompatActivity() {
-  lateinit var infoData: PlaceData
-  lateinit var infoDatas: ArrayList<PlaceData>
   val activity = this
 
   override fun onCreate(savedInstanceState: Bundle?) {
