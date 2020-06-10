@@ -122,7 +122,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
       placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
       FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
-      bookingname.text = placeInfoData.name
+      bookingName.text = placeInfoData.name
     }
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
