@@ -9,9 +9,9 @@
   <ImageView
     android:layout_gravity="center"
     android:layout_marginTop="100dp"
-    android:layout_width="400dp"
+    android:layout_width="350dp"
     android:layout_height="300dp"
-    android:src="@drawable/card_add_sample"/>
+    android:src="@drawable/ic_card_information"/>
 
   <Button
     android:layout_width="wrap_content"
