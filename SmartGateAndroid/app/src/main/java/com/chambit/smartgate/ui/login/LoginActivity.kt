@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
           //TODO: 메인 액티비티로 넘어가서 할 일
           val intent = Intent(baseContext, MainActivity::class.java)
           startActivity(intent)
-
+          finish()
           // 로그아웃 코드
 //      UserManagement.getInstance()
 //        .requestLogout(object : LogoutResponseCallback() {
