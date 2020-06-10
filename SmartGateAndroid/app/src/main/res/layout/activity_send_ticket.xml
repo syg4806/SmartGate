@@ -1,9 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/orange"
+  tools:context=".ui.send.SendTicketActivity">
+
+  <ImageView
+    android:id="@+id/ticketTitle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.send.SendTicketActivity">
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:src="@drawable/ic_my_ticket_logo"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_ticket_text"
+    app:layout_constraintBottom_toBottomOf="@+id/ticketTitle"
+    app:layout_constraintEnd_toEndOf="@+id/ticketTitle"
+    app:layout_constraintStart_toStartOf="@+id/ticketTitle"
+    app:layout_constraintTop_toTopOf="@+id/ticketTitle" />
+
+  <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_my_ticket_gradient"
+    app:layout_constraintTop_toBottomOf="@+id/ticketTitle" />
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/placeListSearchView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    app:layout_constraintBottom_toTopOf="@+id/SelectFriendRecyclerView"
+    app:layout_constraintTop_toBottomOf="@+id/ticketTitle">
+
+    <Button
+      android:id="@+id/searchButton"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:background="@drawable/search_select_button"
+      android:onClick="onClick"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <EditText
+      android:elevation="2dp"
+      android:id="@+id/editText"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:background="@drawable/ic_search_unpressed_bar"
+      android:layout_marginEnd="60dp"
+      android:paddingStart="10dp"
+      android:paddingEnd="10dp"
+      android:singleLine="true"
+      android:textSize="25sp"
+      app:layout_constraintEnd_toEndOf="@+id/searchButton"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/searchButton"
+      app:layout_constraintBottom_toBottomOf="@+id/searchButton"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/SelectFriendRecyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
