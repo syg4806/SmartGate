@@ -25,7 +25,7 @@ class FriendListRecyclerViewAdapter(val friendList: ArrayList<AppFriendInfo>, va
     holder.friendNameTextView.text = friend.profileNickname
     val uuid = friend.uuid // 메시지 전송 시 사용
     Logg.d("나와라~${friend.uuid}")
-    uuids!!.add(uuid)
+//    uuids!!.add(uuid)
     Logg.d(uuids!!.size.toString())
     holder.click.setOnClickListener {
       Logg.d(friendList[position].uuid)

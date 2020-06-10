@@ -70,9 +70,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/giftButton"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
+
+  <Button
+    android:id="@+id/giftButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gift_select_button"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/SelectFriendRecyclerView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
