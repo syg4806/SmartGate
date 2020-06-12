@@ -24,8 +24,9 @@ import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -126,6 +127,9 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     }
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
+
+    val currentTime = Calendar.getInstance().time
+    ticketDatePicker.text = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(currentTime)
   }
 
   // 팝업 띄우는 함수
@@ -151,6 +155,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           },
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
+        datePicker.datePicker.minDate = System.currentTimeMillis()
         datePicker.show()
 
       }
@@ -193,7 +198,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
       ticketKindSpinner.adapter = arrayAdapter
 
       arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
+        ArrayAdapter(activity, R.layout.ticket_count_spinner_item, ticketCounts)
       ticketCountSpinner.adapter = arrayAdapter
     }
 
