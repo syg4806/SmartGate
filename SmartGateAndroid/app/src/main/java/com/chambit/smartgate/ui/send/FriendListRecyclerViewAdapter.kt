@@ -7,49 +7,45 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
+import com.chambit.smartgate.dataClass.KakaoFriendInfo
 import com.chambit.smartgate.util.Logg
-import com.kakao.friends.response.model.AppFriendInfo
 import kotlinx.android.synthetic.main.friend_item.view.*
 
-class FriendListRecyclerViewAdapter(val friendList: ArrayList<AppFriendInfo>, val activity: Activity) :
+class FriendListRecyclerViewAdapter(
+  val friendList: ArrayList<KakaoFriendInfo>,
+  val activity: Activity
+) :
   RecyclerView.Adapter<FriendListRecyclerViewAdapter.mViewHolder>() {
 
-
   var context: Context? = null // 부모 context
-  var uuids : ArrayList<String>? = null
+  var uuids: ArrayList<String>? = null
+  var selectFlag : Boolean? = null
+
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val friend = friendList[position]
 
-    holder.friendNameTextView.text = friend.profileNickname
-    val uuid = friend.uuid // 메시지 전송 시 사용
-    Logg.d("나와라~${friend.uuid}")
-//    uuids!!.add(uuid)
-    Logg.d(uuids!!.size.toString())
-    holder.click.setOnClickListener {
-      Logg.d(friendList[position].uuid)
-      Logg.d(friendList[position].profileNickname)
-//      KakaoTalkService.getInstance().sendMessageToFriends(uuids!!, "null", object : TalkResponseCallback<MessageSendResponse>(){
-//        override fun onNotKakaoTalkUser() {
-//          TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        }
-//
-//        override fun onSessionClosed(errorResult: ErrorResult?) {
-//          TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        }
-//
-//        override fun onFailure(errorResult: ErrorResult?) {
-//          super.onFailure(errorResult)
-//        }
-//
-//        override fun onSuccess(result: MessageSendResponse?) {
-//          if (result!!.successfulReceiverUuids() != null) {
-//            Logg.i("친구에게 보내기 성공");
-//            Logg.d( "전송에 성공한 대상: " + result.successfulReceiverUuids());
-//          }
-//        }
-//      })
+    holder.friendNameTextView.text = friend.friendInfo!!.profileNickname
+    val uuid = friend.friendInfo!!.uuid // 메시지 전송 시 사용
+    Logg.d("나와라~")
+
+    if(friend.selectFlag){
+      holder.friendCheckBox.setImageResource(R.drawable.ic_friend_checked)
+      Logg.d("유유아이디 : ${friend.friendInfo!!.profileNickname}")
+    }else{
+      holder.friendCheckBox.setImageResource(R.drawable.ic_friend_unchecked)
+    }
+
+    holder.friendCheckBox.setOnClickListener {
+
+      friend.selectFlag = !friend.selectFlag
+      notifyDataSetChanged() // onBindViewHolder recall
+    }
+    holder.friendClick.setOnClickListener {
+
+      friend.selectFlag = !friend.selectFlag
+      notifyDataSetChanged()
     }
 //    holder.friendNameTextView.text = friends
   }
@@ -58,7 +54,7 @@ class FriendListRecyclerViewAdapter(val friendList: ArrayList<AppFriendInfo>, va
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): mViewHolder {
     val view = LayoutInflater.from(parent.context)
       .inflate(R.layout.friend_item, parent, false)
-    context = parent.context
+    context =activity
     return mViewHolder(view) //view 객체는 한개의 리사이클러뷰가 디자인 되어 있는 레이아웃을 의미
   }
 
@@ -70,6 +66,7 @@ class FriendListRecyclerViewAdapter(val friendList: ArrayList<AppFriendInfo>, va
   //여기서 item을 textView에 옮겨줌
   inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var friendNameTextView = view.friendNameTextView
-    var click = view.textClick
+    var friendClick = view.friendClick
+    val friendCheckBox = view.friendCheckBox
   }
 }

@@ -27,48 +27,57 @@
   <ImageView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ic_my_ticket_gradient"
+    android:adjustViewBounds="true"
+    android:src="@drawable/ic_my_ticket_gradient"
     app:layout_constraintTop_toBottomOf="@+id/ticketTitle" />
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/placeListSearchView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:layout_width="350dp"
+    android:layout_height="0dp"
+    android:background="@drawable/ic_gift_search_bar"
+    android:orientation="vertical"
+    android:padding="3dp"
+    android:layout_margin="40dp"
+    app:layout_constraintVertical_weight="0.8"
     app:layout_constraintBottom_toTopOf="@+id/SelectFriendRecyclerView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/ticketTitle">
 
-    <Button
+    <ImageButton
       android:id="@+id/searchButton"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:background="@drawable/search_select_button"
-      android:onClick="onClick"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginStart="10dp"
+      android:adjustViewBounds="true"
+      android:background="#00000000"
+      android:src="@drawable/ic_search_white_48dp"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"/>
+      app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-      android:elevation="2dp"
       android:id="@+id/editText"
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:background="@drawable/ic_search_unpressed_bar"
-      android:layout_marginEnd="60dp"
+      android:elevation="2dp"
       android:paddingStart="10dp"
       android:paddingEnd="10dp"
       android:singleLine="true"
       android:textSize="25sp"
-      app:layout_constraintEnd_toEndOf="@+id/searchButton"
+      app:layout_constraintBottom_toBottomOf="@+id/searchButton"
+      app:layout_constraintEnd_toStartOf="@+id/searchButton"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/searchButton"
-      app:layout_constraintBottom_toBottomOf="@+id/searchButton"/>
+      app:layout_constraintTop_toTopOf="@+id/searchButton" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/SelectFriendRecyclerView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
+    app:layout_constraintVertical_weight="8"
     app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
     app:layout_constraintBottom_toTopOf="@+id/giftButton"
     app:layout_constraintEnd_toEndOf="parent"
@@ -78,8 +87,9 @@
     android:id="@+id/giftButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/gift_select_button"
-
+    android:background="@drawable/present_select_button"
+    android:layout_margin="20dp"
+    android:onClick="onClick"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
