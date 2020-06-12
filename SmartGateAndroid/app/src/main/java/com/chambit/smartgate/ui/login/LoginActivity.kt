@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
 
           Logg.d(result!!.id.toString())
           SharedPref.autoLoginKey = result.id.toString()
+          SharedPref.userName = result.kakaoAccount.profile.nickname
           Logg.d(result.kakaoAccount.email)
 
 

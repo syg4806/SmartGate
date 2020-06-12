@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.login.LoginActivity
 import com.chambit.smartgate.ui.main.MainActivity
+import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -18,6 +19,11 @@ class SplashActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_splash)
 
+    if(intent.action == Intent.ACTION_VIEW) {
+      val boardId = intent.data!!
+      Logg.d("받아 온 값? : ${boardId}")
+      // TODO : 위의 값이 있으면 받아오기 성공이므로 (구매자쪽 티켓상태 : sended, 받는이 쪽 : 티켓상태 : Unused)으로 변경
+    }
 //    val gifImage =  GlideDrawableImageViewTarget(splashLogo);
     Glide.with(this).load(R.drawable.logo_gif).fitCenter().into(splashLogo)
     launchApp()

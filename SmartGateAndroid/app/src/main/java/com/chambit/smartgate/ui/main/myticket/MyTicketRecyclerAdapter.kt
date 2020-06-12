@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
-import com.chambit.smartgate.constant.Constants.TICKET_DATA
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
@@ -54,15 +53,17 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
       holder.date.text = ownedTicket.expirationDate.toString()
     }
     holder.useButton.setOnClickListener {
-      context?.startActivity(Intent(context,TicketUsingActivity::class.java).apply {
-        putExtra(CERTIFICATE_NO,ownedTicket.certificateNo)
+      context?.startActivity(Intent(context, TicketUsingActivity::class.java).apply {
+        putExtra(CERTIFICATE_NO, ownedTicket.certificateNo)
       })
     }
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
-      val nextIntent = Intent(context, SendTicketActivity::class.java)
-       nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
-       //nextIntent.putExtra("nickname", holder.nickname.text.toString())
+      val nextIntent = Intent(context, SendTicketActivity::class.java).let {
+        it.putExtra("ticketId", ticketData!!.id)
+        it.putExtra("ticketKinds", ticketData!!.kinds)
+      }
+
       context!!.startActivity(nextIntent)
     }
   }
@@ -86,7 +87,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     var kinds = view.myTicketItemKindsTextView
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton
-    var useButton=view.myTicketActivityItemUseButton
+    var useButton = view.myTicketActivityItemUseButton
   }
 
 
