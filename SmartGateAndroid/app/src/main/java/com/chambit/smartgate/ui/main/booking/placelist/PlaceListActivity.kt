@@ -31,7 +31,7 @@ class PlaceListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
       if (it.isNotEmpty()) {
         //adpater 추가
         bookingRecyclerView.layoutManager = LinearLayoutManager(this@PlaceListActivity)
-        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(this@PlaceListActivity, it)
+        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(it,this@PlaceListActivity)
       }
       progressbar.dismiss()
     }
