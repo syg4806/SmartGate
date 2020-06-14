@@ -5,14 +5,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
-import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_place_list.*
 
 class PlaceListActivity : AppCompatActivity() {
-  val activity = this
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_place_list)
@@ -23,8 +20,8 @@ class PlaceListActivity : AppCompatActivity() {
     FBPlaceRepository().listPlaces {
       if (it.isNotEmpty()) {
         //adpater 추가
-        bookingRecyclerView.layoutManager = LinearLayoutManager(activity)
-        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(it, activity)
+        bookingRecyclerView.layoutManager = LinearLayoutManager(this@PlaceListActivity)
+        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(this@PlaceListActivity, it)
       }
       progressbar.dismiss()
     }
@@ -33,7 +30,7 @@ class PlaceListActivity : AppCompatActivity() {
   fun onClick(view: View) {
     when (view.id) {
       R.id.searchButton -> {
-
+        //TODO 작업 시작 필요
       }
     }
 

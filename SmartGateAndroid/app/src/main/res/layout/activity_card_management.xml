@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:gravity="center"
-  android:orientation="vertical"
-  android:weightSum="100"
   tools:context=".ui.main.mypage.cardmanagement.CardManagementActivity">
 
-  <FrameLayout
-    android:id="@+id/logo"
+
+  <ImageView
+    android:id="@+id/cardManagementTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:background="@color/pink3"
+    android:src="@drawable/ic_my_ticket_logo"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/gradient"/>
+
+  <ImageView
     android:layout_width="wrap_content"
-    android:layout_height="0dp"
-    android:layout_weight="18"
-    android:background="@color/pink3">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_card_management_text"
+    app:layout_constraintBottom_toBottomOf="@+id/cardManagementTitle"
+    app:layout_constraintEnd_toEndOf="@+id/cardManagementTitle"
+    app:layout_constraintStart_toStartOf="@+id/cardManagementTitle"
+    app:layout_constraintTop_toTopOf="@+id/cardManagementTitle" />
 
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_my_ticket_logo" />
-
-    <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:src="@drawable/ic_card_management_text" />
-  </FrameLayout>
-
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/noCardView"
+  <ImageView
+    android:id="@+id/gradient"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="82"
-    android:background="@drawable/ic_card_management_gradient">
+    android:background="@drawable/ic_card_management_gradient"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cardManagementTitle" />
 
   <!--  <ImageView
       android:id="@+id/cardImageView"

@@ -27,6 +27,7 @@ import java.security.MessageDigest
 
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()
+  //TODO : 이런 context 사용은 왠만하면 빼주세요
   lateinit var mContext: Context
 
   @RequiresApi(Build.VERSION_CODES.P)

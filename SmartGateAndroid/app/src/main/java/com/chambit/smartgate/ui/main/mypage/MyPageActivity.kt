@@ -20,20 +20,16 @@ class MyPageActivity : AppCompatActivity() {
   fun onClick(view: View) {
     when (view.id) {
       R.id.preUseTicketButton -> { // 사용 전 티켓
-        val nextIntent = Intent(this, MyTicketActivity::class.java)
-        startActivity(nextIntent)
+        startActivity(Intent(this, MyTicketActivity::class.java))
       }
       R.id.usedTicketLookupButton -> {  // 사용한 티켓 조회
-        val nextIntent = Intent(this, UsedTicketActivity::class.java)
-        startActivity(nextIntent)
+        startActivity(Intent(this, UsedTicketActivity::class.java))
       }
       R.id.cardRegistrationAndInquiryButton -> { // 카드등록 및 조회
-        val nextIntent = Intent(this, CardManagementActivity::class.java)
-        startActivity(nextIntent)
+        startActivity(Intent(this, CardManagementActivity::class.java))
       }
       R.id.simplePaymentMethodManagementButton -> {  // 간편결제방식 관리
-        val nextIntent = Intent(this, PaymentManagementActivity::class.java)
-        startActivity(nextIntent)
+        startActivity(Intent(this, PaymentManagementActivity::class.java))
       }
     }
   }

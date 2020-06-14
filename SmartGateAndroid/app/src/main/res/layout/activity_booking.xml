@@ -142,18 +142,15 @@
 
       <Spinner
         android:id="@+id/ticketCountSpinner"
-
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/ic_sub_items_bar"
-        android:gravity="right"
         app:layout_constraintBottom_toTopOf="@+id/bookingCheckBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/bookingCountTV"
-        app:layout_constraintTop_toBottomOf="@id/bookingDateTV"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintTop_toBottomOf="@id/bookingDateTV"/>
 
       <CheckBox
         android:id="@+id/bookingCheckBox"

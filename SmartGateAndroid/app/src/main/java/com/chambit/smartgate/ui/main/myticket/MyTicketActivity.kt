@@ -3,9 +3,9 @@ package com.chambit.smartgate.ui.main.myticket
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.network.FBTicketRepository
@@ -14,27 +14,23 @@ import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_my_ticket.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MyTicketActivity : AppCompatActivity() {
-  val activity = this
-  lateinit var bookingIntent: Intent
+class MyTicketActivity : BaseActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_my_ticket)
-    bookingIntent = Intent(this, PlaceListActivity::class.java)
     myTicketActivityRecyclerView.layoutManager =
       LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
   }
 
   override fun onResume() {
     super.onResume()
-    val progressbar = MyProgressBar(activity)
+    val progressbar = MyProgressBar(this)
     progressbar.show()
-    MainScope().launch {
+    launch {
       val ownedTickets = withContext(Dispatchers.IO) {
         FBTicketRepository().listOwnedTickets(false)
       }
@@ -42,17 +38,17 @@ class MyTicketActivity : AppCompatActivity() {
       if (ownedTickets.isEmpty()) {
         myTicketEmptyTicketView.visibility = View.VISIBLE
         myTicketEmptyTicketToSendTicket.setOnClickListener {
-          startActivity(bookingIntent)
+          startActivity(Intent(this@MyTicketActivity, PlaceListActivity::class.java))
           finish()
         }
         myTicketActivityRecyclerView.gone()
         progressbar.dismiss()
       } else {
-        activity.myTicketEmptyTicketView.visibility = View.GONE
+        (this@MyTicketActivity).myTicketEmptyTicketView.visibility = View.GONE
         //adpater 추가
 
         myTicketActivityRecyclerView.adapter =
-          MyTicketRecyclerAdapter(ownedTickets)
+          MyTicketRecyclerAdapter(this@MyTicketActivity, ownedTickets)
       }
       progressbar.dismiss()
     }

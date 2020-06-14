@@ -1,11 +1,9 @@
 package com.chambit.smartgate.ui.main.mypage.cardmanagement
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.CardData
 import com.chambit.smartgate.network.FBUsersRepository
@@ -61,7 +59,7 @@ class CardManagementActivity : AppCompatActivity(), View.OnClickListener, Corout
   override fun onClick(view: View?) {
     when (view!!.id) {
       R.id.cardImageView -> {
-        startActivity(nextIntent)
+        startActivity(Intent(this@CardManagementActivity, CardAddActivity::class.java))
       }
       R.id.cardDeleteButton -> {
         cardImageView.isEnabled = true
