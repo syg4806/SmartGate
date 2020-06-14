@@ -11,8 +11,9 @@
     android:id="@+id/ticketStateImageView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    app:layout_constraintVertical_bias="0.10"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/myTicketItemPlaceTextView"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -21,12 +22,14 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="장소 :"
-    android:textSize="20sp"
+    android:textSize="30sp"
     android:gravity="center"
-    app:layout_constraintTop_toBottomOf="@+id/ticketStateImageView"
+    android:fontFamily="serif"
+    app:layout_constraintVertical_bias="0.14"
+    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/myTicketItemImageView"/>
+    app:layout_constraintBottom_toBottomOf ="parent"/>
 
 
   <ImageView
@@ -44,8 +47,9 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="티켓 종류 :"
-    android:textSize="20sp"
+    android:textSize="30sp"
     android:gravity="center"
+    android:fontFamily="serif"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemImageView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -57,8 +61,9 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="날짜 :"
-    android:textSize="20sp"
+    android:textSize="30sp"
     android:gravity="center"
+    android:fontFamily="serif"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemKindsTextView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

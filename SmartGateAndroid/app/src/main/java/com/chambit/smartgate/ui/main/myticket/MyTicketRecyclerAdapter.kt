@@ -14,6 +14,7 @@ import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.dataClass.TicketGiftState
 import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
@@ -33,6 +34,15 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
     var ticketData: TicketData? = null
     var placeData: PlaceData? = null
     var imgUri: Uri? = null
+
+    Logg.d("선물 상태 : ${ownedTicket.giftState}")
+    // 사용 안함 ownedTicket.used 초기 상태 false
+    if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
+      holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_i_buy)
+    }
+    else if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.RECEIVED){ // 선물 받은 상태 : 사용 X, 선물 받음
+      holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_gift_given)
+    }
     launch {
 
       withContext(Dispatchers.IO) {
@@ -44,8 +54,8 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
       Glide.with(App.instance)
         .load(imgUri)
         .override(1024, 980)
-        .into(holder.imageView)
-      holder.place.text = placeData?.name
+        .into(holder.placeImageView)
+      holder.placeName.text = placeData?.name
       holder.kinds.text = ticketData?.kinds
       holder.date.text = ownedTicket.expirationDate.toString()
     }
@@ -59,7 +69,7 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
       val nextIntent = Intent(context, SendTicketActivity::class.java).let {
         it.putExtra("ticketId", ticketData!!.id)
         it.putExtra("ticketKinds", ticketData!!.kinds)
-//        it.putExtra("placeName", placeData!!.name)
+        it.putExtra("placeName", placeData!!.name)
       }
 
       context.startActivity(nextIntent)
@@ -80,8 +90,9 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
   }
 
   inner class mViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var imageView = view.myTicketItemImageView
-    var place = view.myTicketItemPlaceTextView
+    var ticketStateImageView = view.ticketStateImageView
+    var placeImageView = view.myTicketItemImageView
+    var placeName = view.myTicketItemPlaceTextView
     var kinds = view.myTicketItemKindsTextView
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton

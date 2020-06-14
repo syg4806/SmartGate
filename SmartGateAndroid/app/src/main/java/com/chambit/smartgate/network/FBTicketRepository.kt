@@ -3,6 +3,7 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.dataClass.TicketGiftState
 import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
@@ -49,6 +50,7 @@ class FBTicketRepository {
       }
   }
 
+  // TODO : 컬렉션 이름이 사용안하는 DB 같은데 수정 좀
   fun setMyTicket(myTicketData: MyTicketData, setTicketListener: SetTicketListener) {
     db.collection("userinfo").whereEqualTo("uid", SharedPref.autoLoginKey)
       .get()
@@ -69,7 +71,7 @@ class FBTicketRepository {
         .addOnSuccessListener {
           //TODO 선물 상태 추가
           val ownedTicket =
-            OwnedTicket(System.currentTimeMillis(), ticketRef, false, expirationDate)
+            OwnedTicket(System.currentTimeMillis(), ticketRef, false, TicketGiftState.NO_GIFT_YET,expirationDate )
           it.last().reference.collection("ownedTickets")
             .document(ownedTicket.certificateNo.toString()).set(ownedTicket)
         }
@@ -116,6 +118,5 @@ class FBTicketRepository {
       .collection("ownedTickets").whereEqualTo("certificateNo", certificateNo)
       .get()
       .await().documents.first().toObject(OwnedTicket::class.java)
-
   }
 }

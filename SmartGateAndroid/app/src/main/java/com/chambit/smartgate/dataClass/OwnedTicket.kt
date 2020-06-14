@@ -6,5 +6,6 @@ data class OwnedTicket(
   var certificateNo: Long?=null,
   var ticketRef: DocumentReference?=null,
   var used: Boolean?=null,
+  var giftState : TicketGiftState? = null,
   var expirationDate: Long?=null
 )

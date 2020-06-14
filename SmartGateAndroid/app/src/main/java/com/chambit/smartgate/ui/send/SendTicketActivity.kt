@@ -37,7 +37,7 @@ class SendTicketActivity : AppCompatActivity() {
 
     ticketId = intent.getStringExtra("ticketId")
     ticketKinds = intent.getStringExtra("ticketKinds")
-//    placeName = intent.getStringExtra("placeName")
+    placeName = intent.getStringExtra("placeName")
     Logg.d("ticketId ? $ticketId")
     // 컨텍스트 생성
 //   - 닉네임, 처음(index 0)부터, 100명까지, 오름차순 예시
@@ -98,9 +98,7 @@ class SendTicketActivity : AppCompatActivity() {
           LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
             .setMobileWebUrl("https://developers.kakao.com").build()
         )
-          // ${SharedPref.userName}
-          // @@@님이 @@@님에게 @@@의 티켓을 선물했습니다
-          .setDescrption("@@@님이 ${friendName}님에게  ${ticketKinds}티켓을 선물했습니다.")
+          .setDescrption("${SharedPref.userName}님이 ${friendName}님에게 ${placeName} 티켓을 선물했습니다.")
           .build()
       )
       .addButton(
