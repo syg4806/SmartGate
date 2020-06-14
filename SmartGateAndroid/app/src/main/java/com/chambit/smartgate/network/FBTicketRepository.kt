@@ -102,10 +102,8 @@ class FBTicketRepository {
       db.collection("users").document(SharedPref.autoLoginKey).collection("ownedTickets")
         .whereEqualTo("certificateNo", certificateNo).get().await().documents.first().reference.update(
           "used",TicketState.USED).await()
-      "티켓이 사용되었습니다.".show()
       true
     } catch (e: Exception) {
-      "티켓 사용에 실패 했습니다.".show()
       false
     }
   }

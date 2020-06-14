@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
+import com.chambit.smartgate.extensions.toast
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
 import com.chambit.smartgate.util.Logg
@@ -18,13 +19,18 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class UsedTicketActivity : AppCompatActivity() {
+  companion object{
+    const val USETICKET="useTicket"
+  }
   val activity = this
   lateinit var bookingIntent: Intent
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_used_ticket)
-
+    if(intent.hasExtra(USETICKET)){
+      this.toast("게이트의 불을 확인하고, 통과해주세요.")
+    }
     val progressbar = MyProgressBar(activity)
     progressbar.show()
     MainScope().launch {

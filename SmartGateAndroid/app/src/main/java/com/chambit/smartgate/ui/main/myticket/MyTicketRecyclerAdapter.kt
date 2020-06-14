@@ -30,7 +30,6 @@ import kotlinx.coroutines.withContext
 class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
   var context: Context? = null
-  val GETLIKES = 50
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {

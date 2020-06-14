@@ -1,6 +1,7 @@
 package com.chambit.smartgate.ui.beacon
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -23,15 +24,21 @@ import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.extensions.toast
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
+import com.chambit.smartgate.ui.main.mypage.usedticketlookup.UsedTicketActivity
+import com.chambit.smartgate.ui.main.mypage.usedticketlookup.UsedTicketActivity.Companion.USETICKET
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity.Companion.RECALL
 import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.activity_ticket_using.*
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import org.altbeacon.beacon.BeaconConsumer
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.Region
+import java.net.HttpURLConnection
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 
 class TicketUsingActivity : BaseActivity(), BeaconConsumer {
@@ -53,7 +60,6 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     val certificateNo = intent.getLongExtra(CERTIFICATE_NO, 0L)
     checkPermissions()
     initBeaconConsumer()
-    initButton()
     Glide.with(this).load(R.drawable.ic_wave).fitCenter().into(usingTicketBackground)
     launch {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
@@ -62,9 +68,30 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
           .await().toObject(PlaceData::class.java)?.gateArray!!
       readAdvertise()
     }
+    launch {
+      var timer=60
+      while(timer>0) {
+        usingTicketCountTV.text = timer.toString()
+        timer--
+        delay(1000)
+      }
+      finishUsing(false)
+    }
   }
 
-  private fun initButton() {
+  private fun finishUsing(isSucceed:Boolean) {
+    if(isSucceed){
+      startActivity(Intent(this,UsedTicketActivity::class.java).apply {
+        putExtra(USETICKET,true)
+      })
+      finish()
+    }else{
+      startActivity(Intent(this,MyTicketActivity::class.java).apply {
+        flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+        putExtra(RECALL,true)
+      })
+      finish()
+    }
   }
 
   private fun readAdvertise() {
@@ -73,16 +100,8 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   }
 
   private fun initBeaconConsumer() {
-    // 실제로 비콘을 탐지하기 위한 비콘매니저 객체를 초기화
     beaconManager = BeaconManager.getInstanceForApplication(App.instance);
-
-    // 여기가 중요한데, 기기에 따라서 setBeaconLayout 안의 내용을 바꿔줘야 하는듯 싶다.
-    // 필자의 경우에는 아래처럼 하니 잘 동작했음.
     beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.URI_BEACON_LAYOUT))
   }
 
   override fun onDestroy() {
@@ -154,10 +173,10 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
               if (it.distance < BOUNDARY) {
                 useTicket(it.id2.toString())
               } else {
-                this.toast("게이트에 가까이 이동해주세요.")
                 BSearching = true
               }
             } else {
+              this.toast("게이트에 가까이 이동해주세요.")
               BSearching = true
             }
           }
@@ -183,32 +202,30 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   override fun onStop() {
     super.onStop()
     beaconManager.unbind(this)
-    stringRequest?.cancel()
-
   }
 
-  var stringRequest: StringRequest? = null
   private fun useTicket(gateId: String) {
     MainScope().launch {
       if (FBTicketRepository().useTicket(ownedTicket.certificateNo!!)) {
-        val queue = Volley.newRequestQueue(this@TicketUsingActivity)
-        val placeId=ownedTicket.ticketRef!!.get().await().toObject(TicketData::class.java)!!.placeRef!!.get()
-          .await().toObject(PlaceData::class.java)?.id
         val userName="TEST"
         val url =
-          "https://smartgate-60162.web.app/board2/user_enter?placeId=${placeId}&gateNo=${gateId}&name=${userName}"
+          "http://223.194.20.63:8000/entergate/?name=${userName}"
         Logg.d("$url")
-        stringRequest = StringRequest(
-          Request.Method.GET, url,
-          Response.Listener<String> { response ->
-            Logg.d("Response is: ${response.substring(0, 500)}")
-            this@TicketUsingActivity.toast("게이트의 불을 확인하고, 통과해주세요.")
-            finish()
-          },
-          Response.ErrorListener { Logg.d("That didn't work!") })
+        CoroutineScope(Dispatchers.IO).launch{
+          // Create URL
+          val urlConnection = URL(url)
+// Create connection
+          val myConnection = urlConnection.openConnection() as HttpURLConnection
+          if(myConnection.responseCode==200){
+            Logg.d("${myConnection.responseMessage}")
+              finishUsing(true)
+          }else{
+            Logg.e("error : ${myConnection.responseMessage}")
+          }
+        }
         this@TicketUsingActivity.toast("티켓을 사용 중 입니다.")
-        queue.add(stringRequest)
       } else {
+        this@TicketUsingActivity.toast("티켓 사용에 실패했습니다.")
         BSearching = true
       }
     }
