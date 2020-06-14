@@ -115,7 +115,6 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
       }
     }
 
-
     nextIntent = Intent(this, MyTicketActivity::class.java)
     id = intent.getStringExtra(PLACE_ID)!!
     FBPlaceRepository().getPlaceInfo(id) {

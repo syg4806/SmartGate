@@ -7,15 +7,20 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.extensions.toast
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.util.Logg
@@ -23,15 +28,21 @@ import kotlinx.android.synthetic.main.activity_ticket_using.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import org.altbeacon.beacon.*
+import org.altbeacon.beacon.BeaconConsumer
+import org.altbeacon.beacon.BeaconManager
+import org.altbeacon.beacon.BeaconParser
+import org.altbeacon.beacon.Region
 
 
 class TicketUsingActivity : BaseActivity(), BeaconConsumer {
+  companion object {
+    const val BOUNDARY = 0.5 //0.5m
+  }
+
   private val multiplePermissionsCode = 100          //권한
   private val requiredPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
   private lateinit var ownedTicket: OwnedTicket
   private lateinit var beaconManager: BeaconManager
-  private val beaconList = ArrayList<Beacon>();
   private var BSearching = true
   private lateinit var gateArrayList: List<String>
 
@@ -43,6 +54,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     checkPermissions()
     initBeaconConsumer()
     initButton()
+    Glide.with(this).load(R.drawable.ic_wave).fitCenter().into(usingTicketBackground)
     launch {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
       gateArrayList =
@@ -53,9 +65,6 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   }
 
   private fun initButton() {
-    testBTN.setOnClickListener{
-      useTicket()
-    }
   }
 
   private fun readAdvertise() {
@@ -125,14 +134,15 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     }
   }
 
-
   override fun onBeaconServiceConnect() {
     beaconManager.addRangeNotifier { beacons, region ->
       if (BSearching) {
-        Log.d("ah?", "I'm Searched!")
+        Log.d("ah?", "I'm Searching")
         if (beacons.isNotEmpty()) {
           BSearching = false
-          beaconList.clear()
+          logView.text = beacons.joinToString {
+            "ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f", it.distance)
+          }
           beacons.forEach {
             Logg.d(
               "ID : " + it.id2 + " / " + "Distance : " + String.format(
@@ -140,12 +150,19 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
                 it.distance
               )
             )
-            if (it.distance < 1&&gateArrayList.contains(it.id2.toString())) {
-              useTicket()
+            if (gateArrayList.contains(it.id2.toString())) {
+              if (it.distance < BOUNDARY) {
+                useTicket(it.id2.toString())
+              } else {
+                this.toast("게이트에 가까이 이동해주세요.")
+                BSearching = true
+              }
+            } else {
+              BSearching = true
             }
           }
         }
-      }else{
+      } else {
         Logg.d("I'm waiting to research")
       }
     }
@@ -163,10 +180,34 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     }
   }
 
-  private fun useTicket() {
+  override fun onStop() {
+    super.onStop()
+    beaconManager.unbind(this)
+    stringRequest?.cancel()
+
+  }
+
+  var stringRequest: StringRequest? = null
+  private fun useTicket(gateId: String) {
     MainScope().launch {
       if (FBTicketRepository().useTicket(ownedTicket.certificateNo!!)) {
-        finish()
+        val queue = Volley.newRequestQueue(this@TicketUsingActivity)
+        val placeId=ownedTicket.ticketRef!!.get().await().toObject(TicketData::class.java)!!.placeRef!!.get()
+          .await().toObject(PlaceData::class.java)?.id
+        val userName="TEST"
+        val url =
+          "https://smartgate-60162.web.app/board2/user_enter?placeId=${placeId}&gateNo=${gateId}&name=${userName}"
+        Logg.d("$url")
+        stringRequest = StringRequest(
+          Request.Method.GET, url,
+          Response.Listener<String> { response ->
+            Logg.d("Response is: ${response.substring(0, 500)}")
+            this@TicketUsingActivity.toast("게이트의 불을 확인하고, 통과해주세요.")
+            finish()
+          },
+          Response.ErrorListener { Logg.d("That didn't work!") })
+        this@TicketUsingActivity.toast("티켓을 사용 중 입니다.")
+        queue.add(stringRequest)
       } else {
         BSearching = true
       }

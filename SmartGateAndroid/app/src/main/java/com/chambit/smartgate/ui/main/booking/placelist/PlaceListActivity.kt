@@ -23,7 +23,7 @@ class PlaceListActivity : AppCompatActivity() {
     FBPlaceRepository().listPlaces {
       if (it.isNotEmpty()) {
         //adpater 추가
-        bookingRecyclerView.layoutManager = LinearLayoutManager(activity)
+        bookingRecyclerView.layoutManager = LinearLayoutManager(this)
         bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(it, activity)
       }
       progressbar.dismiss()

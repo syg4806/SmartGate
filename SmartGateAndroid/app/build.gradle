@@ -114,4 +114,7 @@ dependencies {
 
     // fingerPrint
     implementation 'androidx.biometric:biometric:1.0.1'
+
+    //request to http
+    implementation 'com.android.volley:volley:1.1.1'
 }
