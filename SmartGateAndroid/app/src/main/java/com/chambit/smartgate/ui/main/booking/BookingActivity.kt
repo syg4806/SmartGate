@@ -50,12 +50,10 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
           errString: CharSequence
         ) {
           super.onAuthenticationError(errorCode, errString)
-
           val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
           startActivityForResult(intent, 0)
-
           launch {
-            "인식 가능한 지문이 등록되어 있지 않습니다.".show()
+          //  "인식 가능한 지문이 등록되어 있지 않습니다.".show()
           }
 
         }
@@ -69,7 +67,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
             result.cryptoObject
 
           launch {
-            "지문 인증에 성공하였습니다.".show()
+           // "지문 인증에 성공하였습니다.".show()
             booking()
           }
           // User has verified the signature, cipher, or message
@@ -80,7 +78,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            "지문 인증에 실패하였습니다.".show()
+          //  "지문 인증에 실패하였습니다.".show()
           }
         }
       })
@@ -157,7 +155,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
           }
 
         } else
-          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+          "결제 동의를 클릭해주세요".show()
       }
       R.id.ticketDatePicker -> {
         val now = Calendar.getInstance()
