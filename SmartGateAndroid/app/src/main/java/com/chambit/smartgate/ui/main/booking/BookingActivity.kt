@@ -15,6 +15,7 @@ import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
+import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
@@ -55,10 +56,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           super.onAuthenticationError(errorCode, errString)
 
           launch {
-            Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
-            /*Toast.makeText(applicationContext,
-              "인증 오류: $errString", Toast.LENGTH_SHORT)
-              .show()*/
+            "인식 가능한 지문이 등록되어 있지 않습니다.".show()
           }
 
         }
@@ -72,7 +70,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
             result.cryptoObject
 
           launch {
-            Toast.makeText(baseContext, "지문 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            "지문 인증에 성공하였습니다.".show()
             booking()
           }
 
@@ -84,7 +82,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            Toast.makeText(baseContext, "지문 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            "지문 인증에 실패하였습니다.".show()
           }
         }
       })
@@ -141,7 +139,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         if (bookingCheckBox.isChecked)
           showBiometricPrompt()
         else
-          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+          "결제 동의를 클릭해주세요".show()
       }
       R.id.ticketDatePicker -> {
         val datePicker = DatePickerDialog(
