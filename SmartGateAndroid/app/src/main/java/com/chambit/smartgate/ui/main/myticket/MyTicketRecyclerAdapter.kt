@@ -19,6 +19,7 @@ import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.ui.send.SendTicketActivity
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.*
 
@@ -33,6 +34,7 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
     var placeData: PlaceData? = null
     var imgUri: Uri? = null
     launch {
+
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
           placeData = FBPlaceRepository().getPlace(it.placeRef!!)

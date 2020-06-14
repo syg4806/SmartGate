@@ -67,6 +67,7 @@ class FBTicketRepository {
     for (i in 0 until ticketCount) {
       db.collection("users").whereEqualTo("uid", SharedPref.autoLoginKey).get()
         .addOnSuccessListener {
+          //TODO 선물 상태 추가
           val ownedTicket =
             OwnedTicket(System.currentTimeMillis(), ticketRef, false, expirationDate)
           it.last().reference.collection("ownedTickets")

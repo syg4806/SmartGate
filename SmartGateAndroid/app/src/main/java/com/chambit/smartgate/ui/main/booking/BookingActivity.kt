@@ -112,12 +112,16 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
     }
 
     placeId = intent.getStringExtra(PLACE_ID)!!
-    FBPlaceRepository().getPlaceInfo(placeId) {
-      placeInfoData = it
-      FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-      FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
-      bookingName.text = placeInfoData.name
+
+    launch {
+      FBPlaceRepository().getPlaceInfo(placeId).let {
+        placeInfoData = it
+        FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this@BookingActivity)
+        FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
+        bookingName.text = placeInfoData.name
+      }
     }
+
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
 
