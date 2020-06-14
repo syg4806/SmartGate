@@ -14,7 +14,7 @@ import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
-class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceData>, val activity: Activity) :
+class PlaceListRecyclerViewAdapter(val placeList: MutableList<PlaceData>, val activity: Activity) :
   RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
   var context: Context? = null // 부모 context

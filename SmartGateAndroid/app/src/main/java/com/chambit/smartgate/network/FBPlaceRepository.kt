@@ -23,7 +23,7 @@ class FBPlaceRepository {
       }
   }
 
-  fun listPlaces(listener: (ArrayList<PlaceData>) -> Unit) {
+  fun listPlaces(listener: (MutableList<PlaceData>) -> Unit) {
     db.collection("place").get()
       .addOnSuccessListener { snapshot ->
         listener(ArrayList(snapshot.map { it.toObject(PlaceData::class.java) }))
@@ -47,5 +47,16 @@ class FBPlaceRepository {
     return db.collection("place").whereArrayContains("gateArray", beaconId)
       .get().await().documents.first().reference.collection("tickets").get().await()
       ?.toObjects(TicketData::class.java)
+  }
+
+  suspend fun searchPlace(keyword: String): MutableList<PlaceData>? {
+    val documentSnapshot = db.collection("place").whereArrayContains("tag", keyword).get().await()
+    if (documentSnapshot.isEmpty)
+      return null
+    else
+      return documentSnapshot.documents.map {
+        it.toObject(PlaceData::class.java)!!
+      }.toMutableList()
+
   }
 }
