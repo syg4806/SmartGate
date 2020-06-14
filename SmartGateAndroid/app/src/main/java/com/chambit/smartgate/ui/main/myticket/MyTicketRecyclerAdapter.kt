@@ -36,6 +36,7 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
     var imgUri: Uri? = null
 
     Logg.d("선물 상태 : ${ownedTicket.giftState}")
+
     // 사용 안함 ownedTicket.used 초기 상태 false
     if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
       holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_i_buy)

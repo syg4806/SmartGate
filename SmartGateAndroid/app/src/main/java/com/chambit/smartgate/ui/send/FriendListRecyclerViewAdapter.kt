@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.friend_item.view.*
 
 class FriendListRecyclerViewAdapter(
   val context: Context,
+  private val NumberOfChoices : Int,
   private val friendList: ArrayList<KakaoFriendInfo>
 ) :
   RecyclerView.Adapter<FriendListRecyclerViewAdapter.mViewHolder>() {
@@ -22,7 +23,6 @@ class FriendListRecyclerViewAdapter(
 
     holder.friendNameTextView.text = friend.friendInfo!!.profileNickname
     val uuid = friend.friendInfo!!.uuid // 메시지 전송 시 사용
-    Logg.d("나와라~")
 
     if(friend.selectFlag){
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_checked)

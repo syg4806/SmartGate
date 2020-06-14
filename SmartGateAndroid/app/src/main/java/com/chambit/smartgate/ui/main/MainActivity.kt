@@ -8,7 +8,6 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
-import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.util.SetDataActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
   }
+
 
   fun onClick(view: View) {
     when (view.id) {
@@ -42,3 +42,4 @@ class MainActivity : AppCompatActivity() {
     }
   }
 }
+

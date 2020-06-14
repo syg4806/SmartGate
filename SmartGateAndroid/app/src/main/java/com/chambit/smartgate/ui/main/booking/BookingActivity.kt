@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import com.chambit.smartgate.BaseActivity
@@ -19,7 +18,9 @@ import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
+import com.chambit.smartgate.ui.main.MainActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.ui.send.SendTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
@@ -29,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
-class BookingActivity :  BaseActivity(), View.OnClickListener {
+class BookingActivity : BaseActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
   lateinit var placeId: String
   lateinit var tickets: ArrayList<TicketData>
@@ -114,7 +115,11 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
     launch {
       FBPlaceRepository().getPlaceInfo(placeId).let {
         placeInfoData = it
-        FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this@BookingActivity)
+        FBPlaceImageRepository().getPlaceImage(
+          bookingPlaceLogo,
+          placeInfoData.imagePath!!,
+          this@BookingActivity
+        )
         FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
         bookingName.text = placeInfoData.name
       }
@@ -123,13 +128,14 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
 
-    val currentTime = Calendar.getInstance().time
+    currentTime = Calendar.getInstance().timeInMillis
     ticketDatePicker.text = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(currentTime)
   }
 
   // 팝업 띄우는 함수
   lateinit var noticePopup: ChoicePopUp // 전역으로 선언하지 않으면 리스너에서 dismiss 사용 불가.
-
+  private var selectedDateFrom: Long? = null
+  var currentTime: Long? = null
   override fun onClick(view: View?) {
     when (view!!.id) {
       R.id.paymentButton -> {
@@ -142,36 +148,57 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         val now = Calendar.getInstance()
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            val selectedDateFrom = Calendar.getInstance().apply {
+            selectedDateFrom = Calendar.getInstance().apply {
               set(Calendar.YEAR, year)
               set(Calendar.MONTH, month)
               set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }.timeInMillis
-            ticketDatePicker.text = selectedDateFrom.format(M_D)
+            ticketDatePicker.text = selectedDateFrom!!.format(M_D)
           },
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
         datePicker.datePicker.minDate = System.currentTimeMillis()
         datePicker.show()
-
       }
     }
   }
 
+  // 지문 인식 성공하면 실행
   fun booking() {
+    Logg.d("${currentTime}")
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
-    noticePopup = ChoicePopUp(this,
+    FBTicketRepository().buyTicket(
+      tickets[ticketNo].placeRef!!.collection(
+        "tickets"
+      ).document(tickets[ticketNo].id!!), 0L, currentTime!!, setMyTicketCount
+    )
+
+    noticePopup = ChoicePopUp(this, R.drawable.ic_popup_title,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
       View.OnClickListener {
-        FBTicketRepository().buyTicket(
-          tickets[ticketNo].placeRef!!.collection(
-            "tickets"
-          ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
-        )
+        // 메인으로 이동
+        startActivity(Intent(this, MainActivity::class.java).apply {
+          this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        })
         finish()
       },
       View.OnClickListener {
+        // 선물하기 버튼
+        // 친구 목록으로 이동
+        // TODO : 친구 목록으로 보낼때 티켓 리스트 갯수( 자기 자신꺼 빼고 ) 보내서 선택하게 하기
+        launch {
+          startActivity(Intent(this@BookingActivity, SendTicketActivity::class.java).apply {
+            this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            this.putExtra("goToSendActivity", true)
+            this.putExtra("sendTicketList", FBTicketRepository().getToDayPurchaseTicketList(currentTime!!))
+//            FBTicketRepository().getToDayPurchaseTicketList(currentTime!!).let {
+//              Logg.d(it.toString())
+//            }
+
+          })
+
+        }
         noticePopup.dismiss()
       })
     noticePopup.show()
@@ -190,8 +217,13 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         ticketCounts.add(i.toString())
       }
 
-      ticketKindSpinner.adapter =  ArrayAdapter(this@BookingActivity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
-      ticketCountSpinner.adapter = ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
+      ticketKindSpinner.adapter = ArrayAdapter(
+        this@BookingActivity,
+        R.layout.support_simple_spinner_dropdown_item,
+        ticketKinds
+      )
+      ticketCountSpinner.adapter =
+        ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
     }
 
     override fun myTickets(

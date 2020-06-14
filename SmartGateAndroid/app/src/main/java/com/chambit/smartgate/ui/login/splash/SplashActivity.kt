@@ -21,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
     if(intent.action == Intent.ACTION_VIEW) {
       val boardId = intent.data!!
-      Logg.d("받아 온 값? : ${boardId}")
+      Logg.d("받아 온 값? : ${boardId}") // 보낸 사람 Id/ 티켓 Id
       // TODO : 위의 값이 있으면 받아오기 성공이므로 (구매자쪽 티켓상태 : sended, 받는이 쪽 : 티켓상태 : Unused)으로 변경
     }
 //    val gifImage =  GlideDrawableImageViewTarget(splashLogo);

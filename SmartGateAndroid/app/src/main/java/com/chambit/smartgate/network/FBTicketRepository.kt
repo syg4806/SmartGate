@@ -1,9 +1,6 @@
 package com.chambit.smartgate.network
 
-import com.chambit.smartgate.dataClass.MyTicketData
-import com.chambit.smartgate.dataClass.OwnedTicket
-import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.dataClass.TicketGiftState
+import com.chambit.smartgate.dataClass.*
 import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
@@ -65,13 +62,25 @@ class FBTicketRepository {
   /**
    * ticketRef의 티켓을 expirationDate기한으로 ticketCount개 구매해서 유저 ownedTickets에 set한다
    */
-  fun buyTicket(ticketRef: DocumentReference, expirationDate: Long, ticketCount: Int) {
-    for (i in 0 until ticketCount) {
+  fun buyTicket(
+    ticketRef: DocumentReference,
+    expirationDate: Long,
+    selectedDateFrom: Long,
+    ticketCount: Int
+  ) {
+    for (i in 0 until ticketCount) { // 티켓 수 만큼 반복 돌면서 set
       db.collection("users").whereEqualTo("uid", SharedPref.autoLoginKey).get()
         .addOnSuccessListener {
           //TODO 선물 상태 추가
           val ownedTicket =
-            OwnedTicket(System.currentTimeMillis(), ticketRef, false, TicketGiftState.NO_GIFT_YET,expirationDate )
+            OwnedTicket(
+              System.currentTimeMillis(),
+              ticketRef,
+              false,
+              selectedDateFrom,
+              TicketGiftState.NO_GIFT_YET,
+              expirationDate
+            )
           it.last().reference.collection("ownedTickets")
             .document(ownedTicket.certificateNo.toString()).set(ownedTicket)
         }
@@ -79,7 +88,7 @@ class FBTicketRepository {
   }
 
   /**
-   * user가 보유한 ownedTickets의 리스트를 반환한다.
+   * user가 보유한 ownedTickets의 전체 리스트를 반환한다.
    */
   suspend fun listOwnedTickets(used: Boolean): MutableList<OwnedTicket> {
     Logg.d("ListTickets start")
@@ -97,6 +106,20 @@ class FBTicketRepository {
    */
   suspend fun getTicket(ticketRef: DocumentReference): TicketData {
     return ticketRef.get().await().toObject(TicketData::class.java)!!
+  }
+
+  suspend fun getToDayPurchaseTicketList(purchaseDay: Long) : Array<SendTicketData> {
+    Logg.d("${purchaseDay}")
+    return db.collection("users").document(SharedPref.autoLoginKey)
+      .collection("ownedTickets").whereEqualTo("dateOfPurchase", purchaseDay)
+      .get()
+      .await()
+      .documents.map {
+      val ticketRef = it.get("ticketRef") as DocumentReference
+      val certificateNo = it.get("certificateNo") as Long
+      val expirationDate = it.get("expirationDate") as Long
+      SendTicketData(ticketRef.id, certificateNo, expirationDate)
+    }.toTypedArray()
   }
 
   suspend fun deleteTicket(certificateNo: Long): Boolean {

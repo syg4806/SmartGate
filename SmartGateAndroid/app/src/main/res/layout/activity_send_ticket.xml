@@ -38,7 +38,8 @@
     android:background="@drawable/ic_gift_search_bar"
     android:orientation="vertical"
     android:padding="3dp"
-    android:layout_margin="40dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="60dp"
     app:layout_constraintVertical_weight="0.8"
     app:layout_constraintBottom_toTopOf="@+id/SelectFriendRecyclerView"
     app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +74,28 @@
       app:layout_constraintTop_toTopOf="@+id/searchButton" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
+  <TextView
+    android:id="@+id/selectTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="선물 가능한 횟수 : "
+    android:textSize="20sp"
+    app:layout_constraintHorizontal_bias="0.4"
+    app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/SelectFriendRecyclerView"/>
+  <TextView
+    android:id="@+id/selectNum"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:text="3"
+    app:layout_constraintHorizontal_bias="0.65"
+    app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/SelectFriendRecyclerView"/>
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/SelectFriendRecyclerView"
     android:layout_width="match_parent"
