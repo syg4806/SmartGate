@@ -23,12 +23,13 @@ import kotlinx.android.synthetic.main.activity_send_ticket.*
 
 
 class SendTicketActivity : AppCompatActivity() {
-  val activity = this
-  val friendList = ArrayList<KakaoFriendInfo>()
-  val uuids = ArrayList<String>()
-  var ticketId: String? = null
-  var friendName: String? = null
-  var ticketKinds: String? = null
+  private val activity = this
+  private val friendList = ArrayList<KakaoFriendInfo>()
+  private val uuids = ArrayList<String>()
+  private var ticketId: String? = null
+  private var friendName: String? = null
+  private var ticketKinds: String? = null
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_send_ticket)
@@ -38,11 +39,11 @@ class SendTicketActivity : AppCompatActivity() {
     Logg.d("ticketId ? $ticketId")
     // 컨텍스트 생성
 //   - 닉네임, 처음(index 0)부터, 100명까지, 오름차순 예시
-    val context = AppFriendContext(AppFriendOrder.NICKNAME, 0, 100, "asc")
+    val appFriendContext = AppFriendContext(AppFriendOrder.NICKNAME, 0, 100, "asc")
 
     // 조회 요청
     KakaoTalkService.getInstance()
-      .requestAppFriends(context, object : TalkResponseCallback<AppFriendsResponse>() {
+      .requestAppFriends(appFriendContext, object : TalkResponseCallback<AppFriendsResponse>() {
         override fun onNotKakaoTalkUser() {
           Logg.e("카카오톡 사용자가 아님");
         }
@@ -63,16 +64,15 @@ class SendTicketActivity : AppCompatActivity() {
             Logg.d(friend.toString())
             friendName = friend.profileNickname
             friendList.add(KakaoFriendInfo(friend))
-            val uuid = friend.uuid // 메시지 전송 시 사용
           }
 
           SelectFriendRecyclerView.layoutManager = LinearLayoutManager(activity)
-          SelectFriendRecyclerView.adapter = FriendListRecyclerViewAdapter(friendList, activity)
+          SelectFriendRecyclerView.adapter = FriendListRecyclerViewAdapter(activity,friendList)
         }
       })
   }
 
-  fun onClick(view: View) {
+  private fun onClick(view: View) {
     when (view.id) {
       R.id.giftButton -> {
         val list = friendList.filter { it.selectFlag }
@@ -97,6 +97,7 @@ class SendTicketActivity : AppCompatActivity() {
             .setMobileWebUrl("https://developers.kakao.com").build()
         )
           // ${SharedPref.userName}
+          // @@@님이 @@@님에게 @@@의 티켓을 선물했습니다
           .setDescrption("@@@님이 ${friendName}님에게  ${ticketKinds}티켓을 선물했습니다.")
           .build()
       )

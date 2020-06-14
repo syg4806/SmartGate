@@ -1,6 +1,5 @@
 package com.chambit.smartgate.ui.main.mypage.cardmanagement
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,19 +18,15 @@ import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.send.SendTicketActivity
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
-class CardRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
-  RecyclerView.Adapter<CardRecyclerAdapter.mViewHolder>() {
-  var context: Context? = null
+class CardRecyclerAdapter(val context: Context, val ownedTickets: MutableList<OwnedTicket>) :
+  RecyclerView.Adapter<CardRecyclerAdapter.mViewHolder>(), CoroutineScope by MainScope() {
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
-    MainScope().launch {
+    launch {
       var ticketData:TicketData?=null
       var placeData:PlaceData?=null
       var imgUri: Uri?=null
@@ -54,7 +49,7 @@ class CardRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
       val nextIntent = Intent(context, SendTicketActivity::class.java)
        nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
        //nextIntent.putExtra("nickname", holder.nickname.text.toString())
-      context!!.startActivity(nextIntent)
+      context.startActivity(nextIntent)
     }
   }
 
@@ -62,7 +57,6 @@ class CardRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): mViewHolder {
     val view =
       LayoutInflater.from(parent.context).inflate(R.layout.card_recycler_item, parent, false)
-    context = parent.context
     return mViewHolder(view) //view 객체는 한개의 리사이클러뷰가 디자인 되어 있는 레이아웃을 의미
   }
 
