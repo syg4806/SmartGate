@@ -26,9 +26,10 @@ class SendTicketActivity : AppCompatActivity() {
   private val activity = this
   private val friendList = ArrayList<KakaoFriendInfo>()
   private val uuids = ArrayList<String>()
-  private var ticketId: String? = null
   private var friendName: String? = null
+  private var ticketId: String? = null
   private var ticketKinds: String? = null
+  private var placeName : String? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class SendTicketActivity : AppCompatActivity() {
 
     ticketId = intent.getStringExtra("ticketId")
     ticketKinds = intent.getStringExtra("ticketKinds")
+//    placeName = intent.getStringExtra("placeName")
     Logg.d("ticketId ? $ticketId")
     // 컨텍스트 생성
 //   - 닉네임, 처음(index 0)부터, 100명까지, 오름차순 예시
@@ -72,7 +74,7 @@ class SendTicketActivity : AppCompatActivity() {
       })
   }
 
-  private fun onClick(view: View) {
+  fun onClick(view: View) {
     when (view.id) {
       R.id.giftButton -> {
         val list = friendList.filter { it.selectFlag }

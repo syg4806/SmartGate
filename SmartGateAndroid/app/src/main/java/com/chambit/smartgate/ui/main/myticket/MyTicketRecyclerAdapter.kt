@@ -57,6 +57,7 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
       val nextIntent = Intent(context, SendTicketActivity::class.java).let {
         it.putExtra("ticketId", ticketData!!.id)
         it.putExtra("ticketKinds", ticketData!!.kinds)
+//        it.putExtra("placeName", placeData!!.name)
       }
 
       context.startActivity(nextIntent)
