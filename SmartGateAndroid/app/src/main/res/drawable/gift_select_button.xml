@@ -2,13 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item
     android:state_pressed="true"
-    android:drawable="@drawable/ic_search_pressed_button"/>
+    android:drawable="@drawable/ic_gift_pressed"/>
   <item
     android:state_window_focused="false"
     android:state_enabled="true"
-    android:drawable="@drawable/ic_search_unpressed_button"/>
+    android:drawable="@drawable/ic_gift_unpressed"/>
   <item
     android:state_enabled="true"
-    android:drawable="@drawable/ic_search_unpressed_button"/>
+    android:drawable="@drawable/ic_gift_unpressed"/>
 
 </selector>

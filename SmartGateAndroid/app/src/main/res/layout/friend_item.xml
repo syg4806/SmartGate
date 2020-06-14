@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:id="@+id/friendClick"
+  android:padding="10dp"
+  android:background="@drawable/friend_list_bottom_top_line"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <TextView
+    android:id="@+id/friendNameTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="친구이름"
+    android:textSize="30sp"
+    android:layout_marginStart="20dp"
+    app:layout_constraintHorizontal_bias="0.05"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+  <ImageView
+    android:id="@+id/friendCheckBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_friend_unchecked"
+    app:layout_constraintHorizontal_bias="0.9"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

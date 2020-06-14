@@ -21,16 +21,11 @@ import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.beacon.TicketUsingActivity
 import com.chambit.smartgate.ui.send.SendTicketActivity
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
-class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
-  RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>() {
-  var context: Context? = null
-  val GETLIKES = 50
+class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableList<OwnedTicket>) :
+  RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>(), CoroutineScope by MainScope() {
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
@@ -38,7 +33,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
     var ticketData: TicketData? = null
     var placeData: PlaceData? = null
     var imgUri: Uri? = null
-    MainScope().launch {
+    launch {
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
           placeData = FBPlaceRepository().getPlace(it.placeRef!!)
@@ -54,16 +49,18 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
       holder.date.text = ownedTicket.expirationDate.toString()
     }
     holder.useButton.setOnClickListener {
-      context?.startActivity(Intent(context,TicketUsingActivity::class.java).apply {
-        putExtra(CERTIFICATE_NO,ownedTicket.certificateNo)
+      context.startActivity(Intent(context, TicketUsingActivity::class.java).apply {
+        putExtra(CERTIFICATE_NO, ownedTicket.certificateNo)
       })
     }
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
-      val nextIntent = Intent(context, SendTicketActivity::class.java)
-       nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
-       //nextIntent.putExtra("nickname", holder.nickname.text.toString())
-      context!!.startActivity(nextIntent)
+      val nextIntent = Intent(context, SendTicketActivity::class.java).let {
+        it.putExtra("ticketId", ticketData!!.id)
+        it.putExtra("ticketKinds", ticketData!!.kinds)
+      }
+
+      context.startActivity(nextIntent)
     }
   }
 
@@ -71,7 +68,7 @@ class MyTicketRecyclerAdapter(val ownedTickets: MutableList<OwnedTicket>) :
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): mViewHolder {
     val view =
       LayoutInflater.from(parent.context).inflate(R.layout.myticket_recycler_item, parent, false)
-    context = parent.context
+
     return mViewHolder(view) //view 객체는 한개의 리사이클러뷰가 디자인 되어 있는 레이아웃을 의미
   }
 

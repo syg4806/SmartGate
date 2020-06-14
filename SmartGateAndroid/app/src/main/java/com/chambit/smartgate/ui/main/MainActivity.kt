@@ -39,10 +39,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
       }
-      R.id.toBLE -> {
-        val intent = Intent(this, TicketUsingActivity::class.java)
-        startActivity(intent)
-      }
     }
   }
 }
