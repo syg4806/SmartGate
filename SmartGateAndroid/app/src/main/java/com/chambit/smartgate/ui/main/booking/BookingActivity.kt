@@ -57,10 +57,8 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
           startActivityForResult(intent, 0)
 
-
           launch {
             Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
-            //TODO 결제 비밀번호 숫자 여섯자리로 설정
           }
 
         }
@@ -110,15 +108,15 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
       BiometricManager.BIOMETRIC_SUCCESS -> {
-        Logg.d("ssmm11 App can authenticate using biometrics.")
+        Logg.d("App can authenticate using biometrics.")
       }
       BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-        Logg.e("ssmm11 No biometric features available on this device.")
+        Logg.e("No biometric features available on this device.")
       BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-        Logg.e("ssmm11 Biometric features are currently unavailable.")
+        Logg.e("Biometric features are currently unavailable.")
       BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
         Logg.e(
-          "ssmm11 The user hasn't associated any biometric credentials " +
+          "The user hasn't associated any biometric credentials " +
             "with their account."
         )
         launch {
@@ -159,8 +157,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
             startActivityForResult(intent, 0)
           }
 
-        }
-        else
+        } else
           Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
       }
       R.id.ticketDatePicker -> {
@@ -180,7 +177,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     }
   }
 
-  fun booking() {
+  private fun booking() {
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
     noticePopup = ChoicePopUp(this,

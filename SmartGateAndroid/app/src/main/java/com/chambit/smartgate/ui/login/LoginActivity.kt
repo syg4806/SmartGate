@@ -41,25 +41,23 @@ class LoginActivity : AppCompatActivity() {
   }
 
   @RequiresApi(Build.VERSION_CODES.P)
-  fun hashKey() {
-    try {
-      val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-      val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        info.signingInfo.apkContentsSigners
-      } else {
-        TODO("VERSION.SDK_INT < P")
-      }
-      val md = MessageDigest.getInstance("SHA")
-      for (signature in signatures) {
-        val md: MessageDigest
-        md = MessageDigest.getInstance("SHA")
-        md.update(signature.toByteArray())
-        val key = String(Base64.encode(md.digest(), 0))
-        Logg.d("Hash key: $key")
-      }
-    } catch (e: Exception) {
-      Logg.e("name not found ${e.toString()}")
+  private fun hashKey() = try {
+    val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+    val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      info.signingInfo.apkContentsSigners
+    } else {
+      TODO("VERSION.SDK_INT < P")
     }
+    val md = MessageDigest.getInstance("SHA")
+    for (signature in signatures) {
+      val md: MessageDigest
+      md = MessageDigest.getInstance("SHA")
+      md.update(signature.toByteArray())
+      val key = String(Base64.encode(md.digest(), 0))
+      Logg.d("Hash key: $key")
+    }
+  } catch (e: Exception) {
+    Logg.e("name not found $e")
   }
 
 
@@ -75,8 +73,6 @@ class LoginActivity : AppCompatActivity() {
       Logg.d("session get current session")
       return
     }
-
-
     super.onActivityResult(requestCode, resultCode, data)
   }
 
@@ -122,8 +118,6 @@ class LoginActivity : AppCompatActivity() {
       })
     }
   }
-
-
 }
 
 
@@ -134,7 +128,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onSessionOpenFailed(exception: KakaoException?) {
-            Log.d("ssmmm11","KAKAO_SESSION", "로그인 실패", exception)
+            Log.d("","KAKAO_SESSION", "로그인 실패", exception)
         }
     }
 

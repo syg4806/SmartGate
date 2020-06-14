@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class UsedTicketActivity : AppCompatActivity() {
   val activity = this
-  lateinit var bookingIntent: Intent
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
