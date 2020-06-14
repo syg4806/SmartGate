@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.chambit.smartgate.App
+import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
@@ -19,12 +19,11 @@ import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.util.Logg
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.altbeacon.beacon.*
 
 
-class TicketUsingActivity : AppCompatActivity(), BeaconConsumer {
+class TicketUsingActivity : BaseActivity() , BeaconConsumer {
   private val multiplePermissionsCode = 100          //권한
   private val requiredPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
   private lateinit var ownedTicket: OwnedTicket
@@ -41,7 +40,7 @@ class TicketUsingActivity : AppCompatActivity(), BeaconConsumer {
     setContentView(R.layout.activity_test_b_l_e)
     val certificateNo = intent.getLongExtra(CERTIFICATE_NO,0L)
     checkPermissions()
-    MainScope().launch {
+    launch {
       FBTicketRepository().getOwnedTicket(certificateNo)?.let {
         ownedTicket = it
         ticketData = FBTicketRepository().getTicket(ownedTicket?.ticketRef!!)
@@ -155,7 +154,7 @@ class TicketUsingActivity : AppCompatActivity(), BeaconConsumer {
   }
 
   private fun checkPlace() {
-    MainScope().launch {
+    launch {
       val ticketIdList =
         FBPlaceRepository().listAvailableTickets(beaconList.first().id2.toString())?.map { it.id }
       if (ticketIdList!!.contains(ticketData.id)) {
@@ -168,7 +167,7 @@ class TicketUsingActivity : AppCompatActivity(), BeaconConsumer {
   }
 
   private fun useTicket(){
-    MainScope().launch {
+    launch {
       if(FBTicketRepository().deleteTicket(ownedTicket.certificateNo!!)){
         finish()
       }else{

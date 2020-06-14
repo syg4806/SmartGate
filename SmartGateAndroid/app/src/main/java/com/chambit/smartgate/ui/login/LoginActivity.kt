@@ -24,6 +24,7 @@ import java.security.MessageDigest
 
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()
+  //TODO : 이런 context 사용은 왠만하면 빼주세요
   lateinit var mContext: Context
 
   @RequiresApi(Build.VERSION_CODES.P)
@@ -107,7 +108,6 @@ class LoginActivity : AppCompatActivity() {
           val intent = Intent(baseContext, MainActivity::class.java)
           startActivity(intent)
           finish()
-
           // 로그아웃 코드
 //      UserManagement.getInstance()
 //        .requestLogout(object : LogoutResponseCallback() {

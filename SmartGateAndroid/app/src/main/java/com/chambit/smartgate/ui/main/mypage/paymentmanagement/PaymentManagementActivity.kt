@@ -19,6 +19,5 @@ class PaymentManagementActivity : AppCompatActivity() {
         Logg.d("해제 됨.")
       }
     }
-
   }
 }

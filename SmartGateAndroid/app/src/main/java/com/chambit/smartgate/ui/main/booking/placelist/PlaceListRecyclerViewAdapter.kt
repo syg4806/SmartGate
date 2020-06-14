@@ -13,7 +13,7 @@ import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.ui.main.booking.PlaceInformationActivity
 import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
-class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceData>, val activity: Activity) :
+class PlaceListRecyclerViewAdapter(private val activity: Activity, private val placeList: ArrayList<PlaceData>) :
   RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
@@ -29,7 +29,7 @@ class PlaceListRecyclerViewAdapter(val placeList: ArrayList<PlaceData>, val acti
 //      it.background = AppCompatResources.getDrawable(context!! ,R.drawable.ic_place_item_pressed)
       val nextIntent = Intent(activity, PlaceInformationActivity::class.java)
       nextIntent.putExtra(Constants.PLACE_ID, place.id)
-      activity.startActivityForResult(nextIntent,101)
+      activity.startActivity(nextIntent)
     }
   }
 

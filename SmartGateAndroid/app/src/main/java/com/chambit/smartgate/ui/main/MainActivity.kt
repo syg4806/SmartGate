@@ -18,29 +18,25 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (resultCode == 100) {
-      startActivity(Intent(this, MyTicketActivity::class.java))
-    }
-  }
-
   fun onClick(view: View) {
     when (view.id) {
       R.id.logo -> {
-        startActivity(Intent(this, SetDataActivity::class.java))
+        val intent = Intent(this, SetDataActivity::class.java)
+        startActivity(intent)
       }
       R.id.toBooking -> {
-        startActivityForResult(Intent(this, PlaceListActivity::class.java), 100)
+        val intent = Intent(
+          this,
+          PlaceListActivity::class.java
+        )
+        startActivity(intent)
       }
       R.id.toMyTicket -> {
-        startActivity(Intent(this, MyTicketActivity::class.java))
+        val intent = Intent(this, MyTicketActivity::class.java)
+        startActivity(intent)
       }
       R.id.toMyPage -> {
-        startActivity(Intent(this, MyPageActivity::class.java))
-      }
-      R.id.toBLE -> {
-        val intent = Intent(this, TicketUsingActivity::class.java)
+        val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
       }
     }
