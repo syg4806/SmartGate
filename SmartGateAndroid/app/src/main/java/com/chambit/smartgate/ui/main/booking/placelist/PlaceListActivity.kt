@@ -36,6 +36,7 @@ class PlaceListActivity : AppCompatActivity() {
     when (view.id) {
       R.id.searchButton -> {
 
+        
       }
     }
 
