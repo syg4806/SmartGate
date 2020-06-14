@@ -1,102 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
-  android:weightSum="100"
   tools:context=".ui.main.mypage.MyPageActivity">
 
-  <FrameLayout
-    android:id="@+id/logo"
+
+  <ImageView
+    android:id="@+id/myPageTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:background="@color/pink"
+    android:src="@drawable/ic_my_ticket_logo"
+    app:layout_constraintBottom_toTopOf="@+id/preUseTicketButton"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageView
     android:layout_width="wrap_content"
-    android:layout_height="0dp"
-    android:layout_weight="18"
-    android:background="@color/pink">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_mypage_text"
+    app:layout_constraintBottom_toBottomOf="@+id/myPageTitle"
+    app:layout_constraintEnd_toEndOf="@+id/myPageTitle"
+    app:layout_constraintStart_toStartOf="@+id/myPageTitle"
+    app:layout_constraintTop_toTopOf="@+id/myPageTitle" />
 
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_my_ticket_logo" />
 
-    <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:src="@drawable/ic_mypage_text" />
-  </FrameLayout>
-
-  <LinearLayout
+  <ImageView
+    android:id="@+id/preUseTicketButton"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="82"
-    android:orientation="vertical">
-
-    <FrameLayout
-      android:id="@+id/preUseTicketButton"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:background="@color/pink1"
-      android:layout_weight="1"
-      android:onClick="onClick"
-      tools:ignore="NestedWeights">
-
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_preusetickettext"/>
-    </FrameLayout>
-
-    <FrameLayout
-      android:id="@+id/usedTicketLookupButton"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:background="@color/pink2"
-      android:layout_weight="1"
-      android:onClick="onClick"
-      tools:ignore="NestedWeights">
-
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_usage_completion_ticket_text"/>
-    </FrameLayout>
-    <FrameLayout
-      android:id="@+id/cardRegistrationAndInquiryButton"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:background="@color/pink3"
-      android:layout_weight="1"
-      android:onClick="onClick"
-      tools:ignore="NestedWeights">
-
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_cardregistrationandinquirytext"/>
-    </FrameLayout>
-    <FrameLayout
-      android:id="@+id/simplePaymentMethodManagementButton"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:background="@color/pink4"
-      android:layout_weight="1"
-      android:onClick="onClick"
-      tools:ignore="NestedWeights">
-
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_simplepaymentmethodmanagementtext"/>
-    </FrameLayout>
-
-  </LinearLayout>
+    android:background="@color/pink1"
+    android:onClick="onClick"
+    android:scaleType="center"
+    android:src="@drawable/ic_preusetickettext"
+    app:layout_constraintBottom_toTopOf="@+id/usedTicketLookupButton"
+    app:layout_constraintTop_toBottomOf="@+id/myPageTitle" />
 
 
-</LinearLayout>
+  <ImageView
+    android:id="@+id/usedTicketLookupButton"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_gravity="center"
+    android:background="@color/pink2"
+    android:onClick="onClick"
+    android:scaleType="center"
+    android:src="@drawable/ic_usage_completion_ticket_text"
+    app:layout_constraintBottom_toTopOf="@+id/cardRegistrationAndInquiryButton"
+    app:layout_constraintTop_toBottomOf="@+id/preUseTicketButton" />
+
+
+  <ImageView
+    android:id="@+id/cardRegistrationAndInquiryButton"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_gravity="center"
+    android:background="@color/pink3"
+    android:onClick="onClick"
+    android:scaleType="center"
+    android:src="@drawable/ic_cardregistrationandinquirytext"
+    app:layout_constraintBottom_toTopOf="@+id/simplePaymentMethodManagementButton"
+    app:layout_constraintTop_toBottomOf="@+id/usedTicketLookupButton" />
+
+  <ImageView
+    android:id="@+id/simplePaymentMethodManagementButton"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_gravity="center"
+    android:background="@color/pink4"
+    android:onClick="onClick"
+    android:scaleType="center"
+    android:src="@drawable/ic_simplepaymentmethodmanagementtext"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cardRegistrationAndInquiryButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,16 +30,16 @@ class FBPlaceRepository {
       }
   }
 
-  fun getPlaceInfo(id: String, listener: (PlaceData) -> Unit) {
-    db.collection("place").whereEqualTo("id", id)
+  suspend fun getPlaceInfo(id: String): PlaceData {
+    return db.collection("place").whereEqualTo("id", id)
       .get()
-      .addOnSuccessListener {
-        listener(it.documents.last().toObject(PlaceData::class.java)!!)
-      }
+      .await()
+      .documents.first().toObject(PlaceData::class.java)!!
+
   }
 
-  fun getPlace(placeRef: DocumentReference): PlaceData? {
-    return null
+  suspend fun getPlace(placeRef: DocumentReference): PlaceData? {
+    return placeRef.get().await().toObject(PlaceData::class.java)
   }
 
   suspend fun listAvailableTickets(beaconId: String): MutableList<TicketData>? {

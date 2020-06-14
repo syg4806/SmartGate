@@ -30,8 +30,8 @@ class PlaceListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     FBPlaceRepository().listPlaces {
       if (it.isNotEmpty()) {
         //adpater 추가
-        bookingRecyclerView.layoutManager = LinearLayoutManager(activity)
-        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(it, activity)
+        bookingRecyclerView.layoutManager = LinearLayoutManager(this@PlaceListActivity)
+        bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(this@PlaceListActivity, it)
       }
       progressbar.dismiss()
     }

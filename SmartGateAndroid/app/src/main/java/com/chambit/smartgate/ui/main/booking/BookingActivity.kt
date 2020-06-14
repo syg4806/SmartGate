@@ -6,15 +6,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
+import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.network.*
@@ -23,20 +24,16 @@ import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.MainScope
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
-class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScope by MainScope() {
+class BookingActivity :  BaseActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
-  lateinit var id: String
+  lateinit var placeId: String
   lateinit var tickets: ArrayList<TicketData>
-  val activity = this
   var setMyTicketCount = 0
-  lateinit var nextIntent: Intent
-  val now = Calendar.getInstance()
 
   private val executor = Executors.newSingleThreadExecutor()
   private fun showBiometricPrompt() {
@@ -54,10 +51,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           super.onAuthenticationError(errorCode, errString)
 
           launch {
-            Toast.makeText(baseContext, "인식 가능한 지문이 등록되어 있지 않습니다.", Toast.LENGTH_LONG).show()
-            /*Toast.makeText(applicationContext,
-              "인증 오류: $errString", Toast.LENGTH_SHORT)
-              .show()*/
+            "인식 가능한 지문이 등록되어 있지 않습니다.".show()
           }
 
         }
@@ -71,7 +65,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
             result.cryptoObject
 
           launch {
-            Toast.makeText(baseContext, "지문 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            "지문 인증에 성공하였습니다.".show()
             booking()
           }
 
@@ -83,7 +77,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            Toast.makeText(baseContext, "지문 인증에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            "지문 인증에 실패하였습니다.".show()
           }
         }
       })
@@ -115,17 +109,22 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
       }
     }
 
+    placeId = intent.getStringExtra(PLACE_ID)!!
 
-    nextIntent = Intent(this, MyTicketActivity::class.java)
-    id = intent.getStringExtra(PLACE_ID)!!
-    FBPlaceRepository().getPlaceInfo(id) {
-      placeInfoData = it
-      FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-      FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
-      bookingname.text = placeInfoData.name
+    launch {
+      FBPlaceRepository().getPlaceInfo(placeId).let {
+        placeInfoData = it
+        FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this@BookingActivity)
+        FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
+        bookingName.text = placeInfoData.name
+      }
     }
+
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
+
+    val currentTime = Calendar.getInstance().time
+    ticketDatePicker.text = SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(currentTime)
   }
 
   // 팝업 띄우는 함수
@@ -137,9 +136,10 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
         if (bookingCheckBox.isChecked)
           showBiometricPrompt()
         else
-          Toast.makeText(this, "결제 동의를 클릭해주세요", Toast.LENGTH_LONG).show()
+          "결제 동의를 클릭해주세요".show()
       }
       R.id.ticketDatePicker -> {
+        val now = Calendar.getInstance()
         val datePicker = DatePickerDialog(
           this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             val selectedDateFrom = Calendar.getInstance().apply {
@@ -151,6 +151,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
           },
           now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         )
+        datePicker.datePicker.minDate = System.currentTimeMillis()
         datePicker.show()
 
       }
@@ -188,13 +189,9 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
       for (i in 1..5) {
         ticketCounts.add(i.toString())
       }
-      var arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
-      ticketKindSpinner.adapter = arrayAdapter
 
-      arrayAdapter =
-        ArrayAdapter(activity, R.layout.support_simple_spinner_dropdown_item, ticketCounts)
-      ticketCountSpinner.adapter = arrayAdapter
+      ticketKindSpinner.adapter =  ArrayAdapter(this@BookingActivity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
+      ticketCountSpinner.adapter = ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
     }
 
     override fun myTickets(
@@ -214,7 +211,7 @@ class BookingActivity : AppCompatActivity(), View.OnClickListener, CoroutineScop
     override fun setMyTicket() {
       setMyTicketCount--
       if (setMyTicketCount == 0) {
-        startActivity(nextIntent)
+        startActivity(Intent(this@BookingActivity, MyTicketActivity::class.java))
         finish()
       }
     }

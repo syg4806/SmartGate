@@ -1,69 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:gravity="center"
-  android:orientation="vertical"
-  android:weightSum="100"
   tools:context=".ui.main.mypage.usedticketlookup.UsedTicketActivity">
 
-  <FrameLayout
-    android:id="@+id/logo"
+
+  <ImageView
+    android:id="@+id/usedTicketTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:background="@color/pink2"
+    android:src="@drawable/ic_my_ticket_logo"
+    app:layout_constraintBottom_toTopOf="@+id/usedTicketActivityRecyclerView"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageView
     android:layout_width="wrap_content"
-    android:layout_height="0dp"
-    android:layout_weight="18"
-    android:background="@color/pink2">
-
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scaleType="fitXY"
-      android:src="@drawable/ic_my_ticket_logo" />
-
-    <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:src="@drawable/ic_usage_completion_ticket_top_text" />
-  </FrameLayout>
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_usage_completion_ticket_top_text"
+    app:layout_constraintBottom_toBottomOf="@+id/usedTicketTitle"
+    app:layout_constraintEnd_toEndOf="@+id/usedTicketTitle"
+    app:layout_constraintStart_toStartOf="@+id/usedTicketTitle"
+    app:layout_constraintTop_toTopOf="@+id/usedTicketTitle" />
 
 
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/usedTicketActivityRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="82"
-    android:background="@color/pink2">
+    android:background="@color/pink2"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/usedTicketTitle" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/usedTicketActivityRecyclerView"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+  <ImageView
+    android:id="@+id/usedTicketEmptyTicketView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:src="@drawable/ic_no_used_ticket"
+    android:visibility="visible"
+    app:layout_constraintBottom_toBottomOf="@+id/usedTicketActivityRecyclerView"
+    app:layout_constraintTop_toTopOf="@+id/usedTicketActivityRecyclerView"
+    app:layout_constraintStart_toStartOf="@+id/usedTicketActivityRecyclerView"
+    app:layout_constraintEnd_toEndOf="@+id/usedTicketActivityRecyclerView"
+    app:layout_constraintVertical_bias="0.296"
+    tools:layout_editor_absoluteX="0dp" />
 
-    <LinearLayout
-      android:id="@+id/usedTicketEmptyTicketView"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:orientation="vertical"
-      android:visibility="visible"
-      app:layout_constraintBottom_toBottomOf="@+id/usedTicketActivityRecyclerView"
-      app:layout_constraintTop_toTopOf="@+id/usedTicketActivityRecyclerView"
-      app:layout_constraintVertical_bias="0.296"
-      tools:layout_editor_absoluteX="0dp">
-
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_no_used_ticket" />
-
-
-    </LinearLayout>
-  </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
