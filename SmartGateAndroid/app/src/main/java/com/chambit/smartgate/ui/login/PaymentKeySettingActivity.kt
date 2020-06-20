@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.chambit.smartgate.R
+import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.MainActivity
@@ -85,7 +86,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
         numberList.shuffle()
         setNumber(numberList)
         paymentKeyTextView.text = "비밀 번호 확인"
-        Toast.makeText(this, "비밀 번호 확인 입력을 해주세요", Toast.LENGTH_LONG).show()
+        this.longToast("비밀 번호 확인 입력을 해주세요")
         passwordConfirmation = true
       } else {
         if (SharedPref.paymentKey == password) {
@@ -94,7 +95,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
           startActivity(intent)
           finish()
         } else {
-          Toast.makeText(this, "비밀 번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show()
+          this.longToast("비밀 번호가 일치하지 않습니다.")
           password = ""
           imageInit()
           numberList.shuffle()

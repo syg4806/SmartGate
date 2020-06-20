@@ -3,20 +3,12 @@ package com.chambit.smartgate.ui.main.mypage.cardmanagement
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
-import com.chambit.smartgate.dataClass.CardData
 import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.extensions.visible
 import com.chambit.smartgate.network.FBUsersRepository
-import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
-import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
-import com.chambit.smartgate.util.Logg
+import com.chambit.smartgate.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_card_management.*
-import kotlinx.android.synthetic.main.activity_used_ticket.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class CardManagementActivity : BaseActivity(), View.OnClickListener {
