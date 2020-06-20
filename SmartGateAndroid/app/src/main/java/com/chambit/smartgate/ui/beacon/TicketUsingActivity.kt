@@ -14,7 +14,8 @@ import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
-import com.chambit.smartgate.extensions.toast
+import com.chambit.smartgate.extensions.longToast
+import com.chambit.smartgate.extensions.shortToast
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
@@ -164,7 +165,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
                 searchFlag = true
               }
             } else {
-              this.toast("게이트에 가까이 이동해주세요.")
+              this.longToast("게이트에 가까이 이동해주세요.")
               searchFlag = true
             }
           }
@@ -196,7 +197,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     launch {
       //Ticket 사용 요청
       if (!FBTicketRepository().useTicket(ownedTicket.certificateNo!!)) {
-        this@TicketUsingActivity.toast("티켓 사용에 실패했습니다.")
+        this@TicketUsingActivity.longToast("티켓 사용에 실패했습니다.")
         searchFlag = true
       }
       //TODO : Shared에서 유저 이름 가져오기
@@ -213,7 +214,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
           Logg.e("error : ${myConnection.responseMessage}")
         }
       }
-      this@TicketUsingActivity.toast("티켓을 사용 중 입니다.")
+      this@TicketUsingActivity.shortToast("티켓을 사용 중 입니다.")
     }
   }
 }

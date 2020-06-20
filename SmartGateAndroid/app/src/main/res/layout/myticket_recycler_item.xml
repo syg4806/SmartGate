@@ -1,110 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="300dp"
   android:layout_height="match_parent"
   android:layout_margin="20dp"
+  app:layout_constraintVertical_chainStyle="spread"
   android:background="@drawable/ic_tikect_frame">
 
-  <RelativeLayout
-    android:id="@+id/myTicketItemRootView"
-    android:layout_width="300dp"
-    android:layout_height="550dp"
-    android:layout_centerInParent="true">
 
-    <ImageView
-      android:id="@+id/myTicketItemImageView"
-      android:layout_width="220dp"
-      android:layout_height="180dp"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="30dp"
-      android:background="@drawable/button_empty_background" />
+  <ImageView
+    android:id="@+id/myTicketItemImageView"
+    android:layout_width="220dp"
+    android:layout_height="180dp"
+    android:background="@drawable/button_empty_background"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/myTicketItemPlaceTextView"/>
 
-    <TextView
-      android:id="@+id/myTicketItemPlaceTextView"
-      android:layout_width="260dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/myTicketItemImageView"
-      android:layout_marginStart="20dp"
-      android:layout_marginTop="18dp"
-      android:layout_marginEnd="20dp"
-      android:text="장소 :"
-      android:textSize="20sp" />
-
-    <View
-      android:layout_width="250dp"
-      android:layout_height="1dp"
-      android:layout_below="@id/myTicketItemPlaceTextView"
-      android:layout_marginStart="22dp"
-      android:layout_marginTop="3dp"
-      android:layout_marginEnd="22dp"
-      android:background="#000000" />
-
-    <TextView
-      android:id="@+id/myTicketItemKindsTextView"
-      android:layout_width="260dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/myTicketItemPlaceTextView"
-      android:layout_marginStart="20dp"
-      android:layout_marginTop="18dp"
-      android:layout_marginEnd="20dp"
-      android:text="티켓 종류 :"
-      android:textSize="20sp" />
-
-    <View
-      android:layout_width="250dp"
-      android:layout_height="1dp"
-      android:layout_below="@id/myTicketItemKindsTextView"
-      android:layout_marginStart="22dp"
-      android:layout_marginTop="3dp"
-      android:layout_marginEnd="22dp"
-      android:background="#000000" />
-
-    <TextView
-      android:id="@+id/myTicketItemDateTextView"
-      android:layout_width="260dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/myTicketItemKindsTextView"
-      android:layout_marginStart="20dp"
-      android:layout_marginTop="18dp"
-      android:layout_marginEnd="20dp"
-      android:text="날짜 :"
-      android:textSize="20sp" />
-
-    <View
-      android:layout_width="250dp"
-      android:layout_height="1dp"
-      android:layout_below="@id/myTicketItemDateTextView"
-      android:layout_marginStart="22dp"
-      android:layout_marginTop="3dp"
-      android:layout_marginEnd="22dp"
-      android:background="#000000" />
+  <TextView
+    android:id="@+id/myTicketItemPlaceTextView"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:text="장소 :"
+    android:textSize="20sp"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemImageView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/myTicketItemKindsTextView"/>
 
 
-    <Button
-      android:id="@+id/myTicketActivityItemUseButton"
-      android:layout_width="75dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/myTicketItemDateTextView"
-      android:layout_alignParentStart="true"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="35dp"
-      android:background="@drawable/button_empty_background"
-      android:text="사용하기"
-      android:textSize="18sp" />
-
-    <Button
-      android:id="@+id/myTicketActivityItemGiftButton"
-      android:layout_width="75dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/myTicketItemDateTextView"
-      android:layout_alignParentRight="true"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="35dp"
-      android:background="@drawable/button_empty_background"
-      android:text="선물하기"
-      android:textSize="18sp" />
+  <TextView
+    android:id="@+id/myTicketItemKindsTextView"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:text="티켓 종류 :"
+    android:textSize="20sp"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemPlaceTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/myTicketItemDateTextView"/>
 
 
-  </RelativeLayout>
+  <TextView
+    android:id="@+id/myTicketItemDateTextView"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:text="날짜 :"
+    android:textSize="20sp"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemKindsTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/myTicketActivityItemUseButton"/>
 
-</RelativeLayout>
+
+  <Button
+    android:id="@+id/myTicketActivityItemUseButton"
+    android:layout_width="75dp"
+    android:layout_height="50dp"
+    android:background="@drawable/bookin_select_button"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/myTicketActivityItemGiftButton"/>
+
+  <Button
+    android:id="@+id/myTicketActivityItemGiftButton"
+    android:layout_width="75dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gift_select_button"
+    app:layout_constraintStart_toEndOf="@+id/myTicketActivityItemUseButton"
+    app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

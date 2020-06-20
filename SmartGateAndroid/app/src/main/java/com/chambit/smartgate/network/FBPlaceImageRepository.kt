@@ -5,7 +5,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.chambit.smartgate.util.MyProgressBar
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.tasks.await
 
 class FBPlaceImageRepository() {
   private val storage = FirebaseStorage.getInstance("gs://smartgate-60162.appspot.com/")
