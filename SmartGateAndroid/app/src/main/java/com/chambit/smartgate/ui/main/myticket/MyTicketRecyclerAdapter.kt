@@ -37,14 +37,15 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
 
     Logg.d("선물 상태 : ${ownedTicket.giftState}")
 
-    // 사용 안함 ownedTicket.used 초기 상태 false
-    if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
-      holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_i_buy)
-    }
-    else if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.RECEIVED){ // 선물 받은 상태 : 사용 X, 선물 받음
-      holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_gift_given)
-    }
+
     launch {
+      // 사용 안함 ownedTicket.used 초기 상태 false
+      if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
+        holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_i_buy)
+      }
+      else if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.RECEIVED){ // 선물 받은 상태 : 사용 X, 선물 받음
+        holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_gift_given)
+      }
 
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
@@ -71,6 +72,10 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
         it.putExtra("ticketId", ticketData!!.id)
         it.putExtra("ticketKinds", ticketData!!.kinds)
         it.putExtra("placeName", placeData!!.name)
+        it.putExtra("placeId",placeData!!.id)
+        it.putExtra("dateOfPurchase", ownedTicket.dateOfPurchase)
+        it.putExtra("expirationDate", ownedTicket.expirationDate)
+        it.putExtra("certificateNo", ownedTicket.certificateNo)
       }
 
       context.startActivity(nextIntent)

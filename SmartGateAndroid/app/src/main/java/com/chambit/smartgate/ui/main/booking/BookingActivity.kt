@@ -10,10 +10,7 @@ import androidx.biometric.BiometricPrompt
 import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
-import com.chambit.smartgate.dataClass.MyTicketData
-import com.chambit.smartgate.dataClass.PlaceData
-import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.dataClass.TicketState
+import com.chambit.smartgate.dataClass.*
 import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
@@ -171,7 +168,7 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     FBTicketRepository().buyTicket(
       tickets[ticketNo].placeRef!!.collection(
         "tickets"
-      ).document(tickets[ticketNo].id!!), 0L, currentTime!!, setMyTicketCount
+      ).document(tickets[ticketNo].id!!), 0L, currentTime!!, setMyTicketCount, TicketGiftState.NO_GIFT_YET
     )
 
     noticePopup = ChoicePopUp(this, R.drawable.ic_popup_title,

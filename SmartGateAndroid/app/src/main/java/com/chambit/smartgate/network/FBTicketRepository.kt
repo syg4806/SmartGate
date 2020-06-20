@@ -64,9 +64,10 @@ class FBTicketRepository {
    */
   fun buyTicket(
     ticketRef: DocumentReference,
-    expirationDate: Long,
-    selectedDateFrom: Long,
-    ticketCount: Int
+    expirationDate: Long, // 만기일
+    selectedDateFrom: Long, // 구매일
+    ticketCount: Int,
+    giftState: TicketGiftState
   ) {
     for (i in 0 until ticketCount) { // 티켓 수 만큼 반복 돌면서 set
       db.collection("users").whereEqualTo("uid", SharedPref.autoLoginKey).get()
@@ -78,7 +79,7 @@ class FBTicketRepository {
               ticketRef,
               false,
               selectedDateFrom,
-              TicketGiftState.NO_GIFT_YET,
+              giftState,
               expirationDate
             )
           it.last().reference.collection("ownedTickets")
@@ -108,7 +109,10 @@ class FBTicketRepository {
     return ticketRef.get().await().toObject(TicketData::class.java)!!
   }
 
-  suspend fun getToDayPurchaseTicketList(purchaseDay: Long) : Array<SendTicketData> {
+  /**
+   * 예약하기 하고 바로 선물하기 할때 구매 시간을 기반으로 정보 얻어오기
+   */
+  suspend fun getToDayPurchaseTicketList(purchaseDay: Long): Array<SendTicketData> {
     Logg.d("${purchaseDay}")
     return db.collection("users").document(SharedPref.autoLoginKey)
       .collection("ownedTickets").whereEqualTo("dateOfPurchase", purchaseDay)
@@ -120,6 +124,15 @@ class FBTicketRepository {
       val expirationDate = it.get("expirationDate") as Long
       SendTicketData(ticketRef.id, certificateNo, expirationDate)
     }.toTypedArray()
+  }
+
+  /**
+   *  유저 ID 값을 통해 선물 상태 변경
+   */
+  fun changeGiftState(userID: String, certificateNo: String, giftState : TicketGiftState) {
+    db.collection("users").document(userID).collection("ownedTickets").document(certificateNo)
+      .update("giftState", giftState)
+
   }
 
   suspend fun deleteTicket(certificateNo: Long): Boolean {

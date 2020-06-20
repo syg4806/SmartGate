@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.KakaoFriendInfo
+import com.chambit.smartgate.dataClass.TicketGiftState
+import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.main.MainActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
@@ -33,9 +34,13 @@ class SendTicketActivity : AppCompatActivity() {
   private val friendList = ArrayList<KakaoFriendInfo>()
   private val uuids = ArrayList<String>()
   private var friendName: String? = null
+  private var placeId : String? = null
   private var ticketId: String? = null
   private var ticketKinds: String? = null
   private var placeName : String? = null
+  private var certificateNo : Long? = null
+  private var expirationDate : Long? = null // 만기일
+  private var dateOfPurchase : Long? = null // 구매일
   private var fromBookingFlag : Boolean? = null // 예약하기 페이지에서 왔는지 판별하는 flag
   private var sendTicketList : Array<Parcelable>? = null
   // 팝업 띄우는 함수
@@ -52,16 +57,20 @@ class SendTicketActivity : AppCompatActivity() {
     sendTicketViewModel = ViewModelProvider(this).get(SendTicketViewModel::class.java)
     sendTicketViewModel!!.CounterViewModel(sendTicketList?.size)
 
-    sendTicketViewModel!!.counter.observe(this, Observer {
-      selectNum.text = it.toString()
-    })
+//    sendTicketViewModel!!.counter.observe(this, Observer {
+//      selectNum.text = it.toString()
+//    })
     Logg.d(sendTicketList?.size.toString())
     Logg.d(sendTicketList?.get(0).toString())
 
     ticketId = intent.getStringExtra("ticketId")
     ticketKinds = intent.getStringExtra("ticketKinds")
     placeName = intent.getStringExtra("placeName")
-    Logg.d("ticketId ? $ticketId")
+    placeId = intent.getStringExtra("placeId")
+    dateOfPurchase = intent.getLongExtra("dateOfPurchase", 0L)
+    expirationDate = intent.getLongExtra("dateOfPurchase", 0L)
+    certificateNo = intent.getLongExtra("certificateNo", 0L)
+    Logg.d("ticketId ? $ticketId , placeId ? ${placeId}")
     getKakaoFriendList()
   }
 
@@ -148,7 +157,7 @@ class SendTicketActivity : AppCompatActivity() {
             .setWebUrl("'https://developers.kakao.com")
             .setMobileWebUrl("https://developers.kakao.com")
             //${SharedPref.autoLoginKey}/${ticketId}
-            .setAndroidExecutionParams("key1=${SharedPref.autoLoginKey}/${ticketId}") // 메시지로 전달되는 값. Splash에서 받음
+            .setAndroidExecutionParams("key1=${SharedPref.autoLoginKey}/${certificateNo}/${dateOfPurchase}/${expirationDate}/${ticketId}/${placeId}") // 메시지로 전달되는 값. Splash에서 받음
             .setIosExecutionParams("key2=value2")
             .build()
         )
@@ -176,6 +185,7 @@ class SendTicketActivity : AppCompatActivity() {
             //TODO : 선물 보내기 성공이므로 서버에 구매자 쪽 상태 : sending으로 변경하기
             Logg.i("친구에게 보내기 성공")
             Logg.d("전송에 성공한 대상: " + result.successfulReceiverUuids())
+            FBTicketRepository().changeGiftState(SharedPref.autoLoginKey, certificateNo.toString(), TicketGiftState.PRESENTING)
 
           }
         }
