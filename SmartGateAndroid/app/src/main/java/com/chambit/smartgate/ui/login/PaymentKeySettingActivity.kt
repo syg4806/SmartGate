@@ -15,10 +15,10 @@ import com.chambit.smartgate.util.SharedPref
 import kotlinx.android.synthetic.main.activity_payment_key_setting.*
 
 open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
-  var password = ""
-  var passwordConfirmation = false
-  val numberList = arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
-  lateinit var imageViewList : ArrayList<ImageView>
+  protected var password = ""
+  private var passwordConfirmation = false
+  protected val numberList = arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+  private lateinit var imageViewList : ArrayList<ImageView>
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -106,7 +106,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
     }
   }
 
-  fun clickSetting(v: View?) {
+  override fun onClick(v: View?) {
     when (v!!.id) {
       R.id.password_1 -> {
         password += numberList[0]
@@ -158,9 +158,5 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
         }
       }
     }
-  }
-
-  override fun onClick(v: View?) {
-    clickSetting(v)
   }
 }

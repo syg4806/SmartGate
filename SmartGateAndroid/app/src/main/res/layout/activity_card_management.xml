@@ -6,7 +6,6 @@
   android:layout_height="match_parent"
   tools:context=".ui.main.mypage.cardmanagement.CardManagementActivity">
 
-
   <ImageView
     android:id="@+id/cardManagementTitle"
     android:layout_width="match_parent"
@@ -37,26 +36,16 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/cardManagementTitle" />
 
-  <!--  <ImageView
-      android:id="@+id/cardImageView"
-      android:layout_width="350dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="64dp"
-      android:src="@drawable/ic_card_add"
-      android:visibility="gone"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />-->
   <ImageView
     android:id="@+id/cardImageView"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="64dp"
     android:src="@drawable/ic_card_default_image"
-    android:visibility="gone"
+    android:visibility="visible"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="@id/gradient"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 
   <TextView
     android:id="@+id/cardValidityTextView"

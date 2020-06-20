@@ -31,8 +31,4 @@ class PaymentKeyBookingActivity : View.OnClickListener, PaymentKeySettingActivit
       }
     }
   }
-
-  override fun onClick(v: View?) {
-    clickSetting(v)
-  }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.CardData
 import com.chambit.smartgate.extensions.gone
@@ -18,16 +19,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class CardManagementActivity : AppCompatActivity(), View.OnClickListener,
-  CoroutineScope by MainScope() {
-  lateinit var nextIntent: Intent
-
-
+class CardManagementActivity : BaseActivity(), View.OnClickListener {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_card_management)
 
-    nextIntent = Intent(this, CardAddActivity::class.java)
     cardImageView.setOnClickListener(this)
     cardDeleteButton.setOnClickListener(this)
   }
@@ -37,7 +33,6 @@ class CardManagementActivity : AppCompatActivity(), View.OnClickListener,
 
     launch {
       FBUsersRepository().getUserCard()?.let {
-        //TODO 살짝 비동기 문제인지 등록하자마자 VIEW에 뜨는게 느릴때가 있어서 밀리는 경우가 있는데.. 이걸 어떻게 해야할까요..
         cardImageView.isEnabled = false
         cardImageView.visible()
         cardDeleteButton.visible()
@@ -65,7 +60,7 @@ class CardManagementActivity : AppCompatActivity(), View.OnClickListener,
         cardImageView.isEnabled = true
         cardImageView.setImageResource(R.drawable.ic_card_add)
         cardDeleteButton.gone()
-        cardNumberTextView.gone()
+        cardNumberTextView.text = ""
         cardCVCTextView.text = ""
         cardNameTextView.text = ""
         cardValidityTextView.text = ""

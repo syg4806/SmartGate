@@ -16,15 +16,11 @@ class FBUsersRepository : BaseFB() {
   }
 
   suspend fun getUserCard(): CardData? {
-    val documentSnapshots =
-      db.collection("users").document(SharedPref.autoLoginKey).collection("card").get()
-        .await()
-        .documents
-    return if (documentSnapshots.isEmpty()) {
-      null
-    } else {
-      documentSnapshots.first().toObject(CardData::class.java)
-    }
+    return db.collection("users").document(SharedPref.autoLoginKey).collection("card").get()
+      .await().documents.let {
+        if (it.isEmpty()) null
+        else it.first().toObject(CardData::class.java)
+      }
   }
 
   suspend fun deleteUserCard() {

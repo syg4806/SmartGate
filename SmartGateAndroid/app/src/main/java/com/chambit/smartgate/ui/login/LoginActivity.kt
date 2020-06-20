@@ -22,17 +22,21 @@ import java.security.MessageDigest
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()
 
-  @RequiresApi(Build.VERSION_CODES.P)
+  //@RequiresApi(Build.VERSION_CODES.P)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
 
-    hashKey()
+    //hashKey()
     // 세션 콜백 등록
     Session.getCurrentSession().addCallback(callback)
   }
 
-  @RequiresApi(Build.VERSION_CODES.P)
+  /**
+   * 해당 함수는 kakao Developer 등록을 위해 남겨둔 코드입니다. 주석 처리 해놓았습니다.
+   */
+
+  /*@RequiresApi(Build.VERSION_CODES.P)
   private fun hashKey() = try {
     val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
     val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -48,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     }
   } catch (e: Exception) {
     Logg.e("name not found $e")
-  }
+  }*/
 
 
   override fun onDestroy() {
