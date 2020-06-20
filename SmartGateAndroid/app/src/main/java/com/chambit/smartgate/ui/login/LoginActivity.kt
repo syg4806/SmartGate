@@ -1,17 +1,13 @@
 package com.chambit.smartgate.ui.login
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
-import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
-import com.chambit.smartgate.ui.main.MainActivity
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.kakao.auth.ISessionCallback
@@ -21,15 +17,10 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
-import kotlinx.android.synthetic.main.activity_booking.*
 import java.security.MessageDigest
-
 
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()
-
-  //TODO : 이런 context 사용은 왠만하면 빼주세요
-  lateinit var mContext: Context
 
   @RequiresApi(Build.VERSION_CODES.P)
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
     setContentView(R.layout.activity_login)
 
     hashKey()
-    mContext = baseContext
     // 세션 콜백 등록
     Session.getCurrentSession().addCallback(callback)
   }
@@ -95,14 +85,11 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onSuccess(result: MeV2Response?) {
           // register or login
-          //TODO: DB에 카카오톡 정보 업르드
-
           Logg.d(result!!.id.toString())
           SharedPref.autoLoginKey = result.id.toString()
           Logg.d(result.kakaoAccount.email)
 
 
-          //TODO: PaymentKeySetting 액티비티로 넘어가서 할 일
           val intent = Intent(baseContext, PaymentKeySettingActivity::class.java)
           intent.putExtra("email", result.kakaoAccount.email)
           startActivity(intent)

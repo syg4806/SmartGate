@@ -30,7 +30,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
     clickListenerSetting()
   }
 
-  fun clickListenerSetting() {
+  private fun clickListenerSetting() {
     password_1.setOnClickListener(this)
     password_2.setOnClickListener(this)
     password_3.setOnClickListener(this)

@@ -12,14 +12,7 @@ import kotlinx.android.synthetic.main.activity_payment_key_setting.*
 class PaymentKeyBookingActivity : View.OnClickListener, PaymentKeySettingActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
     paymentKeyTextView.text = "결제 비밀 번호 입력"
-
-    password = ""
-    numberList.shuffle()
-
-    setNumber(numberList)
-    clickListenerSetting()
   }
 
   override fun check(mode: Boolean) {
