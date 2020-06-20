@@ -1,76 +1,103 @@
 package com.chambit.smartgate.ui.beacon
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
-import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
-import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.extension.show
+import com.chambit.smartgate.extensions.longToast
+import com.chambit.smartgate.extensions.shortToast
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
+import com.chambit.smartgate.ui.BaseActivity
+import com.chambit.smartgate.ui.main.mypage.usedticketlookup.UsedTicketActivity
+import com.chambit.smartgate.ui.main.mypage.usedticketlookup.UsedTicketActivity.Companion.USETICKET
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.ui.main.myticket.MyTicketActivity.Companion.RECALL
 import com.chambit.smartgate.util.Logg
+import kotlinx.android.synthetic.main.activity_ticket_using.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.altbeacon.beacon.*
+import org.altbeacon.beacon.BeaconConsumer
+import org.altbeacon.beacon.BeaconManager
+import org.altbeacon.beacon.BeaconParser
+import org.altbeacon.beacon.Region
+import java.net.HttpURLConnection
+import java.net.URL
 
 
-class TicketUsingActivity : BaseActivity() , BeaconConsumer {
+class TicketUsingActivity : BaseActivity(), BeaconConsumer {
+  companion object {
+    //TODO : Test용 1m입니다. 후에 다시 0.5로 변경필요
+    const val BOUNDARY = 1.0 //0.5m
+    const val TICKET_USING_TIME=60
+    const val GATE_REGION_ID = "gateSearching"
+  }
+
   private val multiplePermissionsCode = 100          //권한
   private val requiredPermissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
   private lateinit var ownedTicket: OwnedTicket
-  private lateinit var ticketData: TicketData
-  lateinit var beaconManager: BeaconManager
-
-  // 감지된 비콘들을 임시로 담을 리스트
-  var beaconList = ArrayList<Beacon>();
-  var BSearching = true
+  private lateinit var beaconManager: BeaconManager
+  private var searchFlag = true
+  private lateinit var gateArrayList: List<String>
 
   @RequiresApi(Build.VERSION_CODES.P)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_test_b_l_e)
-    val certificateNo = intent.getLongExtra(CERTIFICATE_NO,0L)
+    setContentView(R.layout.activity_ticket_using)
+    val certificateNo = intent.getLongExtra(CERTIFICATE_NO, 0L)
     checkPermissions()
+    initBeaconConsumer()
+    Glide.with(this).load(R.drawable.ic_wave).fitCenter().into(usingTicketBackground)
     launch {
-      FBTicketRepository().getOwnedTicket(certificateNo)?.let {
-        ownedTicket = it
-        ticketData = FBTicketRepository().getTicket(ownedTicket?.ticketRef!!)
-        initBeaconConsumer()
-      }
+      ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
+      gateArrayList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)
+      readAdvertise()
     }
+    launch {
+      var timer = TICKET_USING_TIME
+      while (timer > 0) {
+        usingTicketCountTV.text = timer.toString()
+        timer--
+        delay(1000)
+      }
+      finishUsing(false)
+    }
+  }
 
+  private fun finishUsing(isSucceed: Boolean) {
+    if (isSucceed) {
+      startActivity(Intent(this, UsedTicketActivity::class.java).apply {
+        putExtra(USETICKET, true)
+      })
+    } else {
+      startActivity(Intent(this, MyTicketActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        putExtra(RECALL, true)
+      })
+    }
+    finish()
+  }
 
+  private fun readAdvertise() {
+    // 비콘 탐지 서비스를 액티비티에 바인드
+    beaconManager.bind(this)
   }
 
   private fun initBeaconConsumer() {
-    // 실제로 비콘을 탐지하기 위한 비콘매니저 객체를 초기화
     beaconManager = BeaconManager.getInstanceForApplication(App.instance);
-
-    // 여기가 중요한데, 기기에 따라서 setBeaconLayout 안의 내용을 바꿔줘야 하는듯 싶다.
-    // 필자의 경우에는 아래처럼 하니 잘 동작했음.
     beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT))
-    beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconParser.URI_BEACON_LAYOUT))
-
-    // 비콘 탐지를 시작한다. 실제로는 서비스를 시작하는것.
-    beaconManager.bind(this);
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    Logg.d("destroy!!!")
-    beaconManager.unbind(this@TicketUsingActivity)
   }
 
   private fun checkPermissions() {
@@ -119,10 +146,12 @@ class TicketUsingActivity : BaseActivity() , BeaconConsumer {
 
   override fun onBeaconServiceConnect() {
     beaconManager.addRangeNotifier { beacons, region ->
-      if (BSearching) {
+      if (searchFlag) {
         if (beacons.isNotEmpty()) {
-          BSearching = false
-          beaconList.clear()
+          searchFlag = false
+          logView.text = beacons.joinToString {
+            "ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f", it.distance)
+          }
           beacons.forEach {
             Logg.d(
               "ID : " + it.id2 + " / " + "Distance : " + String.format(
@@ -130,48 +159,63 @@ class TicketUsingActivity : BaseActivity() , BeaconConsumer {
                 it.distance
               )
             )
-            if (it.distance < 1) {
-              beaconList.add(it)
+            if (gateArrayList.contains(it.id2.toString())) {
+              if (it.distance < BOUNDARY) {
+                useTicket(it.id2.toString())
+              } else {
+                searchFlag = true
+              }
+            } else {
+              this.longToast("게이트에 가까이 이동해주세요.")
+              searchFlag = true
             }
           }
-          checkPlace()
         }
+      } else {
+        Logg.d("waiting to research")
       }
     }
     try {
       beaconManager.startRangingBeaconsInRegion(
         Region(
-          "myMonitoringUniqueId",
+          GATE_REGION_ID,
           null,
           null,
           null
         )
       )
     } catch (ignored: RemoteException) {
-      Log.e("onBeaconServiceConnect", ignored.toString())
+      Logg.e("$ignored")
     }
   }
 
-  private fun checkPlace() {
-    launch {
-      val ticketIdList =
-        FBPlaceRepository().listAvailableTickets(beaconList.first().id2.toString())?.map { it.id }
-      if (ticketIdList!!.contains(ticketData.id)) {
-        useTicket()
-      }else{
-        "해당 티켓을 사용할 수 없는 장소입니다.".show()
-        BSearching = true
-      }
-    }
+  override fun onStop() {
+    super.onStop()
+    beaconManager.unbind(this)
   }
 
-  private fun useTicket(){
+  private fun useTicket(gateId: String) {
     launch {
-      if(FBTicketRepository().deleteTicket(ownedTicket.certificateNo!!)){
-        finish()
-      }else{
-        BSearching = true
+      //Ticket 사용 요청
+      if (!FBTicketRepository().useTicket(ownedTicket.certificateNo!!)) {
+        this@TicketUsingActivity.longToast("티켓 사용에 실패했습니다.")
+        searchFlag = true
       }
+      //TODO : Shared에서 유저 이름 가져오기
+      val userName = "TEST"
+      CoroutineScope(Dispatchers.IO).launch {
+        val gateIp = FBPlaceRepository().getGateIp(gateId)
+        val url = URL("http://" + gateIp + "/entergate/?name=${userName}")
+        Logg.d("request opening to $url")
+        val myConnection = url.openConnection() as HttpURLConnection
+        if (myConnection.responseCode == 200) {
+          Logg.d("success to communicate with beacon")
+          finishUsing(true)
+        } else {
+          Logg.e("error : ${myConnection.responseMessage}")
+        }
+      }
+      this@TicketUsingActivity.shortToast("티켓을 사용 중 입니다.")
     }
   }
 }

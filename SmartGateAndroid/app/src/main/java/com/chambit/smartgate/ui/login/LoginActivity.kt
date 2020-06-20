@@ -1,11 +1,7 @@
 package com.chambit.smartgate.ui.login
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Base64
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.util.Logg
@@ -17,7 +13,6 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
-import java.security.MessageDigest
 
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()

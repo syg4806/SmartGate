@@ -3,7 +3,7 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.extension.show
+import com.chambit.smartgate.dataClass.TicketState
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
@@ -68,7 +68,7 @@ class FBTicketRepository {
       db.collection("users").whereEqualTo("uid", SharedPref.autoLoginKey).get()
         .addOnSuccessListener {
           val ownedTicket =
-            OwnedTicket(System.currentTimeMillis(), ticketRef, false, expirationDate)
+            OwnedTicket(System.currentTimeMillis(), ticketRef, TicketState.UNUSED, expirationDate)
           it.last().reference.collection("ownedTickets")
             .document(ownedTicket.certificateNo.toString()).set(ownedTicket)
         }
@@ -78,11 +78,11 @@ class FBTicketRepository {
   /**
    * user가 보유한 ownedTickets의 리스트를 반환한다.
    */
-  suspend fun listOwnedTickets(used: Boolean): MutableList<OwnedTicket> {
+  suspend fun listOwnedTickets(ticketState: TicketState): MutableList<OwnedTicket> {
     Logg.d("ListTickets start")
     val data = db.collection("users").document(SharedPref.autoLoginKey)
       .collection("ownedTickets")
-      .whereEqualTo("used", used)
+      .whereEqualTo("used", ticketState)
       .get()
       .await()
     Logg.d("await finish")
@@ -96,15 +96,15 @@ class FBTicketRepository {
     return ticketRef.get().await().toObject(TicketData::class.java)!!
   }
 
-  suspend fun deleteTicket(certificateNo: Long): Boolean {
+  suspend fun useTicket(certificateNo: Long): Boolean {
     return try {
       db.collection("users").document(SharedPref.autoLoginKey).collection("ownedTickets")
         .whereEqualTo("certificateNo", certificateNo).get()
-        .await().documents.first().reference.delete().await()
-      "티켓이 사용되었습니다.".show()
+        .await().documents.first().reference.update(
+          "used", TicketState.USED
+        ).await()
       true
     } catch (e: Exception) {
-      "티켓 사용에 실패 했습니다.".show()
       false
     }
   }

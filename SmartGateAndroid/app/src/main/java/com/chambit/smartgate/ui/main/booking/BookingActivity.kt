@@ -5,20 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
-import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
+import com.chambit.smartgate.extensions.shortToast
 import com.chambit.smartgate.network.*
+import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
@@ -153,7 +152,7 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
           }
 
         } else
-          "결제 동의를 클릭해주세요".show()
+          this.shortToast("결제 동의를 클릭해주세요")
       }
       R.id.ticketDatePicker -> {
         val now = Calendar.getInstance()

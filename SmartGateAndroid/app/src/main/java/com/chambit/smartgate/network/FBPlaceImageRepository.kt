@@ -25,6 +25,7 @@ class FBPlaceImageRepository() {
         progressBar.dismiss()
       }
     }
+
   }
 
   fun getPlaceImage(imageView: ImageView, ImagePath: String, activity: Activity) {

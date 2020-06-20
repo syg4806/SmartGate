@@ -10,6 +10,12 @@ open class BaseFB {
   val db = FirebaseFirestore.getInstance()
 
 
+  companion object {
+    const val GATES = "gates"
+    const val GATE_ID = "gateId"
+    const val GATE_IP = "gateIP"
+  }
+
   suspend fun getImage(imgPath: String): Uri {
     return storage.reference.child(imgPath).downloadUrl.await()
   }

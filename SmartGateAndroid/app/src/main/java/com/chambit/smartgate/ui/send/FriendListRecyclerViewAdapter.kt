@@ -19,7 +19,7 @@ class FriendListRecyclerViewAdapter(
 
   var context: Context? = null // 부모 context
   var uuids: ArrayList<String>? = null
-  var selectFlag : Boolean? = null
+  var selectFlag: Boolean? = null
 
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
@@ -28,12 +28,11 @@ class FriendListRecyclerViewAdapter(
 
     holder.friendNameTextView.text = friend.friendInfo!!.profileNickname
     val uuid = friend.friendInfo!!.uuid // 메시지 전송 시 사용
-    Logg.d("나와라~")
 
-    if(friend.selectFlag){
+    if (friend.selectFlag) {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_checked)
       Logg.d("유유아이디 : ${friend.friendInfo!!.profileNickname}")
-    }else{
+    } else {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_unchecked)
     }
 
@@ -54,7 +53,7 @@ class FriendListRecyclerViewAdapter(
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): mViewHolder {
     val view = LayoutInflater.from(parent.context)
       .inflate(R.layout.friend_item, parent, false)
-    context =activity
+    context = activity
     return mViewHolder(view) //view 객체는 한개의 리사이클러뷰가 디자인 되어 있는 레이아웃을 의미
   }
 

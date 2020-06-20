@@ -66,8 +66,8 @@ class SendTicketActivity : AppCompatActivity() {
   fun onClick(view: View) {
     when (view.id) {
       R.id.giftButton -> {
-        val list = friendList.filter {it.selectFlag }
-        list.forEach{
+        val list = friendList.filter { it.selectFlag }
+        list.forEach {
           //카톡을 보내요
           uuids.add(it.friendInfo!!.uuid)
           Logg.d(it.friendInfo!!.profileNickname)
@@ -77,8 +77,11 @@ class SendTicketActivity : AppCompatActivity() {
     }
   }
 
-  fun sendKakaoMassage(uuids : ArrayList<String>){
-    val textTemplate = TextTemplate.newBuilder("안녕안녕",LinkObject.newBuilder().setAndroidExecutionParams("https://www.naver.com/").build())
+  fun sendKakaoMassage(uuids: ArrayList<String>) {
+    val textTemplate = TextTemplate.newBuilder(
+      "안녕안녕",
+      LinkObject.newBuilder().setAndroidExecutionParams("https://www.naver.com/").build()
+    )
 //      .addButton(ButtonObject("앱에서 보기",LinkObject.newBuilder().setWebUrl("https://www.naver.com/").setMobileWebUrl("https://www.naver.com/")))
     val link = LinkObject.newBuilder()
       .setWebUrl("https://www.naver.com/")
@@ -87,7 +90,8 @@ class SendTicketActivity : AppCompatActivity() {
     val params: TemplateParams = TextTemplate.newBuilder("Text", link)
       .setButtonTitle("This is button")
       .build()
-    KakaoTalkService.getInstance().sendMessageToFriends(uuids, params, object : TalkResponseCallback<MessageSendResponse>(){
+    KakaoTalkService.getInstance()
+      .sendMessageToFriends(uuids, params, object : TalkResponseCallback<MessageSendResponse>() {
         override fun onNotKakaoTalkUser() {
           TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
@@ -104,7 +108,7 @@ class SendTicketActivity : AppCompatActivity() {
         override fun onSuccess(result: MessageSendResponse?) {
           if (result!!.successfulReceiverUuids() != null) {
             Logg.i("친구에게 보내기 성공")
-            Logg.d( "전송에 성공한 대상: " + result.successfulReceiverUuids())
+            Logg.d("전송에 성공한 대상: " + result.successfulReceiverUuids())
           }
         }
       })
