@@ -6,6 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.CardData
+import com.chambit.smartgate.extensions.gone
+import com.chambit.smartgate.extensions.visible
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
@@ -16,7 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class CardManagementActivity : AppCompatActivity(), View.OnClickListener, CoroutineScope by MainScope() {
+class CardManagementActivity : AppCompatActivity(), View.OnClickListener,
+  CoroutineScope by MainScope() {
   lateinit var nextIntent: Intent
 
 
@@ -33,25 +36,22 @@ class CardManagementActivity : AppCompatActivity(), View.OnClickListener, Corout
     super.onResume()
 
     launch {
-      FBUsersRepository().getUserCard().let {
-        if (it != null) {
-          //TODO 살짝 비동기 문제인지 등록하자마자 VIEW에 뜨는게 느릴때가 있어서 밀리는 경우가 있는데.. 이걸 어떻게 해야할까요..
-          cardImageView.isEnabled = false
-          cardImageView.visibility = View.VISIBLE
-          cardDeleteButton.visibility = View.VISIBLE
+      FBUsersRepository().getUserCard()?.let {
+        //TODO 살짝 비동기 문제인지 등록하자마자 VIEW에 뜨는게 느릴때가 있어서 밀리는 경우가 있는데.. 이걸 어떻게 해야할까요..
+        cardImageView.isEnabled = false
+        cardImageView.visible()
+        cardDeleteButton.visible()
 
-          cardImageView.setImageResource(R.drawable.ic_card_default_image)
-          cardNumberTextView.text = it.number
-          cardCVCTextView.text = it.cvc
-          cardNameTextView.text = it.name
-          cardValidityTextView.text = it.validity
-        }
-        else {
-          cardImageView.isEnabled = true
-          cardImageView.setImageResource(R.drawable.ic_card_add)
-          cardDeleteButton.visibility = View.GONE
-          cardImageView.visibility = View.VISIBLE
-        }
+        cardImageView.setImageResource(R.drawable.ic_card_default_image)
+        cardNumberTextView.text = it.number
+        cardCVCTextView.text = it.cvc
+        cardNameTextView.text = it.name
+        cardValidityTextView.text = it.validity
+      } ?: run {
+        cardImageView.isEnabled = true
+        cardImageView.setImageResource(R.drawable.ic_card_add)
+        cardDeleteButton.gone()
+        cardImageView.visible()
       }
     }
   }
@@ -64,8 +64,8 @@ class CardManagementActivity : AppCompatActivity(), View.OnClickListener, Corout
       R.id.cardDeleteButton -> {
         cardImageView.isEnabled = true
         cardImageView.setImageResource(R.drawable.ic_card_add)
-        cardDeleteButton.visibility = View.GONE
-        cardNumberTextView.visibility = View.GONE
+        cardDeleteButton.gone()
+        cardNumberTextView.gone()
         cardCVCTextView.text = ""
         cardNameTextView.text = ""
         cardValidityTextView.text = ""

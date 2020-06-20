@@ -27,6 +27,7 @@ import java.security.MessageDigest
 
 class LoginActivity : AppCompatActivity() {
   private var callback: SessionCallback = SessionCallback()
+
   //TODO : 이런 context 사용은 왠만하면 빼주세요
   lateinit var mContext: Context
 
@@ -51,8 +52,6 @@ class LoginActivity : AppCompatActivity() {
     }
     val md = MessageDigest.getInstance("SHA")
     for (signature in signatures) {
-      val md: MessageDigest
-      md = MessageDigest.getInstance("SHA")
       md.update(signature.toByteArray())
       val key = String(Base64.encode(md.digest(), 0))
       Logg.d("Hash key: $key")
@@ -125,11 +124,11 @@ class LoginActivity : AppCompatActivity() {
 /* // 세션 콜백 구현
     private val sessionCallback: ISessionCallback = object : ISessionCallback {
         override fun onSessionOpened() {
-            Log.i("KAKAO_SESSION", "로그인 성공")
+            Logg.i("KAKAO_SESSION", "로그인 성공")
         }
 
         override fun onSessionOpenFailed(exception: KakaoException?) {
-            Log.d("","KAKAO_SESSION", "로그인 실패", exception)
+            Logg.d("","KAKAO_SESSION", "로그인 실패", exception)
         }
     }
 

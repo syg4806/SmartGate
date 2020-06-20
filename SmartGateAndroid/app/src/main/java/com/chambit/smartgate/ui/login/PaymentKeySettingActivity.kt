@@ -3,31 +3,34 @@ package com.chambit.smartgate.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.main.MainActivity
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
-import kotlinx.android.synthetic.main.activity_booking.*
-import kotlinx.android.synthetic.main.activity_booking.paymentButton
 import kotlinx.android.synthetic.main.activity_payment_key_setting.*
 
-class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
+open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
   var password = ""
   var passwordConfirmation = false
-  private val numberList = arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
-
+  val numberList = arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+  lateinit var imageViewList : ArrayList<ImageView>
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_payment_key_setting)
 
+    imageViewList = arrayListOf(dot1, dot2, dot3, dot4, dot5, dot6)
     numberList.shuffle()
     setNumber(numberList)
+    clickListenerSetting()
+  }
 
+  fun clickListenerSetting() {
     password_1.setOnClickListener(this)
     password_2.setOnClickListener(this)
     password_3.setOnClickListener(this)
@@ -42,7 +45,7 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
     password_12.setOnClickListener(this)
   }
 
-  private fun setNumber(list: ArrayList<String>) {
+  fun setNumber(list: ArrayList<String>) {
     password_1.text = list[0]
     password_2.text = list[1]
     password_3.text = list[2]
@@ -55,65 +58,28 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
     password_11.text = list[9]
   }
 
-  private fun imageInit() {
-    dot1.setImageResource(R.drawable.dot)
-    dot2.setImageResource(R.drawable.dot)
-    dot3.setImageResource(R.drawable.dot)
-    dot4.setImageResource(R.drawable.dot)
-    dot5.setImageResource(R.drawable.dot)
+  fun imageInit() {
+    imageViewList.forEach { it.setImageResource(R.drawable.dot) }
   }
 
-  private fun check(mode: Boolean) {
-    if (password.length == 1) {
-      if (mode) {
-        dot1.setImageResource(R.drawable.dot_fill)
-      }
-      else {
-        dot1.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
-      }
-    }
-    if (password.length == 2) {
-      if (mode) {
-        dot2.setImageResource(R.drawable.dot_fill)
-      }
-      else {
-        dot2.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
-      }
-    }
-    if (password.length == 3) {
-      if (mode) {
-        dot3.setImageResource(R.drawable.dot_fill)
-      }
-      else {
-        dot3.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
-      }
-    }
+  private fun deletePassword() {
+    password = password.subSequence(0, password.length - 1).toString()
+  }
 
-    if (password.length == 4) {
-      if (mode) {
-        dot4.setImageResource(R.drawable.dot_fill)
-      }
-      else {
-        dot4.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
-      }
+  fun clickCheck(index: Int, mode: Boolean) {
+    if (mode) {
+      imageViewList[index-1].setImageResource(R.drawable.dot_fill)
+    } else {
+      imageViewList[index-1].setImageResource(R.drawable.dot)
+      deletePassword()
     }
+  }
 
-    if (password.length == 5) {
-      if (mode) {
-        dot5.setImageResource(R.drawable.dot_fill)
-      }
-      else {
-        dot5.setImageResource(R.drawable.dot)
-        password = password.subSequence(0, password.length-1).toString()
-      }
-    }
+  open fun check(mode: Boolean) {
+    clickCheck(password.length, mode)
+
     if (password.length == 6) {
       val email = intent.getStringExtra("email")
-      // TODO 비밀번호 확인 만들기
       if (!passwordConfirmation) {
         SharedPref.paymentKey = password
         password = ""
@@ -123,15 +89,13 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
         paymentKeyTextView.text = "비밀 번호 확인"
         Toast.makeText(this, "비밀 번호 확인 입력을 해주세요", Toast.LENGTH_LONG).show()
         passwordConfirmation = true
-      }
-      else {
+      } else {
         if (SharedPref.paymentKey == password) {
           FBUsersRepository().userSignUp(email!!)
           val intent = Intent(baseContext, MainActivity::class.java)
           startActivity(intent)
           finish()
-        }
-        else {
+        } else {
           Toast.makeText(this, "비밀 번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show()
           password = ""
           imageInit()
@@ -142,7 +106,7 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
     }
   }
 
-  override fun onClick(v: View?) {
+  fun clickSetting(v: View?) {
     when (v!!.id) {
       R.id.password_1 -> {
         password += numberList[0]
@@ -194,5 +158,9 @@ class PaymentKeySettingActivity : AppCompatActivity(), View.OnClickListener {
         }
       }
     }
+  }
+
+  override fun onClick(v: View?) {
+    clickSetting(v)
   }
 }

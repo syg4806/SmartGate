@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
-class BookingActivity :  BaseActivity(), View.OnClickListener {
+class BookingActivity : BaseActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
   lateinit var placeId: String
   lateinit var tickets: ArrayList<TicketData>
@@ -53,7 +53,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
           val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
           startActivityForResult(intent, 0)
           launch {
-          //  "인식 가능한 지문이 등록되어 있지 않습니다.".show()
+            //  "인식 가능한 지문이 등록되어 있지 않습니다.".show()
           }
 
         }
@@ -67,7 +67,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
             result.cryptoObject
 
           launch {
-           // "지문 인증에 성공하였습니다.".show()
+            // "지문 인증에 성공하였습니다.".show()
             booking()
           }
           // User has verified the signature, cipher, or message
@@ -78,7 +78,7 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-          //  "지문 인증에 실패하였습니다.".show()
+            //  "지문 인증에 실패하였습니다.".show()
           }
         }
       })
@@ -90,10 +90,8 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
 
-    if (requestCode == 0) {
-      if (resultCode == 100) {
-        booking()
-      }
+    if (requestCode == 0 && resultCode == 100) {
+      booking()
     }
   }
 
@@ -179,14 +177,14 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
   private fun booking() {
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
+    FBTicketRepository().buyTicket(
+      tickets[ticketNo].placeRef!!.collection(
+        "tickets"
+      ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
+    )
     noticePopup = ChoicePopUp(this,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
       View.OnClickListener {
-        FBTicketRepository().buyTicket(
-          tickets[ticketNo].placeRef!!.collection(
-            "tickets"
-          ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
-        )
         finish()
       },
       View.OnClickListener {
@@ -208,8 +206,13 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         ticketCounts.add(i.toString())
       }
 
-      ticketKindSpinner.adapter =  ArrayAdapter(this@BookingActivity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
-      ticketCountSpinner.adapter = ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
+      ticketKindSpinner.adapter = ArrayAdapter(
+        this@BookingActivity,
+        R.layout.support_simple_spinner_dropdown_item,
+        ticketKinds
+      )
+      ticketCountSpinner.adapter =
+        ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
     }
 
     override fun myTickets(

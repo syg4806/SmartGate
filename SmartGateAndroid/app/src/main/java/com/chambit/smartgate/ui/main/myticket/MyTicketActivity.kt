@@ -44,7 +44,7 @@ class MyTicketActivity : BaseActivity() {
         myTicketActivityRecyclerView.gone()
         progressbar.dismiss()
       } else {
-        (this@MyTicketActivity).myTicketEmptyTicketView.visibility = View.GONE
+        (this@MyTicketActivity).myTicketEmptyTicketView.gone()
         //adpater 추가
 
         myTicketActivityRecyclerView.adapter =
