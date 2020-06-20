@@ -22,7 +22,7 @@ class PlaceInformationActivity : AppCompatActivity() {
     //전달 받은 값으로 Title 설정
     val placeId = intent.getStringExtra(Constants.PLACE_ID)
 
-    FBPlaceRepository().getPlaceInfo(placeId) {
+    FBPlaceRepository().getPlaceInfo(placeId!!) {
       placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(
         placeInfoMapImage,

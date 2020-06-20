@@ -72,7 +72,5 @@ class CardRecyclerAdapter(val context: Context, val ownedTickets: MutableList<Ow
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton
   }
-
-
 }
 

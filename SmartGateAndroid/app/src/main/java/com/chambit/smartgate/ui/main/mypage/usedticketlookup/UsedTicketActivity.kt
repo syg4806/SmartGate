@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
+import com.chambit.smartgate.extensions.gone
+import com.chambit.smartgate.extensions.visible
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.main.myticket.MyTicketRecyclerAdapter
 import com.chambit.smartgate.util.Logg
@@ -27,10 +29,10 @@ class UsedTicketActivity : BaseActivity() {
 
       Logg.d(ownedTickets.joinToString { it.certificateNo.toString() })
       if (ownedTickets.isEmpty()) {
-        usedTicketEmptyTicketView.visibility = View.VISIBLE
+        usedTicketEmptyTicketView.visible()
         progressbar.dismiss()
       } else {
-        this@UsedTicketActivity.usedTicketEmptyTicketView.visibility = View.GONE
+        this@UsedTicketActivity.usedTicketEmptyTicketView.gone()
         //adpater 추가
         usedTicketActivityRecyclerView.layoutManager =
           LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)

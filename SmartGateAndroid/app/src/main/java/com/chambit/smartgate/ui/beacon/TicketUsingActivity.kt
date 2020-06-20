@@ -137,7 +137,6 @@ class TicketUsingActivity : BaseActivity() , BeaconConsumer {
           checkPlace()
         }
       }
-      Log.d("ah?", "ahhahah")
     }
     try {
       beaconManager.startRangingBeaconsInRegion(
