@@ -41,6 +41,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   companion object {
     //TODO : Test용 1m입니다. 후에 다시 0.5로 변경필요
     const val BOUNDARY = 1.0 //0.5m
+    const val TICKET_USING_TIME=60
     const val GATE_REGION_ID = "gateSearching"
   }
 
@@ -65,7 +66,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
       readAdvertise()
     }
     launch {
-      var timer = 60
+      var timer = TICKET_USING_TIME
       while (timer > 0) {
         usingTicketCountTV.text = timer.toString()
         timer--

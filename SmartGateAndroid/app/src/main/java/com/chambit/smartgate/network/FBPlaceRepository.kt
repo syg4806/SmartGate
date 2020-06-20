@@ -53,8 +53,8 @@ class FBPlaceRepository {
   }
 
   suspend fun getGateIp(gateId: String): String {
-    val a = db.collection(GATES).whereEqualTo(GATE_ID, gateId).get().await()
-    return a.first().getString(GATE_IP)!!
+    return db.collection(GATES).whereEqualTo(GATE_ID, gateId).get().await().first()
+      .getString(GATE_IP)!!
   }
 
   suspend fun listGates(ticketRef: DocumentReference): List<String> {

@@ -28,7 +28,6 @@ class FriendListRecyclerViewAdapter(
 
     holder.friendNameTextView.text = friend.friendInfo!!.profileNickname
     val uuid = friend.friendInfo!!.uuid // 메시지 전송 시 사용
-    Logg.d("나와라~")
 
     if (friend.selectFlag) {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_checked)
