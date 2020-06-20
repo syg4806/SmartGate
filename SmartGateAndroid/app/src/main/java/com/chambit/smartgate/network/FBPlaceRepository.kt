@@ -13,28 +13,26 @@ import kotlinx.coroutines.tasks.await
 /**
  * 장소 데이터 관련한 Repository
  */
-class FBPlaceRepository {
-  val db = FirebaseFirestore.getInstance()
-
+class FBPlaceRepository : BaseFB() {
   /**
    * 장소 셋팅하는 함수
    */
-  fun setPlace(placeInfoData: PlaceData, listener: SetDataListener) {
-    db.collection("place").document(placeInfoData.id.toString()).set(placeInfoData)
-      .addOnSuccessListener {
-        listener.setPlaceData()
-      }
+  fun setPlace(placeInfoData: PlaceData) {
+    db.collection(PLACE).document(placeInfoData.id.toString()).set(placeInfoData)
   }
 
+  /**
+   * 장소들 목록을 불러오는 함수
+   */
   fun listPlaces(listener: (ArrayList<PlaceData>) -> Unit) {
-    db.collection("place").get()
+    db.collection(PLACE).get()
       .addOnSuccessListener { snapshot ->
         listener(ArrayList(snapshot.map { it.toObject(PlaceData::class.java) }))
       }
   }
 
   fun getPlaceInfo(id: String, listener: (PlaceData) -> Unit) {
-    db.collection("place").whereEqualTo("id", id)
+    db.collection(PLACE).whereEqualTo(ID, id)
       .get()
       .addOnSuccessListener {
         listener(it.documents.last().toObject(PlaceData::class.java)!!)
@@ -46,9 +44,8 @@ class FBPlaceRepository {
   }
 
   suspend fun listAvailableTickets(beaconId: String): MutableList<TicketData>? {
-    Logg.d("find place by beacon ID : ${beaconId}")
-    return db.collection("place").whereArrayContains("gateArray", beaconId)
-      .get().await().documents.first().reference.collection("tickets").get().await()
+    return db.collection(PLACE).whereArrayContains(GATE_ARRAY, beaconId)
+      .get().await().documents.first().reference.collection(TICKETS).get().await()
       ?.toObjects(TicketData::class.java)
   }
 

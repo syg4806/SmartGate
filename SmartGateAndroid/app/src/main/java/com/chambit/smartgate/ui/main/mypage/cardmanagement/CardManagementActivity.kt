@@ -8,6 +8,7 @@ import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.extensions.visible
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.BaseActivity
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.activity_card_management.*
 import kotlinx.coroutines.launch
 
@@ -22,9 +23,14 @@ class CardManagementActivity : BaseActivity(), View.OnClickListener {
 
   override fun onResume() {
     super.onResume()
+    Logg.d("on resume")
+
+    //TODO CARD ADD 를 하고  FINISH()로 돌아오면 ON RESUME은 호출 되는데 LAUNCH 가 실행되지 않는 오류
 
     launch {
+      Logg.d("launch")
       FBUsersRepository().getUserCard()?.let {
+        Logg.d("in it")
         cardImageView.isEnabled = false
         cardImageView.visible()
         cardDeleteButton.visible()

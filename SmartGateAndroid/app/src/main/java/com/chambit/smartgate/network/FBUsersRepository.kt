@@ -3,20 +3,21 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.CardData
 import com.chambit.smartgate.dataClass.UserInfo
 import com.chambit.smartgate.util.SharedPref
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.tasks.await
 
 class FBUsersRepository : BaseFB() {
   fun userSignUp(email: String) {
     val userInfo = UserInfo(SharedPref.autoLoginKey, email, SharedPref.paymentKey)
-    db.collection("users").document(userInfo.uid!!).set(userInfo)
+    userRef.document(userInfo.uid!!).set(userInfo)
   }
 
-  fun setUserCard(cardData: CardData) {
-    db.collection("users").document(SharedPref.autoLoginKey).collection("card").add(cardData)
+  suspend fun setUserCard(cardData: CardData): DocumentReference? {
+    return userRef.document(SharedPref.autoLoginKey).collection(CARD).add(cardData).await()
   }
 
   suspend fun getUserCard(): CardData? {
-    return db.collection("users").document(SharedPref.autoLoginKey).collection("card").get()
+    return userRef.document(SharedPref.autoLoginKey).collection(CARD).get()
       .await().documents.let {
         if (it.isEmpty()) null
         else it.first().toObject(CardData::class.java)
@@ -24,7 +25,7 @@ class FBUsersRepository : BaseFB() {
   }
 
   suspend fun deleteUserCard() {
-    db.collection("users").document(SharedPref.autoLoginKey).collection("card")
+    userRef.document(SharedPref.autoLoginKey).collection(CARD)
       .get()
       .await()
       .documents.first().reference.delete()

@@ -28,11 +28,12 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 class BookingActivity : BaseActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
   lateinit var placeId: String
-  lateinit var tickets: ArrayList<TicketData>
+  lateinit var tickets: MutableList<TicketData>
   var setMyTicketCount = 0
 
   private val executor = Executors.newSingleThreadExecutor()
@@ -69,9 +70,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
             // "지문 인증에 성공하였습니다.".show()
             booking()
           }
-          // User has verified the signature, cipher, or message
-          // authentication code (MAC) associated with the crypto object,
-          // so you can use it in your app's crypto-driven workflows.
         }
 
         override fun onAuthenticationFailed() {
@@ -81,7 +79,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
           }
         }
       })
-
     // Displays the "log in" prompt.
     biometricPrompt.authenticate(promptInfo)
   }
@@ -112,9 +109,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
           "The user hasn't associated any biometric credentials " +
             "with their account."
         )
-        launch {
-
-        }
       }
     }
 
@@ -122,7 +116,9 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     FBPlaceRepository().getPlaceInfo(placeId) {
       placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-      FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
+      launch {
+        tickets(FBTicketRepository().getTickets(placeInfoData.name!!))
+      }
       bookingName.text = placeInfoData.name
     }
     paymentButton.setOnClickListener(this)
@@ -150,7 +146,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
             val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
             startActivityForResult(intent, 0)
           }
-
         } else
           this.shortToast("결제 동의를 클릭해주세요")
       }
@@ -184,6 +179,7 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     noticePopup = ChoicePopUp(this,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
       View.OnClickListener {
+        noticePopup.dismiss()
         finish()
       },
       View.OnClickListener {
@@ -192,48 +188,24 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     noticePopup.show()
   }
 
-  private val getTicketListener = object : GetTicketListener {
-    override fun tickets(ticketDatas: ArrayList<TicketData>) {
-      tickets = ticketDatas
+  private fun tickets(ticketDatas: MutableList<TicketData>) {
+    tickets = ticketDatas
 
-      val ticketKinds = arrayListOf<String>()
-      val ticketCounts = arrayListOf<String>()
-      ticketDatas.forEach {
-        ticketKinds.add(it.kinds!!)
-      }
-      for (i in 1..5) {
-        ticketCounts.add(i.toString())
-      }
-
-      ticketKindSpinner.adapter = ArrayAdapter(
-        this@BookingActivity,
-        R.layout.support_simple_spinner_dropdown_item,
-        ticketKinds
-      )
-      ticketCountSpinner.adapter =
-        ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
+    val ticketKinds = arrayListOf<String>()
+    val ticketCounts = arrayListOf<String>()
+    ticketDatas.forEach {
+      ticketKinds.add(it.kinds!!)
+    }
+    for (i in 1..5) {
+      ticketCounts.add(i.toString())
     }
 
-    override fun myTickets(
-      myTicketDatas: ArrayList<MyTicketData>,
-      ticketDatas: ArrayList<TicketData>
-    ) {
-    }
-
-    override fun getTicketReference(reference: DocumentReference) {
-      val dt = Date()
-      val myticket = MyTicketData(dt.time.toString(), reference, 0L, TicketState.UNUSED)
-      FBTicketRepository().setMyTicket(myticket, setTicketListener)
-    }
-  }
-
-  val setTicketListener = object : SetTicketListener {
-    override fun setMyTicket() {
-      setMyTicketCount--
-      if (setMyTicketCount == 0) {
-        startActivity(Intent(this@BookingActivity, MyTicketActivity::class.java))
-        finish()
-      }
-    }
+    ticketKindSpinner.adapter = ArrayAdapter(
+      this@BookingActivity,
+      R.layout.support_simple_spinner_dropdown_item,
+      ticketKinds
+    )
+    ticketCountSpinner.adapter =
+      ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
   }
 }
