@@ -2,6 +2,9 @@ package com.chambit.smartgate.network
 
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
+import com.chambit.smartgate.network.BaseFB.Companion.GATES
+import com.chambit.smartgate.network.BaseFB.Companion.GATE_ID
+import com.chambit.smartgate.network.BaseFB.Companion.GATE_IP
 import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,5 +50,15 @@ class FBPlaceRepository {
     return db.collection("place").whereArrayContains("gateArray", beaconId)
       .get().await().documents.first().reference.collection("tickets").get().await()
       ?.toObjects(TicketData::class.java)
+  }
+
+  suspend fun getGateIp(gateId: String): String {
+    val a=db.collection(GATES).whereEqualTo(GATE_ID, gateId).get().await()
+    return a.first().getString(GATE_IP)!!
+  }
+
+  suspend fun listGates(ticketRef:DocumentReference): List<String> {
+    return ticketRef.get().await().toObject(TicketData::class.java)!!.placeRef!!.get()
+      .await().toObject(PlaceData::class.java)?.gateArray!!
   }
 }

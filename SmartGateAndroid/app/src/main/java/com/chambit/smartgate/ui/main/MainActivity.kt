@@ -8,6 +8,7 @@ import com.chambit.smartgate.R
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.ui.main.mypage.MyPageActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
+import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SetDataActivity
 
 class MainActivity : AppCompatActivity() {
