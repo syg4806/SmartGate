@@ -37,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
     val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       info.signingInfo.apkContentsSigners
     } else {
-      TODO("VERSION.SDK_INT < P")
     }
     val md = MessageDigest.getInstance("SHA")
     for (signature in signatures) {

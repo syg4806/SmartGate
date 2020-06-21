@@ -8,7 +8,9 @@ import com.chambit.smartgate.extensions.gone
 import com.chambit.smartgate.extensions.visible
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.BaseActivity
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.activity_card_management.*
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class CardManagementActivity : BaseActivity(), View.OnClickListener {
@@ -40,6 +42,8 @@ class CardManagementActivity : BaseActivity(), View.OnClickListener {
         cardDeleteButton.gone()
         cardImageView.visible()
       }
+    }.let {
+      jobList.add(it)
     }
   }
 

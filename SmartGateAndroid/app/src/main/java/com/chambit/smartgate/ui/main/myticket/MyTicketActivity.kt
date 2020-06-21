@@ -36,8 +36,7 @@ class MyTicketActivity : BaseActivity() {
 
   override fun onResume() {
     super.onResume()
-    val progressbar = MyProgressBar(this)
-    progressbar.show()
+
     launch {
       val ownedTickets = withContext(Dispatchers.IO) {
         FBTicketRepository().listOwnedTickets(TicketState.UNUSED)
@@ -50,7 +49,6 @@ class MyTicketActivity : BaseActivity() {
           finish()
         }
         myTicketActivityRecyclerView.gone()
-        progressbar.dismiss()
       } else {
         (this@MyTicketActivity).myTicketEmptyTicketView.gone()
         //adpater 추가
@@ -58,7 +56,6 @@ class MyTicketActivity : BaseActivity() {
         myTicketActivityRecyclerView.adapter =
           MyTicketRecyclerAdapter(this@MyTicketActivity, ownedTickets)
       }
-      progressbar.dismiss()
     }
   }
 }
