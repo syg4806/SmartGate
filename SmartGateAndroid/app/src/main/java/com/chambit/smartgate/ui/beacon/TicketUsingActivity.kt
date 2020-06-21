@@ -1,6 +1,7 @@
 package com.chambit.smartgate.ui.beacon
 
 import android.Manifest
+import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -14,8 +15,10 @@ import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
 import com.chambit.smartgate.dataClass.OwnedTicket
+import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.extensions.shortToast
+import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
@@ -29,6 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.altbeacon.beacon.BeaconConsumer
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
@@ -41,7 +45,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   companion object {
     //TODO : Test용 1m입니다. 후에 다시 0.5로 변경필요
     const val BOUNDARY = 1.0 //0.5m
-    const val TICKET_USING_TIME=60
+    const val TICKET_USING_TIME = 60
     const val GATE_REGION_ID = "gateSearching"
   }
 
@@ -64,7 +68,12 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
       gateArrayList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)
       readAdvertise()
+    }.let {
+      jobList.add(it)
     }
+
+
+
     launch {
       var timer = TICKET_USING_TIME
       while (timer > 0) {
@@ -92,7 +101,13 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
 
   private fun readAdvertise() {
     // 비콘 탐지 서비스를 액티비티에 바인드
-    beaconManager.bind(this)
+    val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+    if (mBluetoothAdapter.isEnabled) {
+      beaconManager.bind(this)
+    } else {
+      this.longToast("블루투스 상태를 확인해주세요")
+      finish()
+    }
   }
 
   private fun initBeaconConsumer() {
@@ -135,7 +150,8 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
         if (grantResults.isNotEmpty()) {
           for ((i, permission) in permissions.withIndex()) {
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-              //권한 획득 실패
+              this.longToast("권한이 없으면 티켓을 사용할 수 없습니다.")
+              finish()
             }
           }
         }
@@ -149,9 +165,6 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
       if (searchFlag) {
         if (beacons.isNotEmpty()) {
           searchFlag = false
-          logView.text = beacons.joinToString {
-            "ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f", it.distance)
-          }
           beacons.forEach {
             Logg.d(
               "ID : " + it.id2 + " / " + "Distance : " + String.format(
