@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
+import com.chambit.smartgate.dataClass.Gate
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.extensions.longToast
@@ -54,7 +55,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   private lateinit var ownedTicket: OwnedTicket
   private lateinit var beaconManager: BeaconManager
   private var searchFlag = true
-  private lateinit var gateArrayList: List<String>
+  private lateinit var gateList: List<Gate>
 
   @RequiresApi(Build.VERSION_CODES.P)
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,10 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     Glide.with(this).load(R.drawable.ic_wave).fitCenter().into(usingTicketBackground)
     launch {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
-      gateArrayList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)
+      gateList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)
+      Logg.d(gateList.joinToString {
+        "gate :${it.gateID}"
+      })
       readAdvertise()
     }.let {
       jobList.add(it)
@@ -164,13 +168,15 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
         if (beacons.isNotEmpty()) {
           searchFlag = false
           beacons.forEach {
+            logTxt.text="ID : " + it.id2 + " / " + "Distance : " + String.format("%.3f",it.distance)
             Logg.d(
               "ID : " + it.id2 + " / " + "Distance : " + String.format(
                 "%.3f",
                 it.distance
               )
             )
-            if (gateArrayList.contains(it.id2.toString())) {
+
+            if (gateList.map { it.gateID }.contains(it.id2.toString())) {
               if (it.distance < BOUNDARY) {
                 useTicket(it.id2.toString())
               } else {

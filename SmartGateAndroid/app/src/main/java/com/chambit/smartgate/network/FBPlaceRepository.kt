@@ -1,5 +1,6 @@
 package com.chambit.smartgate.network
 
+import com.chambit.smartgate.dataClass.Gate
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.network.BaseFB.Companion.GATES
@@ -48,8 +49,8 @@ class FBPlaceRepository : BaseFB() {
       .getString(GATE_IP)!!
   }
 
-  suspend fun listGates(ticketRef: DocumentReference): List<String> {
-    return ticketRef.get().await().toObject(TicketData::class.java)!!.placeRef!!.get()
-      .await().toObject(PlaceData::class.java)?.gateArray!!
+  suspend fun listGates(ticketRef: DocumentReference): List<Gate> {
+    return ticketRef.get().await().toObject(TicketData::class.java)!!.placeRef!!.collection(GATES)
+      .get().await().toObjects(Gate::class.java)
   }
 }
