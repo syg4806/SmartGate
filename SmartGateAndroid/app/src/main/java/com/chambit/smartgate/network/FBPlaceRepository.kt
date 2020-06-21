@@ -15,6 +15,7 @@ import kotlinx.coroutines.tasks.await
  */
 class FBPlaceRepository : BaseFB() {
   /**
+   * TEST 함수
    * 장소 셋팅하는 함수
    */
   fun setPlace(placeInfoData: PlaceData) {
@@ -31,12 +32,11 @@ class FBPlaceRepository : BaseFB() {
       }
   }
 
-  fun getPlaceInfo(id: String, listener: (PlaceData) -> Unit) {
-    db.collection(PLACE).whereEqualTo(ID, id)
+  suspend fun getPlaceInfo(id: String): PlaceData {
+    return db.collection(PLACE).whereEqualTo(ID, id)
       .get()
-      .addOnSuccessListener {
-        listener(it.documents.last().toObject(PlaceData::class.java)!!)
-      }
+      .await()
+      .documents.first().toObject(PlaceData::class.java)!!
   }
 
   fun getPlace(placeRef: DocumentReference): PlaceData? {

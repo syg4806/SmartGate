@@ -113,14 +113,19 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     }
 
     placeId = intent.getStringExtra(PLACE_ID)!!
-    FBPlaceRepository().getPlaceInfo(placeId) {
-      placeInfoData = it
-      FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-      launch {
+    launch {
+      FBPlaceRepository().getPlaceInfo(placeId).let {
+        placeInfoData = it
+        FBPlaceImageRepository().getPlaceImage(
+          bookingPlaceLogo,
+          placeInfoData.imagePath!!,
+          this@BookingActivity
+        )
         tickets(FBTicketRepository().getTickets(placeInfoData.name!!))
+        bookingName.text = placeInfoData.name
       }
-      bookingName.text = placeInfoData.name
     }
+
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
 
@@ -136,7 +141,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
       /**
        * 결제 버튼 클릭시
        */
-      // TODO 회원가입 시 , 묻기 |||| 지문인식 결제 할 때 검사해서 하기
       R.id.paymentButton -> {
         // 결제 동의 체크박스카 체크 되어있을 때만 결제 진행
         if (bookingCheckBox.isChecked) {
@@ -191,14 +195,8 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
   private fun tickets(ticketDatas: MutableList<TicketData>) {
     tickets = ticketDatas
 
-    val ticketKinds = arrayListOf<String>()
-    val ticketCounts = arrayListOf<String>()
-    ticketDatas.forEach {
-      ticketKinds.add(it.kinds!!)
-    }
-    for (i in 1..5) {
-      ticketCounts.add(i.toString())
-    }
+    val ticketKinds = ticketDatas.map { it.kinds }
+    val ticketCounts = listOf("1", "2", "3", "4", "5")
 
     ticketKindSpinner.adapter = ArrayAdapter(
       this@BookingActivity,

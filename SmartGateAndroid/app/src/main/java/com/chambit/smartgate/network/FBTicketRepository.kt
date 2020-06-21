@@ -10,6 +10,7 @@ import kotlinx.coroutines.tasks.await
 class FBTicketRepository : BaseFB() {
 
   /**
+   * TEST 함수
    * 장소와 티켓데이터를 통해
    * 장소 안에 컬렉션으로 티켓을 반영한다.
    */
@@ -53,12 +54,11 @@ class FBTicketRepository : BaseFB() {
    * user가 보유한 ownedTickets의 리스트를 반환한다.
    */
   suspend fun listOwnedTickets(ticketState: TicketState): MutableList<OwnedTicket> {
-    val data = userRef.document(SharedPref.autoLoginKey)
+    return userRef.document(SharedPref.autoLoginKey)
       .collection(OWNED_TICKET)
       .whereEqualTo(USED, ticketState)
       .get()
-      .await()
-    return data!!.toObjects(OwnedTicket::class.java)
+      .await().toObjects(OwnedTicket::class.java)
   }
 
   /**
