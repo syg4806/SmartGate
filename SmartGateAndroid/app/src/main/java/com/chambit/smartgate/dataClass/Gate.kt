@@ -1,4 +1,7 @@
 package com.chambit.smartgate.dataClass
 
-class Gate {
-}
+data class Gate(
+  var gateID:String?=null,
+  var gateIP:String?=null,
+  var placeID:String?=null
+)
