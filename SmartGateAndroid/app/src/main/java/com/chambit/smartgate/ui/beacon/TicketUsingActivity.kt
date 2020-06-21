@@ -72,8 +72,6 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
       jobList.add(it)
     }
 
-
-
     launch {
       var timer = TICKET_USING_TIME
       while (timer > 0) {
@@ -102,7 +100,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   private fun readAdvertise() {
     // 비콘 탐지 서비스를 액티비티에 바인드
     val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    if (mBluetoothAdapter.isEnabled) {
+    if (mBluetoothAdapter!=null&&mBluetoothAdapter.isEnabled) {
       beaconManager.bind(this)
     } else {
       this.longToast("블루투스 상태를 확인해주세요")
