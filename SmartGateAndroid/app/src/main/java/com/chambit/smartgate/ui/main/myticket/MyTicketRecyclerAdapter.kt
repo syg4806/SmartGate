@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
-import com.chambit.smartgate.constant.Constants.TICKET_DATA
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
@@ -24,7 +23,7 @@ import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.*
 
 
-class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableList<OwnedTicket>) :
+class MyTicketRecyclerAdapter(val context: Context, private val ownedTickets: MutableList<OwnedTicket>) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>(), CoroutineScope by MainScope() {
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
@@ -83,7 +82,7 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
     var kinds = view.myTicketItemKindsTextView
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton
-    var useButton=view.myTicketActivityItemUseButton
+    var useButton = view.myTicketActivityItemUseButton
   }
 
 

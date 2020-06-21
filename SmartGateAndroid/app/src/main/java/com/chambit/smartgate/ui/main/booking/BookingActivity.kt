@@ -5,34 +5,35 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import com.chambit.smartgate.BaseActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.dataClass.MyTicketData
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
-import com.chambit.smartgate.extension.show
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
+import com.chambit.smartgate.extensions.shortToast
 import com.chambit.smartgate.network.*
+import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.myticket.MyTicketActivity
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
+import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_booking.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
-class BookingActivity :  BaseActivity(), View.OnClickListener {
+class BookingActivity : BaseActivity(), View.OnClickListener {
   var placeInfoData = PlaceData()
   lateinit var placeId: String
-  lateinit var tickets: ArrayList<TicketData>
+  lateinit var tickets: MutableList<TicketData>
   var setMyTicketCount = 0
 
   private val executor = Executors.newSingleThreadExecutor()
@@ -49,9 +50,10 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
           errString: CharSequence
         ) {
           super.onAuthenticationError(errorCode, errString)
-
+          val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
+          startActivityForResult(intent, 0)
           launch {
-            "인식 가능한 지문이 등록되어 있지 않습니다.".show()
+            //  "인식 가능한 지문이 등록되어 있지 않습니다.".show()
           }
 
         }
@@ -65,25 +67,28 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
             result.cryptoObject
 
           launch {
-            "지문 인증에 성공하였습니다.".show()
+            // "지문 인증에 성공하였습니다.".show()
             booking()
           }
-
-          // User has verified the signature, cipher, or message
-          // authentication code (MAC) associated with the crypto object,
-          // so you can use it in your app's crypto-driven workflows.
         }
 
         override fun onAuthenticationFailed() {
           super.onAuthenticationFailed()
           launch {
-            "지문 인증에 실패하였습니다.".show()
+            //  "지문 인증에 실패하였습니다.".show()
           }
         }
       })
-
     // Displays the "log in" prompt.
     biometricPrompt.authenticate(promptInfo)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if (requestCode == 0 && resultCode == 100) {
+      booking()
+    }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,30 +97,35 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
 
     val biometricManager = BiometricManager.from(this)
     when (biometricManager.canAuthenticate()) {
-      androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS ->
-        Logg.d("ssmm11 App can authenticate using biometrics.")
+      BiometricManager.BIOMETRIC_SUCCESS -> {
+        Logg.d("App can authenticate using biometrics.")
+      }
       BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-        Logg.e("ssmm11 No biometric features available on this device.")
+        Logg.e("No biometric features available on this device.")
       BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-        Logg.e("ssmm11 Biometric features are currently unavailable.")
+        Logg.e("Biometric features are currently unavailable.")
       BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
         Logg.e(
-          "ssmm11 The user hasn't associated any biometric credentials " +
+          "The user hasn't associated any biometric credentials " +
             "with their account."
         )
-        launch {
-
-        }
       }
     }
 
     placeId = intent.getStringExtra(PLACE_ID)!!
-    FBPlaceRepository().getPlaceInfo(placeId) {
-      placeInfoData = it
-      FBPlaceImageRepository().getPlaceImage(bookingPlaceLogo, placeInfoData.imagePath!!, this)
-      FBTicketRepository().getTickets(placeInfoData.name!!, getTicketListener)
-      bookingName.text = placeInfoData.name
+    launch {
+      FBPlaceRepository().getPlaceInfo(placeId).let {
+        placeInfoData = it
+        FBPlaceImageRepository().getPlaceImage(
+          bookingPlaceLogo,
+          placeInfoData.imagePath!!,
+          this@BookingActivity
+        )
+        tickets(FBTicketRepository().getTickets(placeInfoData.name!!))
+        bookingName.text = placeInfoData.name
+      }
     }
+
     paymentButton.setOnClickListener(this)
     ticketDatePicker.setOnClickListener(this)
 
@@ -128,11 +138,20 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
 
   override fun onClick(view: View?) {
     when (view!!.id) {
+      /**
+       * 결제 버튼 클릭시
+       */
       R.id.paymentButton -> {
-        if (bookingCheckBox.isChecked)
-          showBiometricPrompt()
-        else
-          "결제 동의를 클릭해주세요".show()
+        // 결제 동의 체크박스카 체크 되어있을 때만 결제 진행
+        if (bookingCheckBox.isChecked) {
+          if (SharedPref.useFingerPrint) { // 지문 인식 기능을 check 한 경우 지문인식으로 결제
+            showBiometricPrompt()
+          } else { // 지문 인식 기능이 off 인 경우 결제 비밀번호로 결제
+            val intent = Intent(baseContext, PaymentKeyBookingActivity::class.java)
+            startActivityForResult(intent, 0)
+          }
+        } else
+          this.shortToast("결제 동의를 클릭해주세요")
       }
       R.id.ticketDatePicker -> {
         val now = Calendar.getInstance()
@@ -149,22 +168,22 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
         )
         datePicker.datePicker.minDate = System.currentTimeMillis()
         datePicker.show()
-
       }
     }
   }
 
-  fun booking() {
+  private fun booking() {
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
+    FBTicketRepository().buyTicket(
+      tickets[ticketNo].placeRef!!.collection(
+        "tickets"
+      ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
+    )
     noticePopup = ChoicePopUp(this,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
       View.OnClickListener {
-        FBTicketRepository().buyTicket(
-          tickets[ticketNo].placeRef!!.collection(
-            "tickets"
-          ).document(tickets[ticketNo].id!!), 0L, setMyTicketCount
-        )
+        noticePopup.dismiss()
         finish()
       },
       View.OnClickListener {
@@ -173,43 +192,18 @@ class BookingActivity :  BaseActivity(), View.OnClickListener {
     noticePopup.show()
   }
 
-  private val getTicketListener = object : GetTicketListener {
-    override fun tickets(ticketDatas: ArrayList<TicketData>) {
-      tickets = ticketDatas
+  private fun tickets(ticketDatas: MutableList<TicketData>) {
+    tickets = ticketDatas
 
-      val ticketKinds = arrayListOf<String>()
-      val ticketCounts = arrayListOf<String>()
-      ticketDatas.forEach {
-        ticketKinds.add(it.kinds!!)
-      }
-      for (i in 1..5) {
-        ticketCounts.add(i.toString())
-      }
+    val ticketKinds = ticketDatas.map { it.kinds }
+    val ticketCounts = listOf("1", "2", "3", "4", "5")
 
-      ticketKindSpinner.adapter =  ArrayAdapter(this@BookingActivity, R.layout.support_simple_spinner_dropdown_item, ticketKinds)
-      ticketCountSpinner.adapter = ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
-    }
-
-    override fun myTickets(
-      myTicketDatas: ArrayList<MyTicketData>,
-      ticketDatas: ArrayList<TicketData>
-    ) {
-    }
-
-    override fun getTicketReference(reference: DocumentReference) {
-      val dt = Date()
-      val myticket = MyTicketData(dt.time.toString(), reference, 0L, TicketState.UNUSED)
-      FBTicketRepository().setMyTicket(myticket, setTicketListener)
-    }
-  }
-
-  val setTicketListener = object : SetTicketListener {
-    override fun setMyTicket() {
-      setMyTicketCount--
-      if (setMyTicketCount == 0) {
-        startActivity(Intent(this@BookingActivity, MyTicketActivity::class.java))
-        finish()
-      }
-    }
+    ticketKindSpinner.adapter = ArrayAdapter(
+      this@BookingActivity,
+      R.layout.support_simple_spinner_dropdown_item,
+      ticketKinds
+    )
+    ticketCountSpinner.adapter =
+      ArrayAdapter(this@BookingActivity, R.layout.ticket_count_spinner_item, ticketCounts)
   }
 }

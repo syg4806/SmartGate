@@ -27,13 +27,13 @@ class CardRecyclerAdapter(val context: Context, val ownedTickets: MutableList<Ow
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
     val ownedTicket = ownedTickets[position]
     launch {
-      var ticketData:TicketData?=null
-      var placeData:PlaceData?=null
-      var imgUri: Uri?=null
+      var ticketData: TicketData? = null
+      var placeData: PlaceData? = null
+      var imgUri: Uri? = null
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
-          placeData= FBPlaceRepository().getPlace(it.placeRef!!)
-          imgUri=BaseFB().getImage(it.imagePath!!)
+          placeData = FBPlaceRepository().getPlace(it.placeRef!!)
+          imgUri = BaseFB().getImage(it.imagePath!!)
         }
       }
       Glide.with(App.instance)
@@ -47,8 +47,8 @@ class CardRecyclerAdapter(val context: Context, val ownedTickets: MutableList<Ow
     holder.giftButton.setOnClickListener {
       // TODO: 선물하기 화면으로 이동
       val nextIntent = Intent(context, SendTicketActivity::class.java)
-       nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
-       //nextIntent.putExtra("nickname", holder.nickname.text.toString())
+      nextIntent.putExtra("certificateNo", ownedTicket.certificateNo) //nickname 정보 인텐트로 넘김
+      //nextIntent.putExtra("nickname", holder.nickname.text.toString())
       context.startActivity(nextIntent)
     }
   }
@@ -72,7 +72,5 @@ class CardRecyclerAdapter(val context: Context, val ownedTickets: MutableList<Ow
     var date = view.myTicketItemDateTextView
     var giftButton = view.myTicketActivityItemGiftButton
   }
-
-
 }
 

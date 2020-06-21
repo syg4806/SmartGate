@@ -6,7 +6,6 @@
   android:layout_height="match_parent"
   tools:context=".ui.main.mypage.cardmanagement.CardManagementActivity">
 
-
   <ImageView
     android:id="@+id/cardManagementTitle"
     android:layout_width="match_parent"
@@ -14,8 +13,8 @@
     android:adjustViewBounds="true"
     android:background="@color/pink3"
     android:src="@drawable/ic_my_ticket_logo"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/gradient"/>
+    app:layout_constraintBottom_toTopOf="@+id/gradient"
+    app:layout_constraintTop_toTopOf="parent" />
 
   <ImageView
     android:layout_width="wrap_content"
@@ -39,13 +38,65 @@
 
   <ImageView
     android:id="@+id/cardImageView"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_card_default_image"
+    android:visibility="visible"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/gradient"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+  <TextView
+    android:id="@+id/cardValidityTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic_card_add"
-    app:layout_constraintBottom_toBottomOf="@+id/gradient"
-    app:layout_constraintEnd_toEndOf="@+id/gradient"
-    app:layout_constraintStart_toStartOf="@+id/gradient"
-    app:layout_constraintTop_toTopOf="@+id/gradient"
-    app:layout_constraintVertical_bias="0.0" />
+    android:layout_marginStart="13dp"
+    android:layout_marginTop="15dp"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="@id/cardImageView"
+    app:layout_constraintTop_toTopOf="@id/cardImageView" />
+
+  <TextView
+    android:id="@+id/cardNameTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="13dp"
+    android:layout_marginBottom="5dp"
+    android:textSize="20sp"
+    app:layout_constraintBottom_toTopOf="@id/cardNumberTextView"
+    app:layout_constraintStart_toStartOf="@id/cardImageView" />
+
+  <TextView
+    android:id="@+id/cardCVCTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:textSize="20sp"
+    app:layout_constraintBottom_toTopOf="@id/cardNumberTextView"
+    app:layout_constraintEnd_toEndOf="@id/cardNumberTextView" />
+
+
+  <TextView
+    android:id="@+id/cardNumberTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="5dp"
+    android:textSize="24sp"
+    app:layout_constraintBottom_toBottomOf="@id/cardImageView"
+    app:layout_constraintEnd_toEndOf="@id/cardImageView" />
+
+  <Button
+    android:id="@+id/cardDeleteButton"
+    android:layout_width="68dp"
+    android:layout_height="38dp"
+    android:layout_marginTop="14dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/ic_card_delete"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="@id/cardImageView"
+    app:layout_constraintTop_toTopOf="@id/cardImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

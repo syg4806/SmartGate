@@ -6,9 +6,7 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.util.MyProgressBar
 import com.google.firebase.storage.FirebaseStorage
 
-class FBPlaceImageRepository() {
-  private val storage = FirebaseStorage.getInstance("gs://smartgate-60162.appspot.com/")
-
+class FBPlaceImageRepository : BaseFB() {
   fun getPlaceLogoImage(imageView: ImageView, logoPath: String, activity: Activity) {
     val progressBar = MyProgressBar(activity)
     progressBar.show()
@@ -44,6 +42,4 @@ class FBPlaceImageRepository() {
       }
     }
   }
-
-
 }

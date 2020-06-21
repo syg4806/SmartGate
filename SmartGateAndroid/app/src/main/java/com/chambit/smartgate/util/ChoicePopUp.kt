@@ -19,7 +19,7 @@ class ChoicePopUp(
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.choice_pop_up)
-    window!!.setBackgroundDrawable(ColorDrawable (Color.TRANSPARENT)) // 지정 background 이외는 투명하게
+    window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 지정 background 이외는 투명하게
 //        requestWindowFeature(Window.FEATURE_NO_TITLE)
     bodyTextView.text = bodyText
     yesButton.setOnClickListener(yes)
