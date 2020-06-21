@@ -24,10 +24,10 @@ class FriendListRecyclerViewAdapter(
     holder.friendNameTextView.text = friend.friendInfo!!.profileNickname
     val uuid = friend.friendInfo!!.uuid // 메시지 전송 시 사용
 
-    if(friend.selectFlag){
+    if (friend.selectFlag) {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_checked)
       Logg.d("유유아이디 : ${friend.friendInfo!!.profileNickname}")
-    }else{
+    } else {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_unchecked)
     }
 

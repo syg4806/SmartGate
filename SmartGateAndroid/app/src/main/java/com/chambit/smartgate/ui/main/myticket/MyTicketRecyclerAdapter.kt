@@ -11,10 +11,7 @@ import com.bumptech.glide.Glide
 import com.chambit.smartgate.App
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.CERTIFICATE_NO
-import com.chambit.smartgate.dataClass.OwnedTicket
-import com.chambit.smartgate.dataClass.PlaceData
-import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.dataClass.TicketGiftState
+import com.chambit.smartgate.dataClass.*
 import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
@@ -25,7 +22,7 @@ import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.*
 
 
-class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableList<OwnedTicket>) :
+class MyTicketRecyclerAdapter(val context: Context, private val ownedTickets: MutableList<OwnedTicket>) :
   RecyclerView.Adapter<MyTicketRecyclerAdapter.mViewHolder>(), CoroutineScope by MainScope() {
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
@@ -40,10 +37,10 @@ class MyTicketRecyclerAdapter(val context : Context ,val ownedTickets: MutableLi
 
     launch {
       // 사용 안함 ownedTicket.used 초기 상태 false
-      if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
+      if(ownedTicket.used!! == TicketState.UNUSED && ownedTicket.giftState == TicketGiftState.NO_GIFT_YET){ // 내가 구매한 상태 : 사용 X, 선물 X
         holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_i_buy)
       }
-      else if(!ownedTicket.used!! && ownedTicket.giftState == TicketGiftState.RECEIVED){ // 선물 받은 상태 : 사용 X, 선물 받음
+      else if(ownedTicket.used!! == TicketState.UNUSED  && ownedTicket.giftState == TicketGiftState.RECEIVED){ // 선물 받은 상태 : 사용 X, 선물 받음
         holder.ticketStateImageView.setImageResource(R.drawable.ic_ticket_state_gift_given)
       }
 
