@@ -10,6 +10,7 @@ import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.MainActivity
+import com.chambit.smartgate.ui.main.mypage.paymentmanagement.PaymentManagementActivity
 import com.chambit.smartgate.util.SharedPref
 import kotlinx.android.synthetic.main.activity_payment_key_setting.*
 
@@ -91,7 +92,9 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
       } else {
         if (SharedPref.paymentKey == password) {
           FBUsersRepository().userSignUp(email!!)
-          val intent = Intent(baseContext, MainActivity::class.java)
+          var intent = Intent(baseContext, MainActivity::class.java)
+          startActivity(intent)
+          intent = Intent(baseContext, PaymentManagementActivity::class.java)
           startActivity(intent)
           finish()
         } else {

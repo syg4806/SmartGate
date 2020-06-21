@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.CardData
+import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.extensions.shortToast
 import com.chambit.smartgate.network.FBUsersRepository
 import com.chambit.smartgate.ui.BaseActivity
@@ -37,9 +38,10 @@ class CardAddActivity : BaseActivity(), View.OnClickListener {
           birth_EditText.text.toString()
         )
         launch {
-          FBUsersRepository().setUserCard(cardData)
-          this@CardAddActivity.shortToast("카드 추가가 완료되었습니다.")
-          finish()
+          FBUsersRepository().setUserCard(cardData).let {
+            this@CardAddActivity.longToast("카드 추가가 완료되었습니다.")
+            finish()
+          }
         }
       }
     }
