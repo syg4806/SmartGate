@@ -43,12 +43,6 @@ class FBPlaceRepository : BaseFB() {
     return null
   }
 
-  suspend fun listAvailableTickets(beaconId: String): MutableList<TicketData>? {
-    return db.collection(PLACE).whereArrayContains(GATE_ARRAY, beaconId)
-      .get().await().documents.first().reference.collection(TICKETS).get().await()
-      ?.toObjects(TicketData::class.java)
-  }
-
   suspend fun getGateIp(gateId: String): String {
     return db.collection(GATES).whereEqualTo(GATE_ID, gateId).get().await().first()
       .getString(GATE_IP)!!

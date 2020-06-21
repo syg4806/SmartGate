@@ -23,20 +23,18 @@ class PlaceInformationActivity : AppCompatActivity() {
     val placeId = intent.getStringExtra(Constants.PLACE_ID)
 
     FBPlaceRepository().getPlaceInfo(placeId!!) {
-      placeInfoData = it
       FBPlaceImageRepository().getPlaceImage(
         placeInfoMapImage,
-        placeInfoData.imagePath!!,
+        it.imagePath!!,
         this@PlaceInformationActivity
       )
       FBPlaceImageRepository().getPlaceLogoImage(
         placeInfoLogo,
-        placeInfoData.logoPath!!,
+        it.logoPath!!,
         this@PlaceInformationActivity
       )
       placeInfoMapDescription.text = placeInfoData.desc
     }
-
   }
 
   fun onClick(view: View) {

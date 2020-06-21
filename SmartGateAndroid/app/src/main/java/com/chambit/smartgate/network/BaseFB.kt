@@ -33,9 +33,7 @@ open class BaseFB {
 
     const val CERTIFICATE_NO = "certificateNo"
     const val CARD = "card"
-
   }
-
 
   suspend fun getImage(imgPath: String): Uri {
     return storage.reference.child(imgPath).downloadUrl.await()

@@ -17,5 +17,9 @@ class PaymentManagementActivity : AppCompatActivity() {
     toggleButton.setOnCheckedChangeListener { _, isChecked ->
       SharedPref.useFingerPrint = isChecked
     }
+
+    confirm_button.setOnClickListener {
+      finish()
+    }
   }
 }

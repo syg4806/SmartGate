@@ -3,7 +3,6 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.OwnedTicket
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketState
-import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.tasks.await
