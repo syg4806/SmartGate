@@ -159,6 +159,7 @@ class SendTicketActivity : BaseActivity() {
                 kakaoFriendInfo.friendInfo?.id.toString()
               )
             }
+
           }
 
         }

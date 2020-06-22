@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+  android:id="@+id/myTicketRecyclerBackgroud"
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="300dp"
   android:layout_height="match_parent"
@@ -22,7 +24,7 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="장소 :"
-    android:textSize="30sp"
+    android:textSize="26sp"
     android:gravity="center"
     android:fontFamily="serif"
     app:layout_constraintVertical_bias="0.14"
@@ -47,7 +49,8 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="티켓 종류 :"
-    android:textSize="30sp"
+    android:textSize="26sp"
+    android:layout_margin="5dp"
     android:gravity="center"
     android:fontFamily="serif"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemImageView"
@@ -61,7 +64,8 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:text="날짜 :"
-    android:textSize="30sp"
+    android:textSize="20sp"
+    android:layout_margin="5dp"
     android:gravity="center"
     android:fontFamily="serif"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemKindsTextView"
@@ -79,7 +83,7 @@
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    app:layout_constraintEnd_toStartOf="@id/myTicketActivityItemGiftButton"/>
 
   <Button
     android:id="@+id/myTicketActivityItemGiftButton"
@@ -87,7 +91,7 @@
     android:layout_height="30dp"
     android:background="@drawable/in_ticketbox_present_select_button"
     app:layout_constraintHorizontal_bias="0.8"
-    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintStart_toEndOf="@id/myTicketActivityItemUseButton"
     app:layout_constraintTop_toBottomOf="@+id/myTicketItemDateTextView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"/>
