@@ -113,7 +113,7 @@ class FBTicketRepository : BaseFB() {
    *  유저 ID 값을 통해 선물 상태 변경
    */
   fun changeGiftState(userID: String, certificateNo: String, giftState : TicketGiftState) {
-    db.collection("users").document(userID).collection("ownedTickets").document(certificateNo)
+    db.collection("users").document(userID).collection(OWNED_TICKET).document(certificateNo)
       .update("giftState", giftState)
 
   }

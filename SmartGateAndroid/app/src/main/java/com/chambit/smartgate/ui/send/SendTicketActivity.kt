@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
@@ -57,24 +58,38 @@ class SendTicketActivity : BaseActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_send_ticket)
 
+    // 예약하기에서 왔을 때 뒤로가기하면 실행되도록 하기위한 flag
     fromBookingFlag = intent.getBooleanExtra("goToSendActivity", false) // 기본 값은 false
-    sendTicketList = intent.getParcelableArrayExtra("sendTicketList")
 
-    sendTicketViewModel = ViewModelProvider(this).get(SendTicketViewModel::class.java)
-    sendTicketViewModel!!.CounterViewModel(sendTicketList?.size)
+    Logg.d(fromBookingFlag.toString())
 
-//    sendTicketViewModel!!.counter.observe(this, Observer {
-//      selectNum.text = it.toString()
-//    })
+    // 예약하기에서 왔으면 실행
+    if (fromBookingFlag!!) {
+
+      // 예약하기에서 받은 리스트 (ticketRef, certificateNo, expirationDate)을 받음
+      //TODO : 생성된 Ticket고유 값을 받는게 아니라서 수정해야 할듯
+      sendTicketList = intent.getParcelableArrayExtra("sendTicketListFromBooking")
+
+      // 예약하기에서 넘어온 리스트 갯수만 큼 구매 가능한 티켓 수를 표시해주기 위한 viewModel
+      sendTicketViewModel = ViewModelProvider(this).get(SendTicketViewModel::class.java)
+
+      // 예약하기에서 안왔을 때는 이건 실행 안되게 해야하므로 null 인정
+      sendTicketViewModel!!.CounterViewModel(sendTicketList?.size)
+
+      sendTicketViewModel!!.counter.observe(this, Observer {
+        selectNum.text = it?.toString()
+      })
+    }
     Logg.d(sendTicketList?.size.toString())
     Logg.d(sendTicketList?.get(0).toString())
 
+    // MyTicketRecyclerAdapter에서 받은 값들
     ticketId = intent.getStringExtra("ticketId")
     ticketKinds = intent.getStringExtra("ticketKinds")
     placeName = intent.getStringExtra("placeName")
     placeId = intent.getStringExtra("placeId")
     dateOfPurchase = intent.getLongExtra("dateOfPurchase", 0L)
-    expirationDate = intent.getLongExtra("dateOfPurchase", 0L)
+    expirationDate = intent.getLongExtra("expirationDate", 0L)
     certificateNo = intent.getLongExtra("certificateNo", 0L)
     Logg.d("${ticketId}")
     Logg.d("${ticketKinds}")
@@ -84,6 +99,11 @@ class SendTicketActivity : BaseActivity() {
     Logg.d("${expirationDate}")
     Logg.d("${certificateNo}")
     Logg.d("ticketId ? $ticketId , placeId ? ${placeId}")
+
+    //TODO : 예약하기에서는 (ticketRef, certificateNo, expirationDate)을 리스트로 받아서 갯수로 나타냄. MyTicketRecyclerAdapter에서는 위의 7가지 값을 가져오므로 이걸로 갯수 나타내도 될듯
+//    sendTicketViewModel!!.CounterViewModel()
+
+
     getKakaoFriendList()
   }
 
@@ -91,12 +111,15 @@ class SendTicketActivity : BaseActivity() {
     when (view.id) {
       R.id.giftButton -> {
         val list = friendList.filter { it.selectFlag }
+        var friendName: String? = null
         list.forEach {
           //카톡을 보내요
           Logg.d(it.friendInfo!!.uuid)
           uuids.add(it.friendInfo!!.uuid)
           Logg.d(it.friendInfo!!.profileNickname)
+          friendName = it.friendInfo!!.profileNickname
         }
+        //TODO : 팝업 띄우고 확인받고 보내기
 //        noticePopup = ChoicePopUp(this,
 //          "선물 보내기. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
 //          View.OnClickListener {
@@ -111,8 +134,9 @@ class SendTicketActivity : BaseActivity() {
 //            noticePopup.dismiss()
 //          })
 //        noticePopup.show()
-        sendKakaoMassage(uuids)
-      } /**giftButton*/
+        sendKakaoMassage(uuids, friendName!!)
+      }
+      /**giftButton*/
     }
   }
 
@@ -154,7 +178,7 @@ class SendTicketActivity : BaseActivity() {
   }
 
   var imgUri: Uri? = null
-  private fun sendKakaoMassage(uuids: ArrayList<String>) {
+  private fun sendKakaoMassage(uuids: ArrayList<String>, friendName: String) {
     // 카톡 메시지 형식 설정
     launch {
       withContext(Dispatchers.IO) {
@@ -168,7 +192,7 @@ class SendTicketActivity : BaseActivity() {
             .newBuilder(
               ContentObject.newBuilder(
                 "선물 도착!!",
-                "imgUri.toString()",
+                imgUri.toString(),
                 LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
                   .setMobileWebUrl("https://developers.kakao.com").build()
               )
@@ -190,17 +214,15 @@ class SendTicketActivity : BaseActivity() {
 
 
           // 카톡 보내기
-          KakaoTalkService.getInstance()
-            .sendMessageToFriends(
-              uuids,
-              feedTemplate,
+          KakaoTalkService.getInstance().sendMessageToFriends(uuids,feedTemplate,
               object : TalkResponseCallback<MessageSendResponse>() {
+
                 override fun onNotKakaoTalkUser() {
-                  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                  Logg.d("onNotKakaoTalkUser()")
                 }
 
                 override fun onSessionClosed(errorResult: ErrorResult?) {
-                  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                  Logg.d("onSessionClosed()")
                 }
 
                 override fun onFailure(errorResult: ErrorResult?) {
@@ -210,15 +232,19 @@ class SendTicketActivity : BaseActivity() {
 
                 override fun onSuccess(result: MessageSendResponse?) {
                   if (result!!.successfulReceiverUuids() != null) {
-                    //TODO : 선물 보내기 성공이므로 서버에 구매자 쪽 상태 : sending으로 변경하기
+                    //TODO : 카톡은 보내지는데 이쪽 성공하기가 안뜸;;
                     Logg.i("친구에게 보내기 성공")
-                    Logg.d("전송에 성공한 대상: " + result.successfulReceiverUuids())
-                    FBTicketRepository().changeGiftState(
-                      SharedPref.autoLoginKey,
-                      certificateNo.toString(),
-                      TicketGiftState.PRESENTING
-                    )
-
+                    Logg.d("전송에 성공한 대상: " + result!!.successfulReceiverUuids())
+//                    launch {
+//                      if (FBTicketRepository().useTicket(certificateNo!!)) {
+                        Logg.d("fdakjlj;faf")
+                        FBTicketRepository().changeGiftState(
+                          SharedPref.autoLoginKey,
+                          certificateNo.toString(),
+                          TicketGiftState.PRESENTING
+                        )
+//                      }
+//                    }
                   }
                 }
               })
@@ -226,6 +252,7 @@ class SendTicketActivity : BaseActivity() {
       }
     }
   }
+
   override fun onBackPressed() {
     super.onBackPressed()
     if (fromBookingFlag!!) { // true이면

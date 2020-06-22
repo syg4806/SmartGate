@@ -199,7 +199,7 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
           startActivity(Intent(this@BookingActivity, SendTicketActivity::class.java).apply {
             this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.putExtra("goToSendActivity", true)
-            this.putExtra("sendTicketList", FBTicketRepository().getToDayPurchaseTicketList(currentTime!!))
+            this.putExtra("sendTicketListFromBooking", FBTicketRepository().getToDayPurchaseTicketList(currentTime!!))
 //            FBTicketRepository().getToDayPurchaseTicketList(currentTime!!).let {
 //              Logg.d(it.toString())
 //            }
