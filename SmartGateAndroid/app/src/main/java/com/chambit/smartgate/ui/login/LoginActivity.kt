@@ -90,6 +90,7 @@ class LoginActivity : AppCompatActivity() {
 
 
           val intent = Intent(baseContext, PaymentKeySettingActivity::class.java)
+          Logg.d("email : ${result.kakaoAccount.email}")
           intent.putExtra("email", result.kakaoAccount.email)
           startActivity(intent)
           finish()

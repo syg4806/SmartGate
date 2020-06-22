@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.chambit.smartgate.R
 import com.chambit.smartgate.dataClass.KakaoFriendInfo
@@ -12,10 +13,12 @@ import kotlinx.android.synthetic.main.friend_item.view.*
 
 class FriendListRecyclerViewAdapter(
   val context: Context,
-  private val NumberOfChoices : Int,
+  private val NumberOfChoices: Int,
   private val friendList: ArrayList<KakaoFriendInfo>
 ) :
   RecyclerView.Adapter<FriendListRecyclerViewAdapter.mViewHolder>() {
+  val sendTicketViewModel =
+    ViewModelProvider(context as SendTicketActivity).get(SendTicketViewModel::class.java)
 
   //생성된 뷰 홀더에 데이터를 바인딩 해줌.
   override fun onBindViewHolder(holder: mViewHolder, position: Int) {
@@ -30,16 +33,16 @@ class FriendListRecyclerViewAdapter(
     } else {
       holder.friendCheckBox.setImageResource(R.drawable.ic_friend_unchecked)
     }
-
-    holder.friendCheckBox.setOnClickListener {
-      friend.selectFlag = !friend.selectFlag
-      notifyDataSetChanged() // onBindViewHolder recall
-    }
     holder.friendClick.setOnClickListener {
+      Logg.d("Select Flag : ${friend.selectFlag}")
+      if (friend.selectFlag) {
+        sendTicketViewModel.increase()
+      } else {
+        sendTicketViewModel.decrease()
+      }
       friend.selectFlag = !friend.selectFlag
       notifyDataSetChanged()
     }
-//    holder.friendNameTextView.text = friends
   }
 
   //뷰 홀더 생성

@@ -4,9 +4,11 @@ import android.net.Uri
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.tasks.await
 
-open class BaseFB {
+open class BaseFB :CoroutineScope by MainScope() {
   val storage = FirebaseStorage.getInstance("gs://smartgate-60162.appspot.com/")
   val db = FirebaseFirestore.getInstance()
   val userRef = db.collection(USERS)

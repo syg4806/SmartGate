@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
        */
 
       Logg.d(BaseFB().getTicketRef(placeID!!, ticketID!!).toString())
-
+/*
       FBTicketRepository().buyTicket(
         BaseFB().getTicketRef(placeID!!, ticketID!!),
         sendTicketExpirationDate!!.toLong(),
@@ -68,7 +68,7 @@ class SplashActivity : AppCompatActivity() {
         1
         ,
         TicketGiftState.RECEIVED
-      )
+      )*/
       // TODO : 위의 값이 있으면 받아오기 성공이므로 (구매자쪽 티켓상태 : sended, 받는이 쪽 : 티켓상태 : Unused)으로 변경
     }
 //    val gifImage =  GlideDrawableImageViewTarget(splashLogo);

@@ -90,7 +90,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
         passwordConfirmation = true
       } else {
         if (SharedPref.paymentKey == password) {
-          FBUsersRepository().userSignUp(email!!)
+          FBUsersRepository().userSignUp(email)
           var intent = Intent(baseContext, MainActivity::class.java)
           startActivity(intent)
           intent = Intent(baseContext, PaymentManagementActivity::class.java)

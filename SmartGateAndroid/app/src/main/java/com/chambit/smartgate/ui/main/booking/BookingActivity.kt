@@ -9,6 +9,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
+import com.chambit.smartgate.constant.Constants.PLACE_NAME
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
 import com.chambit.smartgate.dataClass.TicketGiftState
@@ -21,6 +22,7 @@ import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.MainActivity
 import com.chambit.smartgate.ui.send.SendTicketActivity
+import com.chambit.smartgate.ui.send.SendTicketActivity.Companion.TICKET_LIST
 import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
@@ -176,11 +178,6 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
   private fun booking() {
     setMyTicketCount = (ticketCountSpinner.selectedItem as String).toInt()
     val ticketNo = ticketKindSpinner.selectedItemPosition
-    FBTicketRepository().buyTicket(
-      tickets[ticketNo].placeRef!!.collection(
-        "tickets"
-      ).document(tickets[ticketNo].id!!), 0L, currentTime!!, setMyTicketCount, TicketGiftState.NO_GIFT_YET
-    )
 
     noticePopup = ChoicePopUp(this, R.drawable.ic_popup_title,
       "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
@@ -194,22 +191,34 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
       View.OnClickListener {
         // 선물하기 버튼
         // 친구 목록으로 이동
-        // TODO : 친구 목록으로 보낼때 티켓 리스트 갯수( 자기 자신꺼 빼고 ) 보내서 선택하게 하기
         launch {
           startActivity(Intent(this@BookingActivity, SendTicketActivity::class.java).apply {
             this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            this.putExtra("goToSendActivity", true)
-            this.putExtra("sendTicketListFromBooking", FBTicketRepository().getToDayPurchaseTicketList(currentTime!!))
-//            FBTicketRepository().getToDayPurchaseTicketList(currentTime!!).let {
-//              Logg.d(it.toString())
-//            }
-
+            val a=FBTicketRepository().getToDayPurchaseTicketList(currentTime!!)
+            this.putExtra(
+              TICKET_LIST,
+              a
+            )
+            this.putExtra(PLACE_ID,placeId)
+            this.putExtra(PLACE_NAME,placeInfoData.name)
           })
 
         }
         noticePopup.dismiss()
       })
-    noticePopup.show()
+
+    launch {
+      FBTicketRepository().buyTicket(
+        tickets[ticketNo].placeRef!!.collection(
+          "tickets"
+        ).document(tickets[ticketNo].id!!),
+        0L,
+        currentTime!!,
+        setMyTicketCount,
+        TicketGiftState.NO_GIFT_YET
+      )
+      noticePopup.show()
+    }
   }
 
   private fun tickets(ticketDatas: MutableList<TicketData>) {
