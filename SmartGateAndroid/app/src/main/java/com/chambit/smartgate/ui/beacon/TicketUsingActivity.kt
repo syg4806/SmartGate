@@ -68,7 +68,7 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
       FBTicketRepository().getTicket(ownedTicket.ticketRef!!).let {
         Glide.with(App.instance)
-          .load(BaseFB().getImage(it.imagePath!!))
+          .load(BaseFB().getImage(FBPlaceRepository().getPlace(FBTicketRepository().getTicket(ownedTicket.ticketRef!!).placeRef!!)!!.imagePath!!))
           .override(1024, 980)
           .into(usingTicketImageView)
       }

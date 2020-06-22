@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chambit.smartgate.R
+import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.util.MyProgressBar
@@ -34,9 +35,9 @@ class PlaceListActivity : BaseActivity() {
       R.id.searchButton -> {
         launch {
           FBPlaceRepository().searchPlace(editText.text.toString())?.let {
-            bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(it, activity)
+            bookingRecyclerView.adapter = PlaceListRecyclerViewAdapter(this@PlaceListActivity, it)
           }?:let {
-            "해당 검색 결과가 없습니다.".show()
+            baseContext.longToast("해당 검색 결과가 없습니다.")
           }
         }
       }

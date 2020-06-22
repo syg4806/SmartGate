@@ -21,7 +21,7 @@ class FBPlaceRepository : BaseFB() {
   /**
    * 장소들 목록을 불러오는 함수
    */
-  fun listPlaces(listener: (ArrayList<PlaceData>) -> Unit) {
+  fun listPlaces(listener: (List<PlaceData>) -> Unit) {
     db.collection(PLACE).get()
       .addOnSuccessListener { snapshot ->
         listener(ArrayList(snapshot.map { it.toObject(PlaceData::class.java) }))
@@ -49,14 +49,11 @@ class FBPlaceRepository : BaseFB() {
       .get().await().toObjects(Gate::class.java)
   }
 
-  suspend fun searchPlace(keyword: String): MutableList<PlaceData>? {
+  suspend fun searchPlace(keyword: String): List<PlaceData>? {
     val documentSnapshot = db.collection(PLACE).whereArrayContains(TAG, keyword).get().await()
     if (documentSnapshot.isEmpty)
       return null
     else
-      return documentSnapshot.documents.map {
-        it.toObject(PlaceData::class.java)!!
-      }.toMutableList()
-
+      return documentSnapshot.toObjects(PlaceData::class.java)
   }
 }

@@ -58,7 +58,7 @@ class MyTicketRecyclerAdapter(
       withContext(Dispatchers.IO) {
         ticketData = FBTicketRepository().getTicket(ownedTicket.ticketRef!!).also {
           placeData = FBPlaceRepository().getPlace(it.placeRef!!)
-          imgUri = BaseFB().getImage(it.imagePath!!)
+          imgUri = BaseFB().getImage(placeData!!.imagePath!!)
         }
       }
       Glide.with(App.instance)

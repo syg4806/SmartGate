@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.recycler_booking_activity_item.view.*
 
 class PlaceListRecyclerViewAdapter(
   private val activity: Activity,
-  private val placeList: ArrayList<PlaceData>
+  private val placeList: List<PlaceData>
 ) :
   RecyclerView.Adapter<PlaceListRecyclerViewAdapter.mViewHolder>() {
 
