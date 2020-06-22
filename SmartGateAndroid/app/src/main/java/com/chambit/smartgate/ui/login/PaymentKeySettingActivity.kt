@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.chambit.smartgate.R
 import com.chambit.smartgate.extensions.longToast
 import com.chambit.smartgate.network.FBUsersRepository
@@ -91,7 +90,7 @@ open class PaymentKeySettingActivity : BaseActivity(), View.OnClickListener {
         passwordConfirmation = true
       } else {
         if (SharedPref.paymentKey == password) {
-          FBUsersRepository().userSignUp(email!!)
+          FBUsersRepository().userSignUp(email)
           var intent = Intent(baseContext, MainActivity::class.java)
           startActivity(intent)
           intent = Intent(baseContext, PaymentManagementActivity::class.java)

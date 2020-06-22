@@ -88,6 +88,8 @@ dependencies {
     // 카카오톡
     implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.27.0'
 
+    // 카카오 링크
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.27.0'
     /**
      *  Kotpref - Android SharedPreference delegation for Kotlin.
      *  https://github.com/chibatching/Kotpref
