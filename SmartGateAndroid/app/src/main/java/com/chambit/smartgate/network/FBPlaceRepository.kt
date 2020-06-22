@@ -3,12 +3,7 @@ package com.chambit.smartgate.network
 import com.chambit.smartgate.dataClass.Gate
 import com.chambit.smartgate.dataClass.PlaceData
 import com.chambit.smartgate.dataClass.TicketData
-import com.chambit.smartgate.network.BaseFB.Companion.GATES
-import com.chambit.smartgate.network.BaseFB.Companion.GATE_ID
-import com.chambit.smartgate.network.BaseFB.Companion.GATE_IP
-import com.chambit.smartgate.util.Logg
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -40,8 +35,8 @@ class FBPlaceRepository : BaseFB() {
       .documents.first().toObject(PlaceData::class.java)!!
   }
 
-  fun getPlace(placeRef: DocumentReference): PlaceData? {
-    return null
+  suspend fun getPlace(placeRef: DocumentReference): PlaceData? {
+    return placeRef.get().await().toObject(PlaceData::class.java)
   }
 
   suspend fun getGateIp(gateId: String): String {

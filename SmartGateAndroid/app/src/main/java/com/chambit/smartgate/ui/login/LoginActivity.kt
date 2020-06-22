@@ -85,10 +85,12 @@ class LoginActivity : AppCompatActivity() {
           // register or login
           Logg.d(result!!.id.toString())
           SharedPref.autoLoginKey = result.id.toString()
+          SharedPref.userName = result.kakaoAccount.profile.nickname
           Logg.d(result.kakaoAccount.email)
 
 
           val intent = Intent(baseContext, PaymentKeySettingActivity::class.java)
+          Logg.d("email : ${result.kakaoAccount.email}")
           intent.putExtra("email", result.kakaoAccount.email)
           startActivity(intent)
           finish()

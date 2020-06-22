@@ -3,7 +3,6 @@ package com.chambit.smartgate.ui.main.booking
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants
 import com.chambit.smartgate.constant.Constants.PLACE_ID
@@ -40,7 +39,6 @@ class PlaceInformationActivity : BaseActivity() {
         placeInfoMapDescription.text = placeInfoData.desc
       }
     }
-
   }
 
   fun onClick(view: View) {

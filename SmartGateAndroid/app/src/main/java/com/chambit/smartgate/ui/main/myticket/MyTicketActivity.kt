@@ -13,7 +13,6 @@ import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.BaseActivity
 import com.chambit.smartgate.ui.main.booking.placelist.PlaceListActivity
 import com.chambit.smartgate.util.Logg
-import com.chambit.smartgate.util.MyProgressBar
 import kotlinx.android.synthetic.main.activity_my_ticket.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

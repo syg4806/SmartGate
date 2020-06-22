@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.choice_pop_up.*
 
 class ChoicePopUp(
   context: Context,
+  private val titleResource : Int,
   private val bodyText: String,
   private val yes: View.OnClickListener,
   private val no: View.OnClickListener
@@ -21,6 +22,7 @@ class ChoicePopUp(
     setContentView(R.layout.choice_pop_up)
     window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 지정 background 이외는 투명하게
 //        requestWindowFeature(Window.FEATURE_NO_TITLE)
+    titleImageView.setImageResource(titleResource)
     bodyTextView.text = bodyText
     yesButton.setOnClickListener(yes)
     noButton.setOnClickListener(no)

@@ -17,6 +17,7 @@ import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
 import com.chambit.smartgate.ui.send.SendTicketActivity
+import com.chambit.smartgate.util.Logg
 import kotlinx.android.synthetic.main.myticket_recycler_item.view.*
 import kotlinx.coroutines.*
 

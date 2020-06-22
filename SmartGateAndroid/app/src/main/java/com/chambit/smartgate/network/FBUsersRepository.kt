@@ -7,8 +7,11 @@ import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.tasks.await
 
 class FBUsersRepository : BaseFB() {
-  fun userSignUp(email: String) {
-    val userInfo = UserInfo(SharedPref.autoLoginKey, email, SharedPref.paymentKey)
+  fun userSignUp(email: String?) {
+    var email1=""
+    if(email.isNullOrEmpty()) email1="null"
+    else email1=email
+    val userInfo = UserInfo(SharedPref.autoLoginKey, email1, SharedPref.paymentKey)
     userRef.document(userInfo.uid!!).set(userInfo)
   }
 
