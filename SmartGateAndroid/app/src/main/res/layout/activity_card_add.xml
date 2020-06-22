@@ -6,6 +6,35 @@
   android:orientation="vertical"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".ui.main.mypage.cardmanagement.CardAddActivity">
+  <ImageView
+    android:id="@+id/cardManagementTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:background="@color/pink3"
+    android:src="@drawable/ic_my_ticket_logo"
+    app:layout_constraintBottom_toTopOf="@+id/gradient"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_card_management_text"
+    app:layout_constraintBottom_toBottomOf="@+id/cardManagementTitle"
+    app:layout_constraintEnd_toEndOf="@+id/cardManagementTitle"
+    app:layout_constraintStart_toStartOf="@+id/cardManagementTitle"
+    app:layout_constraintTop_toTopOf="@+id/cardManagementTitle" />
+
+  <ImageView
+    android:id="@+id/gradient"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@drawable/ic_card_management_gradient"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cardManagementTitle" />
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/card_information_add_layout"
@@ -18,8 +47,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.491"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="parent"
-    app:layout_constraintVertical_bias="0.613" >
+    app:layout_constraintTop_toBottomOf="parent">
 
     <EditText
       android:id="@+id/card_number_EditText"

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import com.bumptech.glide.Glide
 import com.chambit.smartgate.R
 import com.chambit.smartgate.constant.Constants.PLACE_ID
 import com.chambit.smartgate.constant.Constants.PLACE_NAME
@@ -16,6 +17,7 @@ import com.chambit.smartgate.dataClass.TicketGiftState
 import com.chambit.smartgate.extensions.M_D
 import com.chambit.smartgate.extensions.format
 import com.chambit.smartgate.extensions.shortToast
+import com.chambit.smartgate.network.BaseFB
 import com.chambit.smartgate.network.FBPlaceImageRepository
 import com.chambit.smartgate.network.FBPlaceRepository
 import com.chambit.smartgate.network.FBTicketRepository
@@ -27,6 +29,7 @@ import com.chambit.smartgate.util.ChoicePopUp
 import com.chambit.smartgate.util.Logg
 import com.chambit.smartgate.util.SharedPref
 import kotlinx.android.synthetic.main.activity_booking.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -124,7 +127,11 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
           this@BookingActivity
         )
         tickets(FBTicketRepository().getTickets(placeInfoData.name!!))
-        bookingName.text = placeInfoData.name
+        Glide.with(this@BookingActivity)
+          .load(BaseFB().getImage(it.logoPath!!))
+          .override(1024, 980)
+          .into(bookingName)
+
       }
     }
 
@@ -180,7 +187,7 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
     val ticketNo = ticketKindSpinner.selectedItemPosition
 
     noticePopup = ChoicePopUp(this, R.drawable.ic_popup_title,
-      "티켓을 구매했습니다. \n\n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
+      "티켓을 구매했습니다. \n[${placeInfoData.name},${ticketKindSpinner.selectedItem}, ${ticketCountSpinner.selectedItem} 개]",
       View.OnClickListener {
         // 메인으로 이동
         startActivity(Intent(this, MainActivity::class.java).apply {
@@ -194,10 +201,9 @@ class BookingActivity : BaseActivity(), View.OnClickListener {
         launch {
           startActivity(Intent(this@BookingActivity, SendTicketActivity::class.java).apply {
             this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            val a=FBTicketRepository().getToDayPurchaseTicketList(currentTime!!)
             this.putExtra(
               TICKET_LIST,
-              a
+              FBTicketRepository().getToDayPurchaseTicketList(currentTime!!)
             )
             this.putExtra(PLACE_ID,placeId)
             this.putExtra(PLACE_NAME,placeInfoData.name)

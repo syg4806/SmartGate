@@ -32,20 +32,20 @@
     android:id="@+id/placeListSearchView"
     android:layout_width="350dp"
     android:layout_height="0dp"
+    android:layout_margin="40dp"
     android:background="@drawable/ic_search_unpressed_button"
     android:orientation="vertical"
     android:padding="3dp"
-    android:layout_margin="40dp"
-    app:layout_constraintVertical_weight="0.8"
     app:layout_constraintBottom_toTopOf="@+id/bookingRecyclerView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/placeListTitle">
+    app:layout_constraintTop_toBottomOf="@+id/placeListTitle"
+    app:layout_constraintVertical_weight="0.8">
 
     <ImageButton
       android:id="@+id/searchButton"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
       android:layout_marginStart="10dp"
       android:adjustViewBounds="true"
       android:background="#00000000"
@@ -74,17 +74,18 @@
   <ImageView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic_booking_gradient"
     android:adjustViewBounds="true"
+    android:src="@drawable/ic_booking_gradient"
     app:layout_constraintTop_toBottomOf="@+id/placeListTitle" />
+
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/bookingRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintVertical_weight="9"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"/>
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/placeListSearchView"
+    app:layout_constraintVertical_weight="9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
