@@ -76,6 +76,7 @@ class SendTicketActivity : BaseActivity() {
       // 예약하기에서 안왔을 때는 이건 실행 안되게 해야하므로 null 인정
       sendTicketViewModel!!.CounterViewModel(sendTicketList?.size)
 
+      // TODO : 티켓 개수랑 사람 선택 버튼이랑 연결해서 숫자 바뀌게 하기
       sendTicketViewModel!!.counter.observe(this, Observer {
         selectNum.text = it?.toString()
       })
