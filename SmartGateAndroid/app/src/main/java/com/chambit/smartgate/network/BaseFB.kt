@@ -35,6 +35,8 @@ open class BaseFB :CoroutineScope by MainScope() {
 
     const val CERTIFICATE_NO = "certificateNo"
     const val CARD = "card"
+
+    const val TAG = "tag"
   }
 
   suspend fun getImage(imgPath: String): Uri {

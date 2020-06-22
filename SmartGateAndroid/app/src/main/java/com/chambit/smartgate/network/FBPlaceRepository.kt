@@ -48,4 +48,15 @@ class FBPlaceRepository : BaseFB() {
     return ticketRef.get().await().toObject(TicketData::class.java)!!.placeRef!!.collection(GATES)
       .get().await().toObjects(Gate::class.java)
   }
+
+  suspend fun searchPlace(keyword: String): MutableList<PlaceData>? {
+    val documentSnapshot = db.collection(PLACE).whereArrayContains(TAG, keyword).get().await()
+    if (documentSnapshot.isEmpty)
+      return null
+    else
+      return documentSnapshot.documents.map {
+        it.toObject(PlaceData::class.java)!!
+      }.toMutableList()
+
+  }
 }
