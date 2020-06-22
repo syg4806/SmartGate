@@ -44,8 +44,7 @@ import java.net.URL
 
 class TicketUsingActivity : BaseActivity(), BeaconConsumer {
   companion object {
-    //TODO : Test용 1m입니다. 후에 다시 0.5로 변경필요
-    const val BOUNDARY = 1.0 //0.5m
+    const val BOUNDARY = 0.5 //0.5m
     const val TICKET_USING_TIME = 60
     const val GATE_REGION_ID = "gateSearching"
   }
@@ -67,11 +66,20 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     Glide.with(this).load(R.drawable.ic_wave).fitCenter().into(usingTicketBackground)
     launch {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
+      FBTicketRepository().getTicket(ownedTicket.ticketRef!!).let {
+        Glide.with(App.instance)
+          .load(BaseFB().getImage(it.imagePath!!))
+          .override(1024, 980)
+          .into(usingTicketImageView)
+      }
+
       gateList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)
       Logg.d(gateList.joinToString {
         "gate :${it.gateID}"
       })
-      readAdvertise()
+
+      //TODO 주석 풀어야함
+      //readAdvertise()
     }.let {
       jobList.add(it)
     }
@@ -84,6 +92,8 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
         delay(1000)
       }
       finishUsing(false)
+    }.let {
+      jobList.add(it)
     }
   }
 

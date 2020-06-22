@@ -17,6 +17,7 @@
     android:layout_height="0dp"
     android:layout_marginLeft="70dp"
     android:layout_marginRight="70dp"
+    android:padding="25dp"
     android:background="@drawable/ic_using_ticket_bg"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintDimensionRatio="6:11"
@@ -24,11 +25,21 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-  <TextView
-    android:id="@+id/logTxt"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+    <ImageView
+      android:id="@+id/usingTicketImageView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      />
+
+
+    <TextView
+      android:id="@+id/logTxt"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <TextView
