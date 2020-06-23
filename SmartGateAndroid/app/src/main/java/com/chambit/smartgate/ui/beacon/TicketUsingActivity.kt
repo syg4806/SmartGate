@@ -67,10 +67,13 @@ class TicketUsingActivity : BaseActivity(), BeaconConsumer {
     launch {
       ownedTicket = FBTicketRepository().getOwnedTicket(certificateNo)!!
       FBTicketRepository().getTicket(ownedTicket.ticketRef!!).let {
+        val placeData = FBPlaceRepository().getPlace(FBTicketRepository().getTicket(ownedTicket.ticketRef!!).placeRef!!)
+        ticketUsingPlaceTextView.text = placeData!!.name
+        ticketUsingKindsTextView.text = it.kinds
         Glide.with(App.instance)
-          .load(BaseFB().getImage(FBPlaceRepository().getPlace(FBTicketRepository().getTicket(ownedTicket.ticketRef!!).placeRef!!)!!.imagePath!!))
+          .load(BaseFB().getImage(placeData.imagePath!!))
           .override(1024, 980)
-          .into(usingTicketImageView)
+          .into(ticketUsingImageView)
       }
 
       gateList = FBPlaceRepository().listGates(ownedTicket.ticketRef!!)

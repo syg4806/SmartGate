@@ -25,15 +25,56 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-      android:id="@+id/usingTicketImageView"
-      android:layout_width="wrap_content"
+
+    <TextView
+      android:id="@+id/ticketUsingPlaceTextView"
+      android:layout_width="260dp"
       android:layout_height="wrap_content"
-      app:layout_constraintBottom_toBottomOf="parent"
+      android:text="장소 :"
+      android:textSize="26sp"
+      android:gravity="center"
+      android:fontFamily="serif"
+      app:layout_constraintVertical_bias="0.14"
+      app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      />
+      app:layout_constraintBottom_toBottomOf ="parent"/>
+
+    <ImageView
+      android:id="@+id/ticketUsingImageView"
+      android:layout_width="220dp"
+      android:layout_height="180dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ticketUsingPlaceTextView"
+      app:layout_constraintBottom_toTopOf="@+id/ticketUsingKindsTextView"/>
+
+    <TextView
+      android:id="@+id/ticketUsingKindsTextView"
+      android:layout_width="260dp"
+      android:layout_height="wrap_content"
+      android:text="티켓 종류 :"
+      android:textSize="26sp"
+      android:layout_margin="5dp"
+      android:gravity="center"
+      android:fontFamily="serif"
+      app:layout_constraintTop_toBottomOf="@+id/ticketUsingImageView"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/myTicketItemDateTextView"/>
+
+
+    <TextView
+      android:id="@+id/myTicketItemDateTextView"
+      android:layout_width="260dp"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:layout_margin="5dp"
+      android:gravity="center"
+      android:fontFamily="serif"
+      app:layout_constraintTop_toBottomOf="@+id/ticketUsingKindsTextView"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"/>
 
 
     <TextView
